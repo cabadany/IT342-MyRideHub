@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboardLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#100F0F"
+    tools:context=".DashboardActivity">
+
+    <!-- Fullscreen Background Image -->
+    <ImageView
+        android:id="@+id/headerImage"
+        android:layout_width="match_parent"
+        android:layout_height="1000dp"
+        android:contentDescription="RideHub Fullscreen Image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/myridehub" />
+
+    <!-- Logo at Top-Left Corner -->
+    <ImageView
+        android:id="@+id/logoTopLeft"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/ride_hub_logo_w"
+        android:contentDescription="RideHub Logo"
+        android:scaleType="fitCenter"
+        android:layout_gravity="top|start" />
+
+</FrameLayout>
