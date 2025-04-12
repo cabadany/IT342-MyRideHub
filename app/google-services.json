@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "112743026967",
+    "project_id": "my-ride-hub-ab024",
+    "storage_bucket": "my-ride-hub-ab024.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112743026967:android:621fd0027e042db9452752",
+        "android_client_info": {
+          "package_name": "com.sia.myridehub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_hLhtz5TMzPU2rLui7E2ORMMGiYIetAc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
