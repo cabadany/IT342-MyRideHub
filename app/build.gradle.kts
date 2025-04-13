@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.firebase.bom)) // Firebase BoM
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.database)
 
@@ -49,6 +49,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.auth.ktx)
+
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
