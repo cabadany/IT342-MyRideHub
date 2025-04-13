@@ -18,6 +18,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".RentVehicleActivity"
+            android:exported="false" />
+        <activity
             android:name=".ContactUsActivity"
             android:exported="false" />
         <activity
@@ -27,4 +30,5 @@
             android:name=".RegisterActivity"
             android:exported="false" />
     </application>
+
 </manifest>
