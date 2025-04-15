@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import './LoginPage.css';
 
 export default function LoginPage() {
@@ -75,6 +76,10 @@ export default function LoginPage() {
               <button type="button" className="social-btn google">Google</button>
               <button type="button" className="social-btn facebook">Facebook</button>
             </div>
+
+            <p className="signup-link">
+              Don't have an account? <Link to="/signup">Sign Up</Link>
+            </p>
           </form>
         </div>
       </div>
