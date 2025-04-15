@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // ✅ added useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import './LoginPage.css';
 
 export default function LoginPage() {
-  const navigate = useNavigate(); // ✅ initialize navigate function
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     identifier: "",
@@ -23,8 +23,6 @@ export default function LoginPage() {
     e.preventDefault();
     console.log("Logging in with", formData);
     alert("Login submitted!");
-
-    // ✅ redirect to dashboard after login
     navigate("/dashboard");
   };
 

@@ -11,7 +11,7 @@ export default function DashboardPage() {
         </div>
         <ul className="nav-links">
           <li><a href="#">Home</a></li>
-          <li><a href="#">Book</a></li>
+          <li><a href="/booking">Book</a></li>
           <li><a href="#">Rent</a></li>
           <li><a href="#">About Us</a></li>
           <li><button className="contact-btn">Contact Us</button></li>

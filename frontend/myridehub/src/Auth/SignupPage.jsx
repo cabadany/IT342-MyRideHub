@@ -62,7 +62,6 @@ export default function SignupPage() {
 
   return (
     <div className="signup-container">
-      {/* Right Side with Image */}
       <div className="signup-image">
         <img
           src="/car and motor.png"
@@ -71,7 +70,6 @@ export default function SignupPage() {
         />
       </div>
 
-      {/* Left Side with Form */}
       <div className="signup-form-container">
         <div className="signup-form">
           <h2>Create Account</h2>
