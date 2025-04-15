@@ -15,6 +15,7 @@
     width: 100vw;
   }
   
+  /* Left side – Form */
   .signup-form-container {
     width: 50%;
     background-color: #100f0f;
@@ -32,12 +33,24 @@
   .signup-form h2 {
     font-size: 28px;
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     font-weight: bold;
     color: white;
   }
   
-  .signup-form input {
+  .signup-subtext {
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: -10px;
+  }
+  
+  .signup-form input[type="text"],
+  .signup-form input[type="email"],
+  .signup-form input[type="password"],
+  .signup-form input[type="tel"],
+  .signup-form select {
     width: 100%;
     padding: 12px;
     margin-bottom: 16px;
@@ -51,6 +64,55 @@
     color: #ccc;
   }
   
+  .phone-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .country-code-select {
+    width: 40%;
+    padding: 12px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    background-color: #1a1a1a;
+    color: white;
+  }
+  
+  .phone-group input[type="tel"] {
+    width: 60%;
+  }
+  
+  .file-upload {
+    color: white;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 16px;
+  }
+  
+  .file-upload input {
+    display: block;
+    margin-top: 8px;
+    color: white;
+  }
+  
+  .role-select {
+    color: white;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 16px;
+  }
+  
+  .role-select select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    background-color: #1a1a1a;
+    color: white;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+  }
+  
   .terms {
     font-size: 14px;
     display: flex;
@@ -59,7 +121,7 @@
     color: white;
   }
   
-  .terms input[type='checkbox'] {
+  .terms input[type="checkbox"] {
     margin-right: 8px;
   }
   
@@ -78,6 +140,7 @@
     background-color: #333;
   }
   
+  /* Right side – Image */
   .signup-image {
     width: 50%;
     height: 100%;
@@ -87,26 +150,4 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-
-  .signup-subtext {
-    color: white;
-    font-size: 14px;
-    text-align: center;
-    margin-bottom: 20px;
-    margin-top: -20px;
-  }
-
-  .phone-group {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-  
-  .country-code-select {
-    padding: 12px;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    background-color: #1a1a1a;
-    color: white;
   }  

@@ -3,6 +3,7 @@ import './SignupPage.css';
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
+    fullName: "",
     username: "",
     email: "",
     contactNumber: "",
@@ -21,11 +22,29 @@ export default function SignupPage() {
     });
   };
 
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+    return regex.test(password);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!validatePassword(formData.password)) {
+      alert("Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
     const fullContactNumber = formData.countryCode + formData.contactNumber;
-    const submissionData = { ...formData, contactNumber: fullContactNumber };
+    const submissionData = {
+      ...formData,
+      contactNumber: fullContactNumber
+    };
 
     const response = await fetch("http://localhost:8080/api/users", {
       method: "POST",
@@ -60,8 +79,9 @@ export default function SignupPage() {
           </p>
 
           <form onSubmit={handleSubmit}>
-            <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} />
-            <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
+            <input type="text" name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleChange} required />
+            <input type="text" name="username" placeholder="Username (optional)" value={formData.username} onChange={handleChange} />
+            <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required />
 
             <div className="phone-group">
               <select name="countryCode" value={formData.countryCode} onChange={handleChange} className="country-code-select">
@@ -77,11 +97,13 @@ export default function SignupPage() {
                 placeholder="Contact Number"
                 value={formData.contactNumber}
                 onChange={handleChange}
+                required
               />
             </div>
 
-            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} />
-            <input type="password" name="confirmPassword" placeholder="Re-Enter Password" value={formData.confirmPassword} onChange={handleChange} />
+            <input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} />
+            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+            <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
 
             <div className="terms">
               <input type="checkbox" id="terms" name="agreed" checked={formData.agreed} onChange={handleChange} />

@@ -29,6 +29,7 @@ public class UserService {
 
     public User updateUser(Long id, User updatedUser) {
         return userRepository.findById(id).map(user -> {
+            user.setFullName(updatedUser.getFullName());
             user.setUsername(updatedUser.getUsername());
             user.setEmail(updatedUser.getEmail());
             user.setContactNumber(updatedUser.getContactNumber());
