@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import './SignupPage.css';
 
 export default function SignupPage() {
@@ -111,6 +112,16 @@ export default function SignupPage() {
             </div>
 
             <button type="submit">Create Account</button>
+
+            <div className="social-login">
+              <p>Or sign up with:</p>
+              <button type="button" className="social-btn google">Google</button>
+              <button type="button" className="social-btn facebook">Facebook</button>
+            </div>
+
+            <p className="login-link">
+              Already have an account? <Link to="/">Log In</Link>
+            </p>
           </form>
         </div>
       </div>
