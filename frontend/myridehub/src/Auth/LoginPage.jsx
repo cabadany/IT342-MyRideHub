@@ -24,7 +24,6 @@ export default function LoginPage() {
 
   return (
     <div className="login-container">
-      {/* Right Side with Image */}
       <div className="login-image">
         <img
           src="/car and motor.png"
@@ -33,7 +32,6 @@ export default function LoginPage() {
         />
       </div>
 
-      {/* Left Side with Form */}
       <div className="login-form-container">
         <div className="login-form">
           <h2>Log In</h2>
