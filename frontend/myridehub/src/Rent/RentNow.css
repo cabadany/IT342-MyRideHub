@@ -1,0 +1,85 @@
+/* RentNow.css */
+
+/* Main Container */
+.rent-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    color: white;
+  }
+  
+  /* Title */
+  .rent-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Vehicle Image */
+  .vehicle-image {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Form Container */
+  .form-container {
+    background-color: #2d3748; /* Tailwind bg-gray-800 */
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Driver Selection */
+  .driver-selection {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .driver-radio {
+    margin-right: 0.5rem;
+  }
+  
+  /* Form Fields */
+  .form-fields div {
+    margin-bottom: 1rem;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    background-color: #4a5568;
+    color: white;
+  }
+  
+  /* Total Section */
+  .total-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+  
+  .calculate-button {
+    padding: 0.5rem 1rem;
+    background-color: #38a169; 
+    color: white;
+    border-radius: 0.375rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .calculate-button:hover {
+    background-color: #2f855a; /* Tailwind bg-green-700 */
+  }
+  
+  .total-text {
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+  

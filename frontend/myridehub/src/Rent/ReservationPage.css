@@ -1,0 +1,117 @@
+.reservation-container {
+    background-color: #121212;
+    color: white;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .reservation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    background-color: #1c1c1c;
+  }
+  
+  .logo {
+    height: 40px;
+  }
+  
+  .nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  
+  .nav li {
+    cursor: pointer;
+  }
+  
+  .contact-button {
+    background: #fff;
+    color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .reservation-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 2rem;
+    gap: 2rem;
+  }
+  
+  .left-section, .center-section, .right-section {
+    background-color: #f0f0f0;
+    color: black;
+    padding: 1.5rem;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 260px;
+  }
+  
+  .center-section {
+    background-color: #1f1f1f;
+    color: white;
+    text-align: center;
+  }
+  
+  .center-section img {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 1rem;
+  }
+  
+  .info-box {
+    margin-bottom: 1.5rem;
+  }
+  
+  .info-box h3 {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .right-section input[type="text"],
+  .right-section input[type="email"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.3rem 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .right-section label {
+    font-size: 0.85rem;
+    display: block;
+    margin: 0.5rem 0;
+  }
+  
+  .terms {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  
+  .summary-box {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: white;
+    color: black;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+  
+  .reserve-button {
+    margin-top: 1rem;
+    width: 100%;
+    background: black;
+    color: white;
+    padding: 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
