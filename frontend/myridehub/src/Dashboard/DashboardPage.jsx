@@ -4,21 +4,19 @@ import './DashboardPage.css';
 export default function DashboardPage() {
   return (
     <div className="dashboard-container">
-      {/* Navigation Bar */}
       <nav className="navbar">
         <div className="logo">
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub Logo" />
         </div>
         <ul className="nav-links">
-          <li><a href="#">Home</a></li>
+          <li><a href="/dashboard">Home</a></li>
           <li><a href="/booking">Book</a></li>
           <li><a href="#">Rent</a></li>
-          <li><a href="#">About Us</a></li>
+          <li><a href="/about-us">About Us</a></li>
           <li><button className="contact-btn">Contact Us</button></li>
         </ul>
       </nav>
 
-      {/* Hero Section */}
       <section className="hero">
         <div className="hero-text">
           <h1>ENJOY YOUR RIDE HUB!</h1>
@@ -27,11 +25,10 @@ export default function DashboardPage() {
             Whether you need a rental car for a trip or a quick ride around the city, Ride Hub connects
             you to reliable drivers and rental services with ease.
           </p>
-          <button className="learn-more-btn">learn more</button>
+          <button className="learn-more-btn">Learn More</button>
         </div>
       </section>
 
-      {/* Services Section */}
       <section className="services">
         <div className="service">
           <h2>BOOK A RIDE</h2>

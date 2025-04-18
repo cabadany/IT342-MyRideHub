@@ -8,11 +8,6 @@ import BookingPage from './Booking/BookingPage';
 import CarDetail from './Rent/CarDetail';
 import RentNow from './Rent/RentNow';
 import ReservationPage from './Rent/ReservationPage'; 
-import './App.css'; // Import your CSS file here
-import ConfirmationPage from './Rent/Confirmation'; 
-import PaymentPage from './Payment/Payment';  
-
-//import PrivateRoute from './components/PrivateRoute';
 
 export default function App() {
   return (
@@ -26,8 +21,7 @@ export default function App() {
         <Route path="/rent/car-detail" element={<CarDetail />} />
         <Route path="/rent/rent-now" element={<RentNow />} />
         <Route path="/rent/reservation" element={<ReservationPage />} />    
-        {/* Add more routes as needed */}
-        {/* <Route path="/private" element={<PrivateRoute component={PrivateComponent} />} /> */}
+
 
       </Routes>
     </Router>
