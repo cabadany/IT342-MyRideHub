@@ -108,8 +108,8 @@ mvn spring-boot:run
 ## Developers
 
   <a href="#developers">
-    <a href="https://github.com/cabadany"><img width="64" title="(Mobile Frontend) Cabana, Danisse" src="https://avatars.githubusercontent.com/u/170840848" alt="cabadany" /></a>
-    <a href="https://github.com/hatcoca"><img width="64" title="(Backend) Tumungha, Hara Alexa" src="https://avatars.githubusercontent.com/u/182353906" alt="hatcoca" /></a>
+    <a href="https://github.com/cabadany"><img width="64" title="(Mobile Frontend, Web Frontend & Backend) Cabana, Danisse" src="https://avatars.githubusercontent.com/u/170840848" alt="cabadany" /></a>
+    <a href="https://github.com/hatcoca"><img width="64" title="(Web Frontend & Backend) Tumungha, Hara Alexa" src="https://avatars.githubusercontent.com/u/182353906" alt="hatcoca" /></a>
     <a href="https://github.com/Leylajoy"><img width="64" title="(Website Frontend) Baruc, Leilah Joy" src="https://avatars.githubusercontent.com/u/168334933" alt="leylajoy" /></a>
   </a>
 
