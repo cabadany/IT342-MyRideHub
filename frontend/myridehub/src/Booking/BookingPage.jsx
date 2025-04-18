@@ -12,7 +12,6 @@ const BookingPage = () => {
   const [bookingStep, setBookingStep] = useState(1);
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropOffLocation, setDropOffLocation] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
   const [selectedType, setSelectedType] = useState("");
 
   const [showMapPicker, setShowMapPicker] = useState(false);
@@ -33,14 +32,10 @@ const BookingPage = () => {
     const locationText = `Lat: ${coords.lat.toFixed(5)}, Lng: ${coords.lng.toFixed(5)}`;
     if (selectingField === "pickup") {
       setPickupLocation(locationText);
-      setBookingStep(2);
     } else if (selectingField === "dropoff") {
       setDropOffLocation(locationText);
-      setBookingStep(3);
     }
     setShowMapPicker(false);
-    setSelectingField(null);
-    handleNextStep();
     setSelectingField(null);
   };
 
@@ -69,12 +64,10 @@ const BookingPage = () => {
               <div className="booking-form">
                 <h2 className="booking-title">BOOK NOW!</h2>
                 <div className="form-fields">
-                  <input
-                    type="text"
-                    value={pickupLocation}
-                    readOnly
+                  <MapAutocomplete
                     placeholder="Pickup Location"
-                    className="form-input"
+                    onPlaceSelected={(place) => setPickupLocation(place.formatted_address)}
+                    value={pickupLocation}
                   />
                   <a
                     href="#"
@@ -86,6 +79,13 @@ const BookingPage = () => {
                   >
                     Choose from Maps
                   </a>
+                  <button
+                    className="continue-btn"
+                    onClick={handleNextStep}
+                    disabled={!pickupLocation}
+                  >
+                    Confirm Pick-Up Location
+                  </button>
                 </div>
               </div>
             )}
@@ -99,13 +99,11 @@ const BookingPage = () => {
                   <h2 className="booking-title">Where to?</h2>
                 </div>
                 <div className="form-fields">
-                  <input
-                    type="text"
-                    value={dropOffLocation}
-                    readOnly
+                  <MapAutocomplete
                     placeholder="Drop-off Location"
-                    className="form-input"
-                    ref={dropoffRef}
+                    onPlaceSelected={(place) => setDropOffLocation(place.formatted_address)}
+                    inputRef={dropoffRef}
+                    value={dropOffLocation}
                   />
                   <a
                     href="#"
@@ -117,37 +115,18 @@ const BookingPage = () => {
                   >
                     Choose from Maps
                   </a>
+                  <button
+                    className="continue-btn"
+                    onClick={handleNextStep}
+                    disabled={!dropOffLocation}
+                  >
+                    Confirm Drop-Off Location
+                  </button>
                 </div>
               </div>
             )}
 
             {bookingStep === 3 && (
-              <div className="booking-form">
-                <div className="form-header">
-                  <button className="back-btn" onClick={handlePrevStep}>
-                    <span className="arrow-left-icon"></span>
-                  </button>
-                  <h2 className="booking-title">Select Date & Time</h2>
-                </div>
-                <div className="form-fields">
-                  <div className="input-group">
-                    <input
-                      type="date"
-                      className="form-input"
-                      onChange={(e) => setSelectedDate(e.target.value)}
-                    />
-                    <span className="input-icon calendar-icon"></span>
-                  </div>
-                  <div className="input-group">
-                    <input type="time" className="form-input" />
-                    <span className="input-icon clock-icon"></span>
-                  </div>
-                  <button className="continue-btn" onClick={handleNextStep}>Continue</button>
-                </div>
-              </div>
-            )}
-
-            {bookingStep === 4 && (
               <div className="booking-form">
                 <div className="form-header">
                   <button className="back-btn" onClick={handlePrevStep}>
@@ -174,7 +153,7 @@ const BookingPage = () => {
               </div>
             )}
 
-            {bookingStep === 5 && (
+            {bookingStep === 4 && (
               <div className="booking-form">
                 <h2 className="booking-title">Booking Confirmation</h2>
                 <div className="confirmation-details">
@@ -185,10 +164,6 @@ const BookingPage = () => {
                   <div className="confirmation-item">
                     <p className="confirmation-label">Drop-off Location</p>
                     <p className="confirmation-value">{dropOffLocation}</p>
-                  </div>
-                  <div className="confirmation-item">
-                    <p className="confirmation-label">Date</p>
-                    <p className="confirmation-value">{selectedDate}</p>
                   </div>
                   <div className="confirmation-item">
                     <p className="confirmation-label">Vehicle Type</p>
