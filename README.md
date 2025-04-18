@@ -118,7 +118,7 @@ mvn spring-boot:run
 
 ## Project Documents
 
-- [Functional Requirements]
+- [Software Requirements Specification](https://cebuinstituteoftechnology-my.sharepoint.com/:w:/g/personal/danisse_cabana_cit_edu/Eao7rM7BNhRHgqHo_7KYybsB2DpWWXhjIwPnznVRyZorWw?e=QywQ3n)
 - [Gantt Chart](https://cebuinstituteoftechnology-my.sharepoint.com/:x:/g/personal/danisse_cabana_cit_edu/Ea5qhvw_EU9Mg8ntVUBnoqcBXu6OlDs9s8I5GJERiUgR6w?e=3qjqrj)
 - [Entity-Relationship Diagram (ERD)]
 - [UI/UX Design of Website](https://www.figma.com/design/pbX0G02ncHSKpQcPzUhcQC/Website-Sir-Fred?node-id=0-1&t=twBxKUFSVtN8Ce2d-1)
