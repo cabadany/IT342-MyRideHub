@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 
-const MapAutocomplete = ({ onPlaceSelected, placeholder }) => {
+const MapAutocomplete = ({ onPlaceSelected, placeholder, inputRef }) => {
   const autocompleteRef = useRef(null);
 
   const handleLoad = (autocomplete) => {
@@ -21,6 +21,7 @@ const MapAutocomplete = ({ onPlaceSelected, placeholder }) => {
     <div className="input-group">
       <Autocomplete onLoad={handleLoad} onPlaceChanged={handlePlaceChanged}>
         <input
+          ref={inputRef}
           type="text"
           placeholder={placeholder}
           className="form-input"

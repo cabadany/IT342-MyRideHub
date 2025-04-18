@@ -21,8 +21,6 @@ export default function App() {
         <Route path="/rent/car-detail" element={<CarDetail />} />
         <Route path="/rent/rent-now" element={<RentNow />} />
         <Route path="/rent/reservation" element={<ReservationPage />} />    
-
-
       </Routes>
     </Router>
   );
