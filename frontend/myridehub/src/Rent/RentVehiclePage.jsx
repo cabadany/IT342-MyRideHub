@@ -30,7 +30,7 @@ const RentVehiclePage = () => {
   };
 
   const handleRentNowClick = (vehicle) => {
-    navigate("/rentnow", { state: { vehicle } });
+    navigate("/rent/rent-now", { state: { vehicle } });
   };
 
   return (

@@ -1,85 +1,173 @@
 /* RentNow.css */
 
-/* Main Container */
+/* Fullscreen Layout */
+.rent-now-page {
+  background-color: #100f0f;
+  color: white;
+  font-family: 'Arial', sans-serif;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
 .rent-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 1.5rem;
-    color: white;
-  }
-  
-  /* Title */
-  .rent-title {
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Vehicle Image */
-  .vehicle-image {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    display: block;
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Form Container */
-  .form-container {
-    background-color: #2d3748; /* Tailwind bg-gray-800 */
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Driver Selection */
-  .driver-selection {
-    display: flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1000px;
+  padding: 2rem;
+  background-color: #100f0f;
+  box-sizing: border-box;
+}
+
+.rent-title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.vehicle-image {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 0.5rem;
+  object-fit: contain;
+  background-color: #100f0f;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 3rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .form-wrapper {
+    flex-direction: row;
     justify-content: center;
-    margin-bottom: 1.5rem;
+    align-items: flex-start;
+    text-align: left;
   }
-  
-  .driver-radio {
-    margin-right: 0.5rem;
+}
+
+.form-container {
+  background-color: #1f1f1f;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.05);
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.driver-selection {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.driver-radio {
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid white;
+  background-color: transparent;
+  color: white;
+}
+
+.driver-radio.active {
+  background-color: white;
+  color: #0d0d0d;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.form-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .form-fields {
+    grid-template-columns: 1fr 1fr;
   }
-  
-  /* Form Fields */
-  .form-fields div {
-    margin-bottom: 1rem;
-  }
-  
-  .input-field {
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 0.375rem;
-    background-color: #4a5568;
-    color: white;
-  }
-  
-  /* Total Section */
-  .total-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1.5rem;
-  }
-  
-  .calculate-button {
-    padding: 0.5rem 1rem;
-    background-color: #38a169; 
-    color: white;
-    border-radius: 0.375rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-  }
-  
-  .calculate-button:hover {
-    background-color: #2f855a; /* Tailwind bg-green-700 */
-  }
-  
-  .total-text {
-    font-weight: 600;
-    font-size: 1.125rem;
-  }
-  
+}
+
+.input-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #d4d4d8;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: #2c2c2e;
+  color: white;
+  border: 1px solid #444;
+}
+
+.total-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  background-color: #2c2c2e;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.calculate-button {
+  padding: 0.75rem 1.25rem;
+  background-color: white;
+  color: #0d0d0d;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.calculate-button:hover {
+  background-color: #f4f4f4;
+}
+
+.total-text {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: white;
+}
+
+/* Ensure full height on smaller screens */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
