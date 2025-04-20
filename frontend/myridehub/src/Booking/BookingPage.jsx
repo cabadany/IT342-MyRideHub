@@ -84,7 +84,7 @@ const BookingPage = () => {
             </a>
           </div>
           <ul className="nav-links">
-            <li><a href="/dashboard" className="nav-link">Home</a></li>
+            <li><a href="/" className="nav-link">Home</a></li>
             <li><a href="/booking" className="nav-link active">Book</a></li>
             <li><a href="/rent" className="nav-link">Rent</a></li>
             <li><a href="/about-us" className="nav-link">About Us</a></li>

@@ -44,6 +44,7 @@ const RentVehiclePage = () => {
           <li><a href="/booking">Book</a></li>
           <li><a href="/rent">Rent</a></li>
           <li><a href="/about-us">About Us</a></li>
+          <li><a href="#" className="nav-link">Settings</a></li>
           <li><button className="contact-btn">Contact Us</button></li>
         </ul>
       </header>

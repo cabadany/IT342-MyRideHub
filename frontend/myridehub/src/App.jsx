@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import SignupPage from './Auth/SignupPage';
 import LoginPage from './Auth/LoginPage';
 import DashboardPage from './Dashboard/DashboardPage';
@@ -10,6 +11,10 @@ import RentNow from './Rent/RentNow';
 import ReservationPage from './Rent/ReservationPage';
 import PaymentPage from './Rent/Payment';
 import AboutUsPage from './AboutUs/AboutPage';
+
+// Admin
+
+// Driver
 
 export default function App() {
   return (

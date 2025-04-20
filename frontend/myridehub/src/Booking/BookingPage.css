@@ -70,14 +70,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 100px;
-  padding-bottom: 40px;
+  padding-top: 120px;
+  padding-bottom: 60px;
   position: relative;
   z-index: 10;
   min-height: 100vh;
   box-sizing: border-box;
-  margin-left: 745px;
-  margin-bottom: 100px;
+  margin: 0 auto;
+  margin-left: 670px;
+  margin-top: -100px;
 }
 
 .booking-form {
@@ -86,13 +87,12 @@ body {
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 500px;
-  background-color: rgba(50, 50, 50, 0.85);
+  max-width: 520px;
+  background-color: rgba(40, 40, 40, 0.9);
   backdrop-filter: blur(6px);
   border-radius: 10px;
-  padding: 40px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-  margin: 0 auto;
+  padding: 48px 40px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 .booking-title {
@@ -164,27 +164,26 @@ body {
 }
 
 .search-icon::before {
-  content: "\1F50D"; /* 🔍 */
+  content: "\1F50D";
 }
 
 .calendar-icon::before {
-  content: "\1F4C5"; /* 📅 */
+  content: "\1F4C5"; 
 }
 
 .clock-icon::before {
-  content: "\23F0"; /* ⏰ */
+  content: "\23F0";
 }
 
 .chevron-icon::before {
-  content: "\25BC"; /* ▼ */
+  content: "\25BC";
   font-size: 10px;
 }
 
 .arrow-left-icon::before {
-  content: "\2190"; /* ← */
+  content: "\2190"; 
 }
 
-/* Buttons */
 .find-vehicle-btn {
   width: 100%;
   padding: 12px;
@@ -204,7 +203,7 @@ body {
 }
 
 .chevron-down-icon::after {
-  content: "\25BC"; /* ▼ */
+  content: "\25BC";
   font-size: 12px;
 }
 
@@ -212,8 +211,8 @@ body {
 .confirm-btn {
   width: 100%;
   padding: 14px;
-  background-color: #2563eb;
-  color: white;
+  background-color: #fff;
+  color: #100f0f;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -222,10 +221,9 @@ body {
 
 .continue-btn:hover,
 .confirm-btn:hover {
-  background-color: #1d4ed8;
+  background-color: #100f0f;
 }
 
-/* Vehicle Options */
 .vehicle-options {
   display: flex;
   flex-direction: column;
@@ -289,29 +287,6 @@ body {
   font-weight: 500;
 }
 
-/* Background Image */
-.background-image {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-  background-image: url("/road.png");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  opacity: 0.4;
-}
-
-.background-image::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-/* Responsive Adjustments */
 @media (max-width: 768px) {
   .nav-links {
     display: none;
