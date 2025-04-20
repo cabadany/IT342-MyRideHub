@@ -1,8 +1,12 @@
-// ReservationPage.jsx
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './ReservationPage.css';
 
 const ReservationPage = () => {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { vehicle, pickUpDate, pickUpTime, returnDate, returnTime, total, isDriverSelected } = state || {};
+
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -16,51 +20,49 @@ const ReservationPage = () => {
     setForm({ ...form, [name]: type === 'checkbox' ? checked : value });
   };
 
+  const calculateRentalDuration = () => {
+    if (!pickUpDate || !returnDate) return 'N/A';
+    const start = new Date(pickUpDate);
+    const end = new Date(returnDate);
+    const diff = Math.ceil((end - start) / (1000 * 3600 * 24));
+    return `${diff} day(s)`;
+  };
+
   return (
     <div className="reservation-container">
-      <header className="reservation-header">
-        <img src="/Ride Hub Logo (Dark).png" alt="Logo" style={{ height: '40px' }} />
-        <nav>
-          <ul className="nav-links">
-            <li>Home</li>
-            <li>Book</li>
-            <li>Rent</li>
-            <li>About Us</li>
-            <li><button className="contact-button">Contact Us</button></li>
-          </ul>
-        </nav>
-      </header>
+      <button className="back-button" onClick={() => navigate(-1)}>← Back</button>
 
       <main className="reservation-main">
         <div className="left-section">
           <div className="box">
             <h3>Booking Details</h3>
-            <p>Pick-up Date & Time:</p>
-            <p>Return Date & Time:</p>
-            <p>Rental Duration:</p>
+            <p>Pick-up Date & Time: {pickUpDate} at {pickUpTime}</p>
+            <p>Return Date & Time: {returnDate} at {returnTime}</p>
+            <p>Rental Duration: {calculateRentalDuration()}</p>
           </div>
 
-          <div className="box">
-            <h3>Driver Information</h3>
-            <p>Driver’s Name</p>
-            <p>Driver’s Contact Number</p>
-            <p>Driver’s License ID</p>
-            <p>Experience Level</p>
-          </div>
+          {isDriverSelected && (
+            <div className="box">
+              <h3>Driver Information</h3>
+              <p>Driver’s Name</p>
+              <p>Driver’s Contact Number</p>
+              <p>Driver’s License ID</p>
+              <p>Experience Level</p>
+            </div>
+          )}
 
           <div className="box">
             <h3>Vehicle Details</h3>
-            <p>Car Model & Variant</p>
-            <p>Plate Number</p>
-            <p>Number of Passengers Allowed</p>
+            <p>Car Model & Variant: {vehicle?.brand} {vehicle?.model}</p>
+            <p>Engine: {vehicle?.engine}</p>
+            <p>Seats: {vehicle?.seats}</p>
           </div>
         </div>
 
         <div className="center-section">
-          <img src="/Fortuner.png" alt="Toyota Fortuner 2024" />
-          <h2>Toyota Fortuner 2024</h2>
-          <p><strong>★★★★☆</strong></p>
-          <p>Rental Price: 5000/ Day</p>
+          <img src={vehicle?.imageUrl} alt={`${vehicle?.brand} ${vehicle?.model}`} />
+          <h2>{vehicle?.brand} {vehicle?.model}</h2>
+          <p>Rental Price: ₱ {vehicle?.pricePerDay?.toLocaleString()}/ Day</p>
         </div>
 
         <div className="right-section">
@@ -107,7 +109,7 @@ const ReservationPage = () => {
 
           <div className="summary-box">
             <p>Estimated total due at the counter</p>
-            <h2>PHP 6,027.92</h2>
+            <h2>PHP {total ? total.toLocaleString() : '0.00'}</h2>
             <button className="reserve-button">RESERVE NOW</button>
           </div>
         </div>
