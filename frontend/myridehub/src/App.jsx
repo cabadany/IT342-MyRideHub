@@ -9,12 +9,7 @@ import BookingPage from './Booking/BookingPage';
 import CarDetail from './Rent/CarDetail';
 import RentNow from './Rent/RentNow';
 import ReservationPage from './Rent/ReservationPage';
-import PaymentPage from './Rent/Payment';
-import AboutUsPage from './AboutUs/AboutPage';
-
-// Admin
-
-// Driver
+import Settings from './Settings/Settings';
 
 export default function App() {
   return (
@@ -29,7 +24,7 @@ export default function App() {
         <Route path="/rent/car-detail" element={<CarDetail />} />
         <Route path="/rent/rent-now" element={<RentNow />} />
         <Route path="/rent/reservation" element={<ReservationPage />} />   
-        <Route path="/rent/payment" element={<PaymentPage />} />   
+        <Route path="/settings" element={<Settings />} /> 
       </Routes>
     </Router>
   );

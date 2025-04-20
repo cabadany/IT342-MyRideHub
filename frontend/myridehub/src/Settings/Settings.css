@@ -1,0 +1,98 @@
+.settings-container {
+    max-width: 70%;
+    margin: 20px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 10px;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .settings-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .settings-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: space-between;
+  }
+  
+  .form-group {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #000000;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .checkbox {
+    flex: 1 1 45%;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: normal;
+  }
+  
+  .submit-btn {
+    flex: 1 1 100%;
+    padding: 12px;
+    background-color: #144098;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .submit-btn:hover {
+    background-color: #000000;
+  }
+  
+  .back-btn {
+    margin-bottom: 15px;
+    background-color: #ccc;
+    color: #333;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .back-btn:hover {
+    background-color: #bbb;
+  }
