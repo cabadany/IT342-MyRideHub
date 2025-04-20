@@ -1,7 +1,5 @@
 import React from 'react';
-import './AboutUsPage.css';
-import carImage from '../assets/jimny.png'; // Make sure this image exists
-import bikeImage from '../assets/bike.png'; // Make sure this image exists
+import './AboutPage.css';
 
 const AboutUsPage = () => {
   return (
