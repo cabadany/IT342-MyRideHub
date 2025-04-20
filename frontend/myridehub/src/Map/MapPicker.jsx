@@ -1,29 +1,31 @@
 import React, { useCallback, useRef, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { useNavigate } from "react-router-dom";
+import "./MapPicker.css"; // optional for styling
 
 const containerStyle = {
-  width: "100%",
-  height: "400px",
+  width: "100vw",
+  height: "100vh",
 };
 
-const center = {
-  lat: 10.3157, // Default to Cebu City
+const defaultCenter = {
+  lat: 10.3157, // Cebu City default
   lng: 123.8854,
 };
 
-const MapPicker = ({ onLocationSelect, initialPosition = center }) => {
-  const [markerPosition, setMarkerPosition] = useState(initialPosition);
+const MapPicker = ({ onLocationSelect }) => {
+  const navigate = useNavigate();
+  const [markerPosition, setMarkerPosition] = useState(defaultCenter);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo"
+    googleMapsApiKey: "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo",
   });
 
   const mapRef = useRef(null);
   const onLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
-
   const onUnmount = useCallback(() => {
     mapRef.current = null;
   }, []);
@@ -34,12 +36,17 @@ const MapPicker = ({ onLocationSelect, initialPosition = center }) => {
     setMarkerPosition({ lat, lng });
   };
 
-  const handleSelect = () => {
-    onLocationSelect(markerPosition);
+  const handleConfirm = () => {
+    onLocationSelect(markerPosition); // Pass to parent component
+    navigate(-1); // Go back to booking page
   };
 
   return isLoaded ? (
-    <div>
+    <div className="map-picker-container">
+      {/* Back Button */}
+      <button className="map-back-button" onClick={() => navigate(-1)}>← Back</button>
+
+      {/* Google Map */}
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={markerPosition}
@@ -53,15 +60,18 @@ const MapPicker = ({ onLocationSelect, initialPosition = center }) => {
           onDragEnd={handleDragEnd}
         />
       </GoogleMap>
-      <div style={{ marginTop: "16px" }}>
-        <p><strong>Lat:</strong> {markerPosition.lat}</p>
-        <p><strong>Lng:</strong> {markerPosition.lng}</p>
-        <button onClick={handleSelect} style={{ marginTop: "8px", padding: "10px", backgroundColor: "#2563eb", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}>
+
+      {/* Confirm Button */}
+      <div className="map-confirm-footer">
+        <p>Selected Coordinates: <strong>Lat:</strong> {markerPosition.lat.toFixed(5)}, <strong>Lng:</strong> {markerPosition.lng.toFixed(5)}</p>
+        <button onClick={handleConfirm} className="confirm-map-btn">
           Confirm Location
         </button>
       </div>
     </div>
-  ) : <p>Loading map...</p>;
+  ) : (
+    <p>Loading map...</p>
+  );
 };
 
 export default MapPicker;

@@ -1,0 +1,49 @@
+.map-picker-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #0d0d0d;
+  }
+  
+  .map-back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #ffffff;
+    color: #000;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  .map-confirm-footer {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0,0,0,0.8);
+    padding: 16px 24px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    z-index: 1000;
+  }
+  
+  .confirm-map-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .confirm-map-btn:hover {
+    background-color: #1e40af;
+  }  

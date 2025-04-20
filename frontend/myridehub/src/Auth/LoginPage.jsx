@@ -4,36 +4,30 @@ import './LoginPage.css';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     identifier: "",
-    password: "",
-    rememberMe: false
+    password: ""
   });
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value
+      [name]: value
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Logging in with", formData);
+    // Basic login simulation
     alert("Login submitted!");
-    navigate("/dashboard");
+    navigate("/");
   };
 
   return (
     <div className="login-container">
       <div className="login-image">
-        <img
-          src="/car and motor.png"
-          alt="Background"
-          className="image-content"
-        />
+        <img src="/car and motor.png" alt="Background" className="image-content" />
       </div>
 
       <div className="login-form-container">
@@ -64,7 +58,6 @@ export default function LoginPage() {
                 <input
                   type="checkbox"
                   name="rememberMe"
-                  checked={formData.rememberMe}
                   onChange={handleChange}
                 />
                 Remember Me
