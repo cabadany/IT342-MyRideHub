@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import "./RentVehiclePage.css";
 
 const RentVehiclePage = () => {
@@ -26,7 +26,7 @@ const RentVehiclePage = () => {
   );
 
   const handleDetailsClick = (vehicle) => {
-    navigate("/cardetail", { state: { vehicle } });
+    navigate("/rent/car-detail", { state: { vehicle } });
   };
 
   const handleRentNowClick = (vehicle) => {
@@ -94,7 +94,7 @@ const RentVehiclePage = () => {
                       className="btn-dark"
                       onClick={() => handleDetailsClick(v)}
                     >
-                      Details →
+                      Details
                     </button>
                   </div>
                 </div>
