@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./RentNow.css"; // ← Make sure this is here
 
 const RentNow = () => {
   const { state } = useLocation();
   const { vehicle } = state || {};
+  const navigate = useNavigate();
 
   const [isDriverSelected, setIsDriverSelected] = useState(false);
   const [pickUpDate, setPickUpDate] = useState("");
@@ -31,98 +32,122 @@ const RentNow = () => {
     setTotal(rentalDays * pricePerDay + driverFee);
   };
 
+  const handleProceed = () => {
+    navigate("/rent/reservation", {
+      state: {
+        vehicle,
+        isDriverSelected,
+        pickUpDate,
+        pickUpTime,
+        returnDate,
+        returnTime,
+        total,
+      },
+    });
+  };
+
   return (
-    <div className="rent-container">
-      <h1 className="rent-title">{vehicle?.brand} {vehicle?.model}</h1>
+    <div className="rent-now-page">
+      <div className="rent-container">
+        {/* Back Button */}
+        <button className="back-button" onClick={() => navigate(-1)}>
+          ← Back
+        </button>
 
-      <img
-        src={vehicle?.imageUrl}
-        alt={vehicle?.model}
-        className="vehicle-image"
-      />
+        <h1 className="rent-title">{vehicle?.brand} {vehicle?.model}</h1>
 
-      <div className="form-container">
-        <div className="driver-selection">
-          <label
-            className={`driver-radio ${isDriverSelected ? 'active' : ''}`}
-          >
-            <input
-              type="radio"
-              value="withDriver"
-              checked={isDriverSelected}
-              onChange={handleDriverChange}
-              className="hidden"
-            />
-            With Driver
-          </label>
+        <div className="form-wrapper">
+          <img
+            src={vehicle?.imageUrl}
+            alt={vehicle?.model}
+            className="vehicle-image"
+          />
 
-          <label
-            className={`driver-radio ${!isDriverSelected ? 'active' : ''}`}
-          >
-            <input
-              type="radio"
-              value="noDriver"
-              checked={!isDriverSelected}
-              onChange={handleDriverChange}
-              className="hidden"
-            />
-            No Driver
-          </label>
-        </div>
+          <div className="form-container">
+            <div className="driver-selection">
+              <label className={`driver-radio ${isDriverSelected ? 'active' : ''}`}>
+                <input
+                  type="radio"
+                  value="withDriver"
+                  checked={isDriverSelected}
+                  onChange={handleDriverChange}
+                  className="hidden"
+                />
+                With Driver
+              </label>
 
-        <div className="form-fields">
-          <div>
-            <label className="input-label">Pick Up Date</label>
-            <input
-              type="date"
-              value={pickUpDate}
-              onChange={(e) => setPickUpDate(e.target.value)}
-              className="input-field"
-            />
+              <label className={`driver-radio ${!isDriverSelected ? 'active' : ''}`}>
+                <input
+                  type="radio"
+                  value="noDriver"
+                  checked={!isDriverSelected}
+                  onChange={handleDriverChange}
+                  className="hidden"
+                />
+                No Driver
+              </label>
+            </div>
+
+            <div className="form-fields">
+              <div>
+                <label className="input-label">Pick Up Date</label>
+                <input
+                  type="date"
+                  value={pickUpDate}
+                  onChange={(e) => setPickUpDate(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+              <div>
+                <label className="input-label">Pick Up Time</label>
+                <select
+                  value={pickUpTime}
+                  onChange={(e) => setPickUpTime(e.target.value)}
+                  className="input-field"
+                >
+                  <option>12:00 PM</option>
+                  <option>1:00 PM</option>
+                  <option>2:00 PM</option>
+                </select>
+              </div>
+              <div>
+                <label className="input-label">Return Date</label>
+                <input
+                  type="date"
+                  value={returnDate}
+                  onChange={(e) => setReturnDate(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+              <div>
+                <label className="input-label">Return Time</label>
+                <select
+                  value={returnTime}
+                  onChange={(e) => setReturnTime(e.target.value)}
+                  className="input-field"
+                >
+                  <option>12:00 PM</option>
+                  <option>1:00 PM</option>
+                  <option>2:00 PM</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="total-container">
+              <span className="total-text">Total: ₱ {total}</span>
+              <button
+                onClick={handleCalculateTotal}
+                className="calculate-button"
+              >
+                Calculate
+              </button>
+            </div>
+
+            {/* Proceed Button */}
+            <button className="proceed-button" onClick={handleProceed}>
+              Confirm
+            </button>
           </div>
-          <div>
-            <label className="input-label">Pick Up Time</label>
-            <select
-              value={pickUpTime}
-              onChange={(e) => setPickUpTime(e.target.value)}
-              className="input-field"
-            >
-              <option>12:00 PM</option>
-              <option>1:00 PM</option>
-              <option>2:00 PM</option>
-            </select>
-          </div>
-          <div>
-            <label className="input-label">Return Date</label>
-            <input
-              type="date"
-              value={returnDate}
-              onChange={(e) => setReturnDate(e.target.value)}
-              className="input-field"
-            />
-          </div>
-          <div>
-            <label className="input-label">Return Time</label>
-            <select
-              value={returnTime}
-              onChange={(e) => setReturnTime(e.target.value)}
-              className="input-field"
-            >
-              <option>12:00 PM</option>
-              <option>1:00 PM</option>
-              <option>2:00 PM</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="total-container">
-          <span className="total-text">Total: ₱ {total}</span>
-          <button
-            onClick={handleCalculateTotal}
-            className="calculate-button"
-          >
-            Calculate
-          </button>
         </div>
       </div>
     </div>

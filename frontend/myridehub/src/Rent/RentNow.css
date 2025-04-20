@@ -20,7 +20,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   padding: 2rem;
   background-color: #100f0f;
   box-sizing: border-box;
@@ -33,16 +33,6 @@
   text-align: center;
 }
 
-.vehicle-image {
-  width: 100%;
-  max-width: 600px;
-  border-radius: 0.5rem;
-  object-fit: contain;
-  background-color: #100f0f;
-  padding: 1rem;
-  margin-bottom: 2rem;
-}
-
 .form-wrapper {
   display: flex;
   flex-direction: column;
@@ -53,13 +43,24 @@
   width: 100%;
 }
 
+/* Center image and form side by side */
 @media (min-width: 768px) {
   .form-wrapper {
     flex-direction: row;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center; /* Updated from flex-start to center */
     text-align: left;
   }
+}
+
+.vehicle-image {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 0.5rem;
+  object-fit: contain;
+  background-color: #100f0f;
+  padding: 1rem;
+  margin-bottom: 2rem;
 }
 
 .form-container {
@@ -161,13 +162,29 @@
   color: white;
 }
 
-/* Ensure full height on smaller screens */
+/* Proceed Button */
+.proceed-button {
+  margin-top: 2rem;
+  padding: 0.85rem 2rem;
+  background-color: #ffffff;
+  color: #0d0d0d;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none;
+  font-size: 1rem;
+}
+
+.proceed-button:hover {
+  background-color: #f4f4f4;
+}
+
+/* Ensure full height and centering on all screens */
 html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: #100f0f;
 }
