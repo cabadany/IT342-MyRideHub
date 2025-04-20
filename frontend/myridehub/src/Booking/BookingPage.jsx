@@ -7,15 +7,20 @@ import MapPicker from "../Map/MapPicker";
 import "./BookingPage.css";
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo";
+const BASE_FARE = 20;
+const RATE_PER_KM = 10;
 
 const BookingPage = () => {
   const [bookingStep, setBookingStep] = useState(1);
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropOffLocation, setDropOffLocation] = useState("");
   const [selectedType, setSelectedType] = useState("");
+  const [totalPrice, setTotalPrice] = useState(null);
+  const [distanceText, setDistanceText] = useState("");
+  const [durationText, setDurationText] = useState("");
 
   const [showMapPicker, setShowMapPicker] = useState(false);
-  const [selectingField, setSelectingField] = useState(null); // 'pickup' or 'dropoff'
+  const [selectingField, setSelectingField] = useState(null);
 
   const dropoffRef = useRef(null);
 
@@ -37,6 +42,36 @@ const BookingPage = () => {
     }
     setShowMapPicker(false);
     setSelectingField(null);
+  };
+
+  const calculateFare = async () => {
+    if (!pickupLocation || !dropOffLocation) return;
+
+    const service = new window.google.maps.DistanceMatrixService();
+
+    service.getDistanceMatrix(
+      {
+        origins: [pickupLocation],
+        destinations: [dropOffLocation],
+        travelMode: window.google.maps.TravelMode.DRIVING,
+        unitSystem: window.google.maps.UnitSystem.METRIC,
+      },
+      (response, status) => {
+        if (status === "OK") {
+          const distanceInMeters = response.rows[0].elements[0].distance.value;
+          const distanceKm = distanceInMeters / 1000;
+          const distanceText = response.rows[0].elements[0].distance.text;
+          const durationText = response.rows[0].elements[0].duration.text;
+          const total = BASE_FARE + RATE_PER_KM * distanceKm;
+          setDistanceText(distanceText);
+          setDurationText(durationText);
+          setTotalPrice(total.toFixed(2));
+          handleNextStep();
+        } else {
+          alert("Error calculating distance: " + status);
+        }
+      }
+    );
   };
 
   return (
@@ -69,21 +104,10 @@ const BookingPage = () => {
                     onPlaceSelected={(place) => setPickupLocation(place.formatted_address)}
                     value={pickupLocation}
                   />
-                  <a
-                    href="#"
-                    onClick={() => {
-                      setSelectingField("pickup");
-                      setShowMapPicker(true);
-                    }}
-                    className="map-select-link"
-                  >
+                  <a href="#" onClick={() => { setSelectingField("pickup"); setShowMapPicker(true); }} className="map-select-link">
                     Choose from Maps
                   </a>
-                  <button
-                    className="continue-btn"
-                    onClick={handleNextStep}
-                    disabled={!pickupLocation}
-                  >
+                  <button className="continue-btn" onClick={handleNextStep} disabled={!pickupLocation}>
                     Confirm Pick-Up Location
                   </button>
                 </div>
@@ -93,9 +117,7 @@ const BookingPage = () => {
             {bookingStep === 2 && (
               <div className="booking-form">
                 <div className="form-header">
-                  <button className="back-btn" onClick={handlePrevStep}>
-                    <span className="arrow-left-icon"></span>
-                  </button>
+                  <button className="back-btn" onClick={handlePrevStep}><span className="arrow-left-icon"></span></button>
                   <h2 className="booking-title">Where to?</h2>
                 </div>
                 <div className="form-fields">
@@ -105,21 +127,10 @@ const BookingPage = () => {
                     inputRef={dropoffRef}
                     value={dropOffLocation}
                   />
-                  <a
-                    href="#"
-                    onClick={() => {
-                      setSelectingField("dropoff");
-                      setShowMapPicker(true);
-                    }}
-                    className="map-select-link"
-                  >
+                  <a href="#" onClick={() => { setSelectingField("dropoff"); setShowMapPicker(true); }} className="map-select-link">
                     Choose from Maps
                   </a>
-                  <button
-                    className="continue-btn"
-                    onClick={handleNextStep}
-                    disabled={!dropOffLocation}
-                  >
+                  <button className="continue-btn" onClick={handleNextStep} disabled={!dropOffLocation}>
                     Confirm Drop-Off Location
                   </button>
                 </div>
@@ -129,20 +140,18 @@ const BookingPage = () => {
             {bookingStep === 3 && (
               <div className="booking-form">
                 <div className="form-header">
-                  <button className="back-btn" onClick={handlePrevStep}>
-                    <span className="arrow-left-icon"></span>
-                  </button>
+                  <button className="back-btn" onClick={handlePrevStep}><span className="arrow-left-icon"></span></button>
                   <h2 className="booking-title">Select Vehicle Type</h2>
                 </div>
                 <div className="vehicle-options">
-                  <div className="vehicle-option" onClick={() => { setSelectedType("Motorcycle"); handleNextStep(); }}>
+                  <div className="vehicle-option" onClick={() => { setSelectedType("Motorcycle"); calculateFare(); }}>
                     <div className="vehicle-icon">🏍️</div>
                     <div className="vehicle-details">
                       <h3 className="vehicle-name">Motorcycle</h3>
                       <p className="vehicle-description">For agility and adventure</p>
                     </div>
                   </div>
-                  <div className="vehicle-option" onClick={() => { setSelectedType("Car"); handleNextStep(); }}>
+                  <div className="vehicle-option" onClick={() => { setSelectedType("Car"); calculateFare(); }}>
                     <div className="vehicle-icon">🚗</div>
                     <div className="vehicle-details">
                       <h3 className="vehicle-name">Car</h3>
@@ -169,6 +178,18 @@ const BookingPage = () => {
                     <p className="confirmation-label">Vehicle Type</p>
                     <p className="confirmation-value">{selectedType}</p>
                   </div>
+                  <div className="confirmation-item">
+                  <p className="confirmation-label">Distance</p>
+                  <p className="confirmation-value">{distanceText}</p>
+                </div>
+                <div className="confirmation-item">
+                  <p className="confirmation-label">Estimated Duration</p>
+                  <p className="confirmation-value">{durationText}</p>
+                </div>
+                <div className="confirmation-item">
+                  <p className="confirmation-label">Total Fare</p>
+                    <p className="confirmation-value">₱{totalPrice}</p>
+                  </div>
                 </div>
                 <button className="confirm-btn" onClick={() => alert("Booking confirmed!")}>
                   Confirm Booking
@@ -181,10 +202,7 @@ const BookingPage = () => {
         {showMapPicker && (
           <div className="map-picker-modal full-overlay">
             <div className="map-modal-content">
-              <button
-                onClick={() => setShowMapPicker(false)}
-                style={{ backgroundColor: "#ccc", border: "none", padding: "10px", borderRadius: "4px", cursor: "pointer", marginBottom: "10px" }}
-              >
+              <button onClick={() => setShowMapPicker(false)} style={{ backgroundColor: "#ccc", border: "none", padding: "10px", borderRadius: "4px", cursor: "pointer", marginBottom: "10px" }}>
                 ← Back
               </button>
               <MapPicker onLocationSelect={handleLocationSelect} />

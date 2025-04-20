@@ -7,7 +7,7 @@ import RentVehiclePage from './Rent/RentVehiclePage';
 import BookingPage from './Booking/BookingPage';
 import CarDetail from './Rent/CarDetail';
 import RentNow from './Rent/RentNow';
-import ReservationPage from './Rent/ReservationPage'; 
+import ReservationPage from './Rent/ReservationPage';
 
 export default function App() {
   return (

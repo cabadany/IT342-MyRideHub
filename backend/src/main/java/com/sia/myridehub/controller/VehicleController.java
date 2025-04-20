@@ -19,7 +19,7 @@ import com.sia.myridehub.service.VehicleService;
 
 @RestController
 @RequestMapping("/api/vehicles")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
 public class VehicleController {
 
     private final VehicleService vehicleService;
