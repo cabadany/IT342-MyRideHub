@@ -1,7 +1,5 @@
 package com.sia.myridehub.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,10 +44,33 @@ public class Vehicle {
     @Column(nullable = false)
     private String category;
 
+    @Column
+    private String color;
+
+    @Column
+    private String transmission;
+
+    @Column
+    private String fuelType;
+
+    @Column
+    private String vin;
+
+    @Column
+    private String registration;
+
+    @Column
+    private String regExpiry;
+
+    @Column(length = 1000)
+    private String features;
+
     public Vehicle() {}
 
     public Vehicle(Long id, String brand, String model, int year, double pricePerDay, String type, 
-                   String seats, String engine, String imageUrl, boolean available, String category) {
+                   String seats, String engine, String imageUrl, boolean available, String category,
+                   String color, String transmission, String fuelType, String vin,
+                   String registration, String regExpiry, String features) {
         this.id = id;
         this.brand = brand;
         this.model = model;
@@ -61,9 +82,23 @@ public class Vehicle {
         this.imageUrl = imageUrl;
         this.available = available;
         this.category = category;
+        this.color = color;
+        this.transmission = transmission;
+        this.fuelType = fuelType;
+        this.vin = vin;
+        this.registration = registration;
+        this.regExpiry = regExpiry;
+        this.features = features;
     }
 
-    @JsonProperty("brand")
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getBrand() {
         return brand;
     }
@@ -72,7 +107,6 @@ public class Vehicle {
         this.brand = brand;
     }
 
-    @JsonProperty("model")
     public String getModel() {
         return model;
     }
@@ -145,11 +179,59 @@ public class Vehicle {
         this.category = category;
     }
 
-    public Long getId() {
-        return id;
+    public String getColor() {
+        return color;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getTransmission() {
+        return transmission;
+    }
+
+    public void setTransmission(String transmission) {
+        this.transmission = transmission;
+    }
+
+    public String getFuelType() {
+        return fuelType;
+    }
+
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public String getRegistration() {
+        return registration;
+    }
+
+    public void setRegistration(String registration) {
+        this.registration = registration;
+    }
+
+    public String getRegExpiry() {
+        return regExpiry;
+    }
+
+    public void setRegExpiry(String regExpiry) {
+        this.regExpiry = regExpiry;
+    }
+
+    public String getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(String features) {
+        this.features = features;
     }
 }

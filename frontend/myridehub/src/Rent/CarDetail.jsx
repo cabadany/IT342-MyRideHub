@@ -38,12 +38,9 @@ const CarDetail = () => {
               <h2 className="section-title">VEHICLE DETAILS</h2>
               <ul className="section-list">
                 <li>Rent: ₱ {vehicle.pricePerDay}</li>
-                <li>Kilometers: {vehicle.kilometers || 'N/A'}</li>
-                <li>Body Type: {vehicle.type}</li>
                 <li>Color: {vehicle.color || 'N/A'}</li>
-                <li>Interior: {vehicle.interior || 'Premium Leather'}</li>
                 <li>Transmission: {vehicle.transmission || '6-Speed Auto / Manual'}</li>
-                <li>Engine: {vehicle.engine}</li>
+                <li>Engine: {vehicle.engine || 'N/A'}</li>
                 <li>Fuel Type: {vehicle.fuelType || 'Diesel'}</li>
                 <li>VIN: {vehicle.vin || 'N/A'}</li>
                 <li>Registration: {vehicle.registration || 'N/A'}</li>
@@ -54,13 +51,11 @@ const CarDetail = () => {
             <div className="section">
               <h2 className="section-title">FEATURES</h2>
               <ul className="section-list">
-                <li>✓ Air Conditioning & Climate Control</li>
-                <li>✓ Leather Seats & Sunroof (Optional)</li>
-                <li>✓ Keyless Entry & Push Start</li>
-                <li>✓ ABS Braking & Traction Control</li>
-                <li>✓ Parking Sensors & 360° Camera</li>
-                <li>✓ Lane Departure Warning & Blind Spot Monitor</li>
-                <li>✓ Alloy Wheels & Roof Rails</li>
+                {vehicle.features
+                  ? vehicle.features.split(',').map((feature, index) => (
+                      <li key={index}>✓ {feature.trim()}</li>
+                    ))
+                  : <li>No features listed.</li>}
               </ul>
             </div>
           </div>
