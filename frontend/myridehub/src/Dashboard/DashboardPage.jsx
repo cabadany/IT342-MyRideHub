@@ -32,14 +32,14 @@ export default function DashboardPage() {
 
       <section className="services">
         <div className="service">
-          <h2>BOOK A RIDE</h2>
+          <a href="/booking"><h2>BOOK A RIDE</h2></a>
           <p>
             Rent a motorcycle for agility and adventure or a car for comfort and convenience—MyRideHub
             has the perfect ride for you!
           </p>
         </div>
         <div className="service">
-          <h2>RENT A VEHICLE</h2>
+          <a href="/rent"><h2>RENT A VEHICLE</h2></a>
           <p>
             Rent a motorcycle for agility and adventure or a car for comfort and convenience—MyRideHub
             has the perfect ride for you!

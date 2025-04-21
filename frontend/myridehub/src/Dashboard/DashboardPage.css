@@ -23,23 +23,26 @@ html, body {
   flex-direction: column;
 }
 
+
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 20px 60px;
   background-color: transparent;
+  justify-content: flex-start;
 }
 
 .logo img {
   height: 80px;
 }
 
+
 .nav-links {
   list-style: none;
   display: flex;
   gap: 32px;
   align-items: center;
+  margin-left: auto; 
 }
 
 .nav-links li a {
@@ -122,4 +125,15 @@ html, body {
   line-height: 1.5;
   max-width: 300px;
   margin-bottom: 120px;
+}
+
+
+.service a {
+  text-decoration: none;
+  color: white;
+}
+
+.service a:hover {
+  text-decoration: underline;
+  color: #ccc;
 }
