@@ -12,6 +12,15 @@ import ReservationPage from './Rent/ReservationPage';
 import PaymentPage from './Rent/Payment';
 import AboutUsPage from './AboutUs/AboutPage';
 import SettingsPage from './Settings/Settings';
+import AdminLogin from './Admin/AdminLogin';  
+import AdminPanel from './Admin/AdminPanel';
+import CarsDashboard from './Admin/CarsDashboard';
+import MotorcyclesDashboard from './Admin/MotorcyclesDashboard';
+import UsersDashboard from "./Admin/UsersDashboard";
+
+
+
+
 
 export default function App() {
   return (
@@ -28,6 +37,13 @@ export default function App() {
         <Route path="/rent/rent-now" element={<RentNow />} />
         <Route path="/rent/reservation" element={<ReservationPage />} />
         <Route path="/rent/payment" element={<PaymentPage />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/panel" element={<AdminPanel />} />  
+        <Route path="/cardashboard" element={<CarsDashboard />} />  
+        <Route path="/motordashboard" element={<MotorcyclesDashboard />} />
+        <Route path="/usersdashboard" element={<UsersDashboard />} />  
+        {/* Add other routes here */} 
+ 
       </Routes>
     </Router>
   );

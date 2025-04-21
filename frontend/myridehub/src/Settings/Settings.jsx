@@ -20,19 +20,45 @@ const Settings = () => {
     const { name, value, type, files } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'file' ? files[0] : value
+      [name]: type === 'file' ? files[0] : value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('User Settings Saved:', formData);
-    alert('Profile updated successfully!');
+
+    const profileData = {
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address,
+      emergencyContact: formData.emergencyContact,
+      username: formData.username,
+      password: formData.password,
+    };
+
+    try {
+      const response = await fetch('http://localhost:8080/api/user/profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(profileData),
+      });
+
+      const result = await response.text();
+      alert(result);
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      alert('Something went wrong!');
+    }
   };
 
   return (
     <>
-      <button onClick={() => navigate('/dashboard')} className="back-btn">← Back to Dashboard</button>
+      <button onClick={() => navigate('/')} className="back-btn">
+        ← Back to Dashboard
+      </button>
       <div className="settings-container">
         <h2>User Profile Settings</h2>
         <form onSubmit={handleSubmit} className="settings-form">

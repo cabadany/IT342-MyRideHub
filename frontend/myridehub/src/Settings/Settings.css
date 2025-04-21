@@ -1,21 +1,37 @@
-.settings-container {
-    max-width: 70%;
-    margin: 20px auto;
-    padding: 30px;
-    background: #ffffff;
-    border-radius: 10px;
+/* Body fix for centering and background */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #0d0d0d;
     font-family: 'Segoe UI', sans-serif;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
+  /* Main settings container */
+  .settings-container {
+    width: 100%;
+    max-width: 850px;
+    padding: 40px 30px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    color: #111827;
+    margin: 40px auto;
+  }
+  
+  /* Header */
   .settings-container h2 {
     text-align: center;
-    margin-bottom: 30px;
-    color: #2c3e50;
-    font-size: 24px;
-    font-weight: bold;
+    margin-bottom: 36px;
+    color: #111827;
+    font-size: 28px;
+    font-weight: 700;
   }
   
+  /* Form layout */
   .settings-form {
     display: flex;
     flex-wrap: wrap;
@@ -23,76 +39,96 @@
     justify-content: space-between;
   }
   
+  /* Each input group */
   .form-group {
-    flex: 1 1 45%;
+    flex: 1 1 48%;
     display: flex;
     flex-direction: column;
   }
   
+  /* Label style */
   .form-group label {
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-weight: 600;
-    color: #333;
+    color: #374151;
   }
   
+  /* Input and select styles */
   .form-group input,
   .form-group select {
-    padding: 10px 12px;
+    padding: 12px 14px;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 1px solid #d1d5db;
     border-radius: 6px;
-    background-color: #000000;
-    width: 100%;
-    box-sizing: border-box;
+    background-color: #f9fafb;
+    color: #111827;
+    transition: border-color 0.2s ease-in-out;
   }
   
   .form-group input:focus,
   .form-group select:focus {
-    border-color: #007bff;
+    border-color: #2563eb;
+    background-color: #ffffff;
     outline: none;
   }
   
-  .checkbox {
-    flex: 1 1 45%;
-    flex-direction: row;
-    align-items: center;
+  /* File input - improved styling */
+  .form-group input[type="file"] {
+    padding: 8px;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #111827;
+    font-size: 15px;
   }
   
-  .checkbox label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: normal;
-  }
-  
+  /* Submit button */
   .submit-btn {
     flex: 1 1 100%;
-    padding: 12px;
-    background-color: #144098;
-    color: #fff;
+    padding: 14px;
+    background-color: #2563eb;
+    color: #ffffff;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 30px;
+    transition: background-color 0.2s ease-in-out;
   }
   
   .submit-btn:hover {
-    background-color: #000000;
+    background-color: #1d4ed8;
   }
   
+  /* Back button */
   .back-btn {
-    margin-bottom: 15px;
-    background-color: #ccc;
-    color: #333;
-    padding: 8px 16px;
+    display: inline-block;
+    margin: 20px;
+    background-color: #e5e7eb;
+    color: #1f2937;
+    padding: 10px 18px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
   }
   
   .back-btn:hover {
-    background-color: #bbb;
+    background-color: #d1d5db;
   }
+  
+ 
+  
+    .settings-container {
+      padding: 28px 20px;
+      margin: 20px;
+    }
+  
+    .submit-btn {
+      font-size: 15px;
+    }
+  
+    .back-btn {
+      margin-left: 0;
+    }
