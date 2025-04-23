@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import './DashboardPage.css';
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
+
+  const goToContact = () => {
+    navigate('/contact-us');
+  };
+
   return (
     <div className="dashboard-container">
       <nav className="navbar">
@@ -9,12 +16,12 @@ export default function DashboardPage() {
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub Logo" />
         </div>
         <ul className="nav-links">
-          <li><a href="/dashboard">Home</a></li>
+          <li><a href="/">Home</a></li>
           <li><a href="/booking">Book</a></li>
           <li><a href="/rent">Rent</a></li>
           <li><a href="/about-us">About Us</a></li>
-          <li><a href="/settings" className="nav-link">Settings</a></li>
-          <li><button className="contact-btn">Contact Us</button></li>
+          <li><a href="/settings">Settings</a></li>
+          <li><button className="contact-btn" onClick={goToContact}>Contact Us</button></li>
         </ul>
       </nav>
 

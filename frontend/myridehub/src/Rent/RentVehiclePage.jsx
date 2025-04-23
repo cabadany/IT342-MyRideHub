@@ -40,7 +40,7 @@ const RentVehiclePage = () => {
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub Logo" className="logo-img" />
         </div>
         <ul className="nav-links">
-          <li><a href="/dashboard">Home</a></li>
+          <li><a href="/">Home</a></li>
           <li><a href="/booking">Book</a></li>
           <li><a href="/rent">Rent</a></li>
           <li><a href="/about-us">About Us</a></li>

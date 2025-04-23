@@ -17,6 +17,7 @@ import AdminPanel from './Admin/AdminPanel';
 import CarsDashboard from './Admin/CarsDashboard';
 import MotorcyclesDashboard from './Admin/MotorcyclesDashboard';
 import UsersDashboard from "./Admin/UsersDashboard";
+import ContactUs from './ContactUs/ContactUs';  
 
 
 
@@ -42,6 +43,7 @@ export default function App() {
         <Route path="/cardashboard" element={<CarsDashboard />} />  
         <Route path="/motordashboard" element={<MotorcyclesDashboard />} />
         <Route path="/usersdashboard" element={<UsersDashboard />} />  
+        <Route path="/contact-us" element={<ContactUs />} />  
         {/* Add other routes here */} 
  
       </Routes>

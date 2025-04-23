@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './MotorcyclesDashboard.css';
 
 export default function MotorcyclesDashboard() {
@@ -7,8 +7,10 @@ export default function MotorcyclesDashboard() {
     "Ducati Monster 821",
     "Suzuki GSX-R600"
   ]);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleAddMotorcycle = () => {
     const newMotor = prompt("Enter motorcycle name:");
@@ -37,6 +39,10 @@ export default function MotorcyclesDashboard() {
     navigate('/usersdashboard');
   };
 
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
   return (
     <div className="motorcycles-dashboard-container">
       <div className="motorcycles-dashboard-header">
@@ -50,7 +56,39 @@ export default function MotorcyclesDashboard() {
 
       <div className="motorcycles-dashboard-panel">
         <div className="motorcycles-dashboard-column">
-          <button className="motorcycles-dashboard-tab selected">Vehicles</button>
+          {/* Dropdown Wrapper */}
+          <div className="vehicles-dropdown-wrapper">
+            <button
+              onClick={toggleDropdown}
+              className={`vehicles-dropdown-toggle ${showDropdown ? 'selected' : ''}`}
+            >
+              Vehicles ▼
+            </button>
+
+            {showDropdown && (
+              <div className="vehicles-dropdown-menu">
+                <div
+                  onClick={() => {
+                    navigate('/cardashboard');
+                    setShowDropdown(false);
+                  }}
+                  className={`dropdown-item ${location.pathname === '/cardashboard' ? 'active' : ''}`}
+                >
+                  ▶ Cars
+                </div>
+                <div
+                  onClick={() => {
+                    navigate('/motordashboard');
+                    setShowDropdown(false);
+                  }}
+                  className={`dropdown-item ${location.pathname === '/motordashboard' ? 'active' : ''}`}
+                >
+                  ▶ Motorcycles
+                </div>
+              </div>
+            )}
+          </div>
+
           <button className="add-motorcycle-btn" onClick={handleAddMotorcycle}>add motorcycle</button>
           <ul className="motorcycle-list">
             {motorcycles.map((bike, index) => (
