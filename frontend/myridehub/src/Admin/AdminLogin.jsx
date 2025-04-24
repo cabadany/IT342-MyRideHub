@@ -1,23 +1,31 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './AdminLogin.css';
 
-const ADMIN_CREDENTIALS = {
-  email: 'admin@example.com',
-  password: 'admin123',
-};
-
-export default function AdminLogin({ onLogin }) {
+export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError('');
 
-    if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
-      onLogin('admin');
-    } else {
-      setError('Invalid admin credentials.');
+    try {
+      const response = await axios.post('http://localhost:8080/api/auth/login', {
+        email,
+        password
+      });
+
+      const token = response.data.token;
+      localStorage.setItem('authToken', token);
+
+      navigate('/admin/panel');
+    } catch (err) {
+      console.error(err);
+      setError('Login failed. Please try again.');
     }
   };
 

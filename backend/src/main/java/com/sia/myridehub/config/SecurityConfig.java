@@ -38,7 +38,7 @@ public class SecurityConfig {
 
     @Bean
 public PasswordEncoder passwordEncoder() {
-    return NoOpPasswordEncoder.getInstance(); // WARNING: Only for development!
+    return NoOpPasswordEncoder.getInstance();
 }
 
     @Bean
