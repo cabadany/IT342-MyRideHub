@@ -96,7 +96,7 @@ export default function MotorcyclesDashboard() {
                 <span>{bike}</span>
                 <div className="motorcycle-buttons">
                   <button className="edit-btn" onClick={() => handleEditMotorcycle(index)}>edit</button>
-                  <button className="delete-btn" onClick={() => handleDeleteMotorcycle(index)}>delete</button>
+                  <button className="delete-btn" onClick={() => handleDeleteMotorcycle(index)}>delete </button>
                 </div>
               </li>
             ))}
