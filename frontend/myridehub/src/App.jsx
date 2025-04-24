@@ -23,10 +23,6 @@ import DriverLoginPage from './Driver/DriverLoginPage';
 import DriverDashboard from './Driver/DriverDashboard';
 import HelpPage from './Driver/HelpPage';
 
-
-
-
-
 export default function App() {
   return (
     <Router>
