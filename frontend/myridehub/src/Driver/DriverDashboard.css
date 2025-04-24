@@ -1,0 +1,110 @@
+/* DriverDashboard.css */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    background-color: #1c1c1c;
+    color: white;
+    padding: 20px;
+  }
+  
+  .dashboard-content {
+    width: 100%;
+    max-width: 1000px;
+    background-color: #2a2a2a;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-picture {
+    margin-right: 20px;
+  }
+  
+  .profile-picture img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .profile-picture button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .profile-info h3 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .profile-info p {
+    margin-top: 5px;
+    font-size: 18px;
+  }
+  
+  .profile-details {
+    margin-top: 20px;
+  }
+  
+  .detail-item {
+    margin-bottom: 15px;
+  }
+  
+  .detail-item label {
+    font-weight: bold;
+  }
+  
+  .detail-item p {
+    font-size: 18px;
+  }
+  
+  .logout-btn {
+    padding: 10px 20px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 30px;
+  }
+  
+  .logout-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  .need-help {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .need-help a {
+    color: #007bff;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  
+  .need-help a:hover {
+    text-decoration: underline;
+  }
+  

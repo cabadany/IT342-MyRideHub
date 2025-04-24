@@ -1,0 +1,75 @@
+/* HelpPage.css */
+.help-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #1c1c1c;
+    color: white;
+    margin: 5;
+    padding: 5;
+  }
+  
+  .help-form {
+    width: 400%;
+    max-width: 900px; /* Increased width for a more balanced form */
+    background-color: #2a2a2a;
+    padding: 50px; /* Increased padding to provide more space inside the form */
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin: 0;
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 36px; /* Increased font size for the heading */
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  
+  .input-group {
+    margin-bottom: 30px; /* Increased space between form fields */
+  }
+  
+  .input-group label {
+    font-size: 20px; /* Larger label text */
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  .input-group select,
+  .input-group textarea {
+    width: 100%;
+    padding: 18px; /* Increased padding for the input fields */
+    font-size: 18px; /* Larger font for the inputs */
+    border: 1px solid #ccc;
+    border-radius: 10px; /* Rounded corners for the fields */
+    margin-top: 5px;
+  }
+  
+  .input-group select {
+    background-color: #333; /* Dark background for the select box */
+    color: white; /* White text for better visibility */
+  }
+  
+  .input-group textarea {
+    min-height: 300px; /* Increased the height of the textarea for more space */
+    resize: vertical; /* Allow resizing of the textarea */
+  }
+  
+  .send-btn {
+    width: 100%;
+    padding: 18px; /* Increased button padding */
+    font-size: 20px; /* Larger font for the button */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px; /* Rounded button corners */
+    cursor: pointer;
+    margin-top: 30px;
+  }
+  
+  .send-btn:hover {
+    background-color: #45a049;
+  }
+  

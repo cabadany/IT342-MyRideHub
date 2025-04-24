@@ -137,3 +137,20 @@ html, body {
   text-decoration: underline;
   color: #ccc;
 }
+
+.feedback-section {
+  background-color: #f8f8f8;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+
+.feedback-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.feedback-list li {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}

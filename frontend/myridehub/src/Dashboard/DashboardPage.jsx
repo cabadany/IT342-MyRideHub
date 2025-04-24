@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './DashboardPage.css';
+import { Link } from "react-router-dom"; // Import Link for navigation
 
 export default function DashboardPage() {
+  const [feedbackList, setFeedbackList] = useState([]);
   const navigate = useNavigate();
+  
+  // State for controlling feedback dropdown visibility
+  const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
 
-  const goToContact = () => {
-    navigate('/contact-us');
+  const toggleFeedback = () => {
+    setIsFeedbackVisible(!isFeedbackVisible);
+  };
+
+  const handleFeedbackSubmit = (feedback) => {
+    setFeedbackList([...feedbackList, feedback]);
   };
 
   return (
@@ -33,9 +42,25 @@ export default function DashboardPage() {
             Whether you need a rental car for a trip or a quick ride around the city, Ride Hub connects
             you to reliable drivers and rental services with ease.
           </p>
-          <button className="learn-more-btn">Learn More</button>
+          <button className="learn-more-btn" onClick={toggleFeedback}>Learn More</button>
         </div>
       </section>
+
+      {isFeedbackVisible && (
+        <section className="feedback-section">
+          <h2>Customer Feedback</h2>
+          <ul className="feedback-list">
+            {feedbackList.length === 0 ? (
+              <li>No feedback yet. Be the first to share your experience!</li>
+            ) : (
+              feedbackList.map((feedback, index) => (
+                <li key={index}>"{feedback}"</li>
+              ))
+            )}
+          </ul>
+          <Link to="/feedback-page"><button>Submit Feedback</button></Link>
+        </section>
+      )}
 
       <section className="services">
         <div className="service">

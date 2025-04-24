@@ -1,0 +1,98 @@
+/* LoginPage.css */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+  }
+  
+  .login-image {
+    flex: 1;
+    max-width: 60%; /* Image takes 60% of the width */
+  }
+  
+  .login-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .login-form {
+    flex: 1;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 20px; /* Shift the form slightly to the left */
+    max-width: 40%; /* Form takes 40% of the width */
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333; /* Changed the color to dark gray or black */
+    margin-bottom: 20px;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px 0;
+  }
+  
+  .login-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .login-btn:hover {
+    background-color: #333;
+  }
+  
+  .signup-link {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .signup-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .signup-link a:hover {
+    text-decoration: underline;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .login-container {
+      flex-direction: column;
+      padding: 20px;
+    }
+  
+    .login-image img {
+      max-width: 100%;
+      margin-top: 20px;
+    }
+  
+    .login-form {
+      max-width: 100%;
+      margin-left: 0;
+    }
+  }
+  

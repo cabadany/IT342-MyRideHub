@@ -18,6 +18,10 @@ import CarsDashboard from './Admin/CarsDashboard';
 import MotorcyclesDashboard from './Admin/MotorcyclesDashboard';
 import UsersDashboard from "./Admin/UsersDashboard";
 import ContactUs from './ContactUs/ContactUs';  
+import DriverRegistrationPage from './Driver/DriverRegistrationPage';    
+import DriverLoginPage from './Driver/DriverLoginPage'; 
+import DriverDashboard from './Driver/DriverDashboard';
+import HelpPage from './Driver/HelpPage';
 
 
 
@@ -44,6 +48,10 @@ export default function App() {
         <Route path="/motordashboard" element={<MotorcyclesDashboard />} />
         <Route path="/usersdashboard" element={<UsersDashboard />} />  
         <Route path="/contact-us" element={<ContactUs />} />  
+        <Route path="/driver-registration" element={<DriverRegistrationPage />} />
+        <Route path="/driver-login" element={<DriverLoginPage />} />
+        <Route path="/driver-dashboard" element={<DriverDashboard />} />
+        <Route path="/help" element={<HelpPage />} />
         {/* Add other routes here */} 
  
       </Routes>
