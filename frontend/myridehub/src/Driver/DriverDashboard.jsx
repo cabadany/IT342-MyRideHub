@@ -22,7 +22,7 @@ const DriverDashboard = () => {
             </div>
             <div className="profile-info">
               <h3>Name: Juan Dela Cruz</h3>
-              <p>Rating: ⭐⭐⭐⭐⭐</p>
+              <p>Rating: ⭐⭐⭐⭐</p>
             </div>
           </div>
           <div className="profile-details">
