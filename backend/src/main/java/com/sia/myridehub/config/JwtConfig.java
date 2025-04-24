@@ -1,5 +1,6 @@
 package com.sia.myridehub.config;
 
+import java.security.Key;
 import java.util.Date;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,25 +8,33 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 
 @Component
 public class JwtConfig {
 
-    private final String SECRET_KEY = "vP9gK7!dJz5m@Xw3$eLf*2rNc9Yq";
-    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; 
+    private Key secretKey;
+    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 hours
+
+    @PostConstruct
+    public void init() {
+        this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    }
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(secretKey)
                 .compact();
     }
 
     public String extractUsername(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
@@ -33,15 +42,6 @@ public class JwtConfig {
 
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
-    }
-
-    private boolean isTokenExpired(String token) {
-        Date expiration = Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody()
-                .getExpiration();
-        return expiration.before(new Date());
+        return username.equals(userDetails.getUsername());
     }
 }

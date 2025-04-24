@@ -19,10 +19,6 @@ import MotorcyclesDashboard from './Admin/MotorcyclesDashboard';
 import UsersDashboard from "./Admin/UsersDashboard";
 import ContactUs from './ContactUs/ContactUs';  
 
-
-
-
-
 export default function App() {
   return (
     <Router>
