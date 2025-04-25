@@ -21,6 +21,10 @@ import DriverRegistrationPage from './Driver/DriverRegistrationPage';
 import DriverLoginPage from './Driver/DriverLoginPage'; 
 import DriverDashboard from './Driver/DriverDashboard';
 import HelpPage from './Driver/HelpPage';
+import Testimonials from './Dashboard/Testimonials';
+import FeedbackForm from './Feedback/FeedbackForm';
+
+
 
 
 export default function App() {
@@ -47,6 +51,9 @@ export default function App() {
         <Route path="/driver-login" element={<DriverLoginPage />} />
         <Route path="/driver-dashboard" element={<DriverDashboard />} />
         <Route path="/help" element={<HelpPage />} />
+        <Route path="/testimonials" element={<Testimonials />} />
+        <Route path="/feedback" element={<FeedbackForm />} /> 
+
         {/* Add other routes here */} 
  
       </Routes>

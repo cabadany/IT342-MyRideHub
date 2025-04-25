@@ -1,0 +1,90 @@
+/* General Container for Testimonials */
+.testimonials-container {
+  background-image: url('/road.png'); /* Add your image path here */
+  background-size: cover; /* Ensures the image covers the entire container */
+  background-position: center; /* Centers the image */
+  background-attachment: fixed; /* Keeps the background fixed while scrolling */
+  padding: 60px 30px;
+  text-align: center;
+  margin-top: 50px;
+  position: relative;
+  color: #fff; /* White text to contrast with the background image */
+}
+
+.testimonials-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* Black overlay with transparency */
+  z-index: 1; /* Places the overlay behind the text */
+}
+
+.testimonials-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff; /* White text */
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+  z-index: 2; /* Ensures title stays on top of the overlay */
+}
+
+.testimonials {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin: 0 auto;
+  z-index: 2; /* Ensures testimonials stay on top of the overlay */
+}
+
+.testimonial {
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for readability */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  max-width: 90%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.testimonial-message {
+  font-size: 1.1rem;
+  color: #333;
+  font-style: italic;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.testimonial-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.testimonial-location {
+  font-size: 1rem;
+  color: #777;
+  font-style: italic;
+}
+
+/* Add media query for responsiveness */
+@media (max-width: 768px) {
+  .testimonials {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .testimonial {
+    width: 80%;
+    margin-bottom: 30px;
+  }
+}
