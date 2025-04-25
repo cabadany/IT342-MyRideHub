@@ -1,3 +1,4 @@
+/* Global Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,15 +8,16 @@
 html, body {
   height: 100%;
   font-family: 'Arial', sans-serif;
-  background-color: #0d0d0d;
+  background-color: #222;
   color: white;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
+/* Dashboard Container */
 .dashboard-container {
   width: 100vw;
   height: 100vh;
-  background-image: url('/road.png'); 
+  background-image: url('/road.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -23,32 +25,37 @@ html, body {
   flex-direction: column;
 }
 
-
+/* Navbar Styling */
 .navbar {
   display: flex;
   align-items: center;
   padding: 20px 60px;
-  background-color: transparent;
-  justify-content: flex-start;
+  background-color: transparent; 
+  justify-content: flex-end; /* Aligns nav links to the right */
+  width: 100%;
 }
 
 .logo img {
   height: 80px;
 }
 
-
 .nav-links {
   list-style: none;
   display: flex;
   gap: 32px;
   align-items: center;
-  margin-left: auto; 
 }
 
 .nav-links li a {
   color: white;
   text-decoration: none;
   font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #ffffff; 
+  text-decoration: underline;
 }
 
 .contact-btn {
@@ -66,6 +73,7 @@ html, body {
   color: #0d0d0d;
 }
 
+/* Hero Section */
 .hero {
   flex: 1;
   display: flex;
@@ -118,6 +126,7 @@ html, body {
   font-weight: bold;
   text-decoration: underline;
   margin-bottom: 16px;
+  color: white; 
 }
 
 .service p {
@@ -127,7 +136,6 @@ html, body {
   margin-bottom: 120px;
 }
 
-
 .service a {
   text-decoration: none;
   color: white;
@@ -136,21 +144,4 @@ html, body {
 .service a:hover {
   text-decoration: underline;
   color: #ccc;
-}
-
-.feedback-section {
-  background-color: #f8f8f8;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-}
-
-.feedback-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.feedback-list li {
-  margin-bottom: 10px;
-  font-size: 1.1rem;
 }

@@ -10,7 +10,6 @@ import CarDetail from './Rent/CarDetail';
 import RentNow from './Rent/RentNow';
 import ReservationPage from './Rent/ReservationPage';
 import PaymentPage from './Rent/Payment';
-import AboutUsPage from './AboutUs/AboutPage';
 import SettingsPage from './Settings/Settings';
 import AdminLogin from './Admin/AdminLogin';  
 import AdminPanel from './Admin/AdminPanel';
@@ -23,6 +22,7 @@ import DriverLoginPage from './Driver/DriverLoginPage';
 import DriverDashboard from './Driver/DriverDashboard';
 import HelpPage from './Driver/HelpPage';
 
+
 export default function App() {
   return (
     <Router>
@@ -30,7 +30,6 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/" element={<DashboardPage />} />
-        <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/rent" element={<RentVehiclePage />} />

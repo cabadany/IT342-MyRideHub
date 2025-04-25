@@ -1,134 +1,143 @@
 /* Body fix for centering and background */
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #0d0d0d;
-    font-family: 'Segoe UI', sans-serif;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Main settings container */
+  margin: 0;
+  padding: 0;
+  background-color: #0d0d0d;
+  font-family: 'Segoe UI', sans-serif;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main settings container */
+.settings-container {
+  width: 100vw; /* Ensures the container stretches the full width of the screen */
+  max-width: 100%; /* Prevents it from being constrained */
+  padding: 40px 30px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  color: #111827;
+  margin: 40px auto;
+}
+
+/* Header */
+.settings-container h2 {
+  text-align: center;
+  margin-bottom: 36px;
+  color: #111827;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* Form layout */
+.settings-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+/* Each input group */
+.form-group {
+  flex: 1 1 40%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label style */
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Input and select styles */
+.form-group input,
+.form-group select {
+  padding: 12px 14px;
+  font-size: 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #f9fafb;
+  color: #111827;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #2563eb;
+  background-color: #ffffff;
+  outline: none;
+}
+
+/* File input - improved styling */
+.form-group input[type="file"] {
+  padding: 8px;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #000000;
+  font-size: 15px;
+}
+
+/* Submit button */
+.submit-btn {
+  flex: 1 1 100%;
+  padding: 14px;
+  background-color: #2563eb;
+  color: #080808;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.submit-btn:hover {
+  background-color: #1d4ed8;
+}
+
+/* Back button */
+.back-btn {
+  display: inline-block;
+  margin: 20px;
+  background-color: #e5e7eb;
+  color: #0f0f10;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.back-btn:hover {
+  background-color: #d1d5db;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 768px) {
   .settings-container {
-    width: 100%;
-    max-width: 850px;
-    padding: 40px 30px;
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-    color: #111827;
-    margin: 40px auto;
-  }
-  
-  /* Header */
-  .settings-container h2 {
-    text-align: center;
-    margin-bottom: 36px;
-    color: #111827;
-    font-size: 28px;
-    font-weight: 700;
-  }
-  
-  /* Form layout */
-  .settings-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    justify-content: space-between;
-  }
-  
-  /* Each input group */
-  .form-group {
-    flex: 1 1 48%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Label style */
-  .form-group label {
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #374151;
-  }
-  
-  /* Input and select styles */
-  .form-group input,
-  .form-group select {
-    padding: 12px 14px;
-    font-size: 16px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    background-color: #f9fafb;
-    color: #111827;
-    transition: border-color 0.2s ease-in-out;
-  }
-  
-  .form-group input:focus,
-  .form-group select:focus {
-    border-color: #2563eb;
-    background-color: #ffffff;
-    outline: none;
-  }
-  
-  /* File input - improved styling */
-  .form-group input[type="file"] {
-    padding: 8px;
-    background-color: #ffffff;
-    border: 1px solid #d1d5db;
-    color: #111827;
-    font-size: 15px;
-  }
-  
-  /* Submit button */
-  .submit-btn {
-    flex: 1 1 100%;
-    padding: 14px;
-    background-color: #2563eb;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 30px;
-    transition: background-color 0.2s ease-in-out;
-  }
-  
-  .submit-btn:hover {
-    background-color: #1d4ed8;
-  }
-  
-  /* Back button */
-  .back-btn {
-    display: inline-block;
-    margin: 20px;
-    background-color: #e5e7eb;
-    color: #1f2937;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s ease-in-out;
-  }
-  
-  .back-btn:hover {
-    background-color: #d1d5db;
-  }
-  
- 
-  
-    .settings-container {
       padding: 28px 20px;
       margin: 20px;
-    }
-  
-    .submit-btn {
+  }
+
+  .submit-btn {
       font-size: 15px;
-    }
-  
-    .back-btn {
+  }
+
+  .back-btn {
       margin-left: 0;
-    }
+  }
+
+  .form-group {
+      flex: 1 1 100%;
+  }
+
+  .settings-form {
+      gap: 16px;
+  }
+}

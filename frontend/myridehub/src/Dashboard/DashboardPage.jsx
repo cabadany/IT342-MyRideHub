@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './DashboardPage.css';
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link } from "react-router-dom"; 
 
 export default function DashboardPage() {
   const [feedbackList, setFeedbackList] = useState([]);
@@ -46,21 +46,7 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {isFeedbackVisible && (
-        <section className="feedback-section">
-          <h2>Customer Feedback</h2>
-          <ul className="feedback-list">
-            {feedbackList.length === 0 ? (
-              <li>No feedback yet. Be the first to share your experience!</li>
-            ) : (
-              feedbackList.map((feedback, index) => (
-                <li key={index}>"{feedback}"</li>
-              ))
-            )}
-          </ul>
-          <Link to="/feedback-page"><button>Submit Feedback</button></Link>
-        </section>
-      )}
+    
 
       <section className="services">
         <div className="service">

@@ -60,7 +60,7 @@ const Settings = () => {
         ← Back to Dashboard
       </button>
       <div className="settings-container">
-        <h2>User Profile Settings</h2>
+        <h2> Settings </h2>
         <form onSubmit={handleSubmit} className="settings-form">
           <div className="form-group">
             <label>Full Name</label>
