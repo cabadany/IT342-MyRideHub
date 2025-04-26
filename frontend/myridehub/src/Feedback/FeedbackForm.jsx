@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './FeedbackForm.css';
 
 const FeedbackForm = () => {
   const [feedback, setFeedback] = useState('');
-  const [submittedFeedback, setSubmittedFeedback] = useState(null);
+  const { addFeedback } = useFeedback(); // Get the addFeedback function from context
+  const navigate = useNavigate(); // Use navigate hook to redirect to /testimonials
 
   const handleChange = (event) => {
     setFeedback(event.target.value);
@@ -11,12 +13,14 @@ const FeedbackForm = () => {
 
   const handleSubmit = () => {
     if (feedback.trim()) {
-      setSubmittedFeedback({
+      const newFeedback = {
         message: feedback,
         name: 'Anonymous',
         location: 'Quezon City, Philippines',
-      });
+      };
+      addFeedback(newFeedback); // Add feedback to context
       setFeedback(''); // Clear the textarea after submitting
+      navigate('/testimonials'); // Navigate to /testimonials page
     }
   };
 
@@ -34,14 +38,6 @@ const FeedbackForm = () => {
           Submit Feedback
         </button>
       </div>
-
-      {submittedFeedback && (
-        <div className="submitted-feedback">
-          <p className="feedback-message">"{submittedFeedback.message}"</p>
-          <p className="feedback-name">- {submittedFeedback.name}</p>
-          <p className="feedback-location">{submittedFeedback.location}</p>
-        </div>
-      )}
     </div>
   );
 };

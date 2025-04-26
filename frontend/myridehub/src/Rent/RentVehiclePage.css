@@ -20,40 +20,34 @@ html, body {
 
   .rent-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between;  /* Space out the logo and nav links */
     align-items: center;
     padding: 20px 60px;
     background-color: transparent;
+    width: 100%;  /* Ensure the header takes up full width */
   }
   
-  .logo img {
-    height: 80px;
+  .logo {
+    flex: 1;  /* Allows the logo to take up space and stay on the left */
   }
   
-  .rent-nav {
-    display: flex;
-    justify-content: flex-end; /* Align nav links to the right */
-    width: 100%;
-  }
-  
-  .rent-nav ul {
-    list-style: none;
+  .nav-links {
     display: flex;
     gap: 32px;
-    align-items: center;
-    justify-content: flex-end; /* Ensures items in the nav bar are pushed to the right */
+    justify-content: flex-end;  /* Align nav links to the right */
+    list-style: none;  /* Remove bullet points */
+    margin-left: auto;  /* Forces nav-links to the right */
   }
   
-  .rent-nav li {
+  .nav-links li {
     font-weight: 500;
     cursor: pointer;
   }
   
-  .rent-nav li a {
+  .nav-links li a {
     color: white;
     text-decoration: none;
   }
-
 .btn-outline {
   background-color: transparent;
   border: 1px solid white;
@@ -160,7 +154,7 @@ html, body {
 }
 
 .vehicle-info .price {
-  color: #fb923c;
+  color: #ffffff;
   font-weight: bold;
   font-size: 1rem;
   margin-bottom: 0.5rem;

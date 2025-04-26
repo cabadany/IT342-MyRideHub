@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './DashboardPage.css';
+import './LandingPage.css'; // Make sure to change the name of your CSS file as well
 import { Link } from "react-router-dom";
 
-export default function DashboardPage() {
+export default function LandingPage() {
   const [feedbackList, setFeedbackList] = useState([]);
   const navigate = useNavigate();
   
@@ -45,7 +45,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="dashboard-container">
+    <div className="landing-container">
       <nav className="navbar">
         <div className="logo">
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub Logo" />
@@ -56,7 +56,6 @@ export default function DashboardPage() {
           <li><Link to="/rent">Rent</Link></li>
           <li><Link to="/about-us">About Us</Link></li>
           <li><Link to="/settings" className="nav-link">Settings</Link></li>
-         
 
           {/* Dropdown for History */}
           <li className="dropdown">
@@ -69,7 +68,9 @@ export default function DashboardPage() {
             )}
           </li>
 
-          <li><a href="/contact-us" className="contact-link">Contact Us</a></li>
+          {/* Login and Sign Up buttons */}
+          <li><Link to="/login" className="login-link">Login</Link></li>
+          <li><Link to="/signup" className="signup-link">Sign Up</Link></li>
         </ul>
       </nav>
       
@@ -100,13 +101,8 @@ export default function DashboardPage() {
             has the perfect ride for you!
           </p>
         </div>
+        
       </section>
-
-      <button className="send-feedback-btn" onClick={handleFeedbackClick}>
-        Send Feedback
-      </button>
-
-      {isFeedbackVisible && <FeedbackForm />}
     </div>
   );
 }

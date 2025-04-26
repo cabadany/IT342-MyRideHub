@@ -64,7 +64,7 @@ body {
   padding: 140px 20px 60px;
   min-height: 100vh;
   background-color: #000;
-  background-image: url('/your-background.jpg'); /* Optional background */
+  background-image: url('/your-background.jpg');
   background-size: cover;
   background-position: center;
 }
@@ -84,122 +84,13 @@ body {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 30px;
+  color: #d3d3d3;  /* Lighter color for the h2 text */
 }
 
 .form-fields {
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.form-input {
-  padding: 12px 14px;
-  border: none;
-  border-radius: 6px;
-  background-color: #1c1c1c;
-  color: #fff;
-  font-size: 16px;
-}
-
-.form-input::placeholder {
-  color: #bbb;
-}
-
-textarea.form-input {
-  min-height: 100px;
-  resize: vertical;
-}
-
-.find-vehicle-btn {
-  background-color: #000;
-  color: blae;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  padding: 12px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.find-vehicle-btn:hover {
-  background-color: #333;
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-
-  .booking-container {
-    padding-top: 120px;
-  }
-
-  .booking-form {
-    padding: 30px 20px;
-  }
-
-}
-
-.input-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
-}
-
-.input-icon-right {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
-}
-
-.search-icon::before {
-  content: "\1F50D";
-}
-
-.calendar-icon::before {
-  content: "\1F4C5"; 
-}
-
-.clock-icon::before {
-  content: "\23F0";
-}
-
-.chevron-icon::before {
-  content: "\25BC";
-  font-size: 10px;
-}
-
-.arrow-left-icon::before {
-  content: "\2190"; 
-}
-
-.find-vehicle-btn {
-  width: 100%;
-  padding: 12px;
-  margin-top: 24px;
-  background-color: #444;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.find-vehicle-btn:hover {
-  background-color: #555;
-}
-
-.chevron-down-icon::after {
-  content: "\25BC";
-  font-size: 12px;
 }
 
 .continue-btn,
@@ -217,6 +108,17 @@ textarea.form-input {
 .continue-btn:hover,
 .confirm-btn:hover {
   background-color: #100f0f;
+  color: #fff;
+}
+
+.map-select-link {
+  text-align: center;
+  color: #ffb3b3;
+  text-decoration: underline;
+}
+
+.map-select-link:hover {
+  color: #ff6666;
 }
 
 .vehicle-options {
@@ -259,7 +161,6 @@ textarea.form-input {
   color: #ccc;
 }
 
-  /* Confirmation Details */
 .confirmation-details {
   display: flex;
   flex-direction: column;
@@ -270,7 +171,7 @@ textarea.form-input {
 .confirmation-item {
   background-color: #444;
   padding: 16px;
-  border-radius: 80px;
+  border-radius: 8px;
 }
 
 .confirmation-label {
@@ -280,6 +181,7 @@ textarea.form-input {
 
 .confirmation-value {
   font-weight: 500;
+  color: #fff;
 }
 
 @media (max-width: 768px) {
@@ -289,5 +191,13 @@ textarea.form-input {
 
   .booking-container {
     padding: 120px 16px 24px;
+  }
+
+  .booking-form {
+    padding: 30px 20px;
+  }
+
+  .vehicle-option {
+    padding: 12px;
   }
 }

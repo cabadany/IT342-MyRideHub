@@ -23,6 +23,10 @@ import DriverDashboard from './Driver/DriverDashboard';
 import HelpPage from './Driver/HelpPage';
 import Testimonials from './Dashboard/Testimonials';
 import FeedbackForm from './Feedback/FeedbackForm';
+import AboutUsPage from './AboutUsPage';
+import RentHistory from './History/RentHistory';
+import BookingHistory from './History/BookingHistory';
+import LandingPage from './LandingPage/LandingPage';  
 
 
 
@@ -53,6 +57,11 @@ export default function App() {
         <Route path="/help" element={<HelpPage />} />
         <Route path="/testimonials" element={<Testimonials />} />
         <Route path="/feedback" element={<FeedbackForm />} /> 
+        <Route path="/about-us" element={<AboutUsPage />} /> 
+        <Route path="/rent-history" element={<RentHistory />} /> 
+        <Route path="/booking-history" element={<BookingHistory />} />  
+        <Route path="/landing" element={<LandingPage />} /> 
+
 
         {/* Add other routes here */} 
  

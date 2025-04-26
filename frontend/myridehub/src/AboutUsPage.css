@@ -1,0 +1,82 @@
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  .navbar .logo img {
+    height: 60px;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  
+  .nav-links li {
+    font-weight: 500;
+  }
+  
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .nav-links a:hover,
+  .nav-links .active {
+    color: #ffffff;  /* Highlight color */
+  }
+  
+  /* About Us Content */
+  .about-us-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-image: url('/road.png'); /* Replace with correct road image path */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    color: white;
+    padding: 0 60px;
+    padding-top: 100px;  /* Add space to avoid navbar overlap */
+  }
+  
+  .about-us-content {
+    max-width: 50%;
+    padding: 20px;
+  }
+  
+  .about-us-content h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .about-us-content p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+  }
+  
+  .car-image {
+    max-width: 55%; /* Increase the max-width to make the image bigger */
+    display: flex;
+    justify-content: center;
+  }
+  
+  .car-image img {
+    width: 100%;    /* Allow the image to stretch and fill the container */
+    height: auto;   /* Maintain aspect ratio */
+    max-width: 600px; /* You can adjust this value to make it bigger or smaller */
+    object-fit: contain;
+  }
+  
