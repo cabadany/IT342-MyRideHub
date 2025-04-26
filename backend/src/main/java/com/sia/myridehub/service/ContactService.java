@@ -2,7 +2,6 @@ package com.sia.myridehub.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sia.myridehub.exception.ResourceNotFoundException;
@@ -15,7 +14,6 @@ public class ContactService {
 
     private final ContactRepository contactRepository;
 
-    @Autowired
     public ContactService(ContactRepository contactRepository) {
         this.contactRepository = contactRepository;
     }
