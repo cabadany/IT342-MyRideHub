@@ -1,6 +1,5 @@
 package com.sia.myridehub.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.sia.myridehub.config.JwtTokenProvider;
 import com.sia.myridehub.model.Driver;
-import com.sia.myridehub.model.LoginRequestDto;
-import com.sia.myridehub.model.LoginResponseDto;
+import com.sia.myridehub.model.dto.LoginRequestDto;
+import com.sia.myridehub.model.dto.LoginResponseDto;
 
 @Service
 public class AuthService {
@@ -19,7 +18,6 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final DriverService driverService;
     
-    @Autowired
     public AuthService(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, DriverService driverService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;

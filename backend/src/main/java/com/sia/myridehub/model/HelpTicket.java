@@ -1,35 +1,63 @@
 package com.sia.myridehub.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "help_tickets")
 public class HelpTicket {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
     @JoinColumn(name = "driver_id", nullable = false)
     private Driver driver;
-    
+
     @NotBlank(message = "Subject is required")
     private String subject;
-    
+
     @NotBlank(message = "Message is required")
     @Column(columnDefinition = "TEXT")
     private String message;
-    
-    private String status = "OPEN"; // OPEN, IN_PROGRESS, RESOLVED, CLOSED
-    
-    private LocalDateTime createdAt = LocalDateTime.now();
-    
-    private LocalDateTime updatedAt = LocalDateTime.now();
 
-    // Getters and Setters
+    private String status;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    // Constructors
+    public HelpTicket() {
+        // JPA needs a no-args constructor
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+        if (status == null) {
+            status = "OPEN";
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
     public Long getId() {
         return id;
     }

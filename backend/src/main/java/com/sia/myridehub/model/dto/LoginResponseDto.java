@@ -1,4 +1,4 @@
-package com.sia.myridehub.model;
+package com.sia.myridehub.model.dto;
 
 public class LoginResponseDto {
     

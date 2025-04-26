@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,24 +23,19 @@ public class DriverService {
     private final DriverRepository driverRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
     public DriverService(DriverRepository driverRepository, PasswordEncoder passwordEncoder) {
         this.driverRepository = driverRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     public Driver registerDriver(DriverRegistrationDto registrationDto) {
-        // Check if mobile number already exists
         if (driverRepository.existsByMobileNumber(registrationDto.getMobileNumber())) {
             throw new IllegalArgumentException("Mobile number already registered");
         }
-
-        // Check if terms are accepted
         if (!registrationDto.isTermsAccepted()) {
             throw new IllegalArgumentException("Terms and conditions must be accepted");
         }
 
-        // Create new driver
         Driver driver = new Driver();
         driver.setFirstName(registrationDto.getFirstName());
         driver.setLastName(registrationDto.getLastName());
@@ -62,6 +56,11 @@ public class DriverService {
                 .orElseThrow(() -> new ResourceNotFoundException("Driver not found with mobile number: " + mobileNumber));
     }
 
+    public Driver getDriverByEmail(String email) {
+        return driverRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Driver not found with email: " + email));
+    }
+
     public DriverProfileDto getDriverProfile(Long id) {
         Driver driver = getDriverById(id);
         return new DriverProfileDto(driver);
@@ -76,32 +75,18 @@ public class DriverService {
 
     public String updateProfilePicture(Long id, MultipartFile file) throws IOException {
         Driver driver = getDriverById(id);
-
-        // Directory for profile pictures
         String uploadDir = System.getProperty("user.dir") + "/uploads/driver-profiles/";
 
-        // Ensure directory exists
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
-            try {
-                Files.createDirectories(uploadPath);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to create upload directory", e);
-            }
+            Files.createDirectories(uploadPath);
         }
 
-        // Generate a unique filename
         String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
         Path filePath = uploadPath.resolve(filename);
 
-        // Save the file to the server
-        try {
-            Files.copy(file.getInputStream(), filePath);
-        } catch (IOException e) {
-            throw new IOException("Failed to upload profile picture", e);
-        }
+        Files.copy(file.getInputStream(), filePath);
 
-        // Update the driver's profile picture
         driver.setProfilePicture(uploadDir + filename);
         driver.setUpdatedAt(LocalDateTime.now());
         driverRepository.save(driver);

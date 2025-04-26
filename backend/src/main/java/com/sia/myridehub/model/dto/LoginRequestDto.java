@@ -1,6 +1,6 @@
-package com.sia.myridehub.model;
+package com.sia.myridehub.model.dto;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class LoginRequestDto {
     
