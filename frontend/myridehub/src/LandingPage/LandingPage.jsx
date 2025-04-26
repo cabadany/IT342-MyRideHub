@@ -57,17 +57,6 @@ export default function LandingPage() {
           <li><Link to="/about-us">About Us</Link></li>
           <li><Link to="/settings" className="nav-link">Settings</Link></li>
 
-          {/* Dropdown for History */}
-          <li className="dropdown">
-            <a href="#" className="dropdown-link" onClick={toggleHistoryDropdown}>History</a>
-            {isHistoryDropdownOpen && (
-              <ul className="dropdown-menu">
-                <li><Link to="/booking-history">Booking History</Link></li>
-                <li><Link to="/rent-history">Rent History</Link></li>
-              </ul>
-            )}
-          </li>
-
           {/* Login and Sign Up buttons */}
           <li><Link to="/login" className="login-link">Login</Link></li>
           <li><Link to="/signup" className="signup-link">Sign Up</Link></li>
@@ -101,7 +90,7 @@ export default function LandingPage() {
             has the perfect ride for you!
           </p>
         </div>
-        
+
       </section>
     </div>
   );
