@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -26,6 +27,11 @@ public class Driver {
 
     @NotBlank(message = "Last name is required")
     private String lastName;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email should be valid")
+    @Column(unique = true)
+    private String email;   // 🛠️ Added Email field here
 
     @NotBlank(message = "Mobile number is required")
     @Pattern(regexp = "^[0-9]{11}$", message = "Mobile number must be exactly 11 digits")
@@ -54,7 +60,8 @@ public class Driver {
 
     private boolean active = true;
 
-    // Getters and Setters
+    // ===== Getters and Setters =====
+
     public Long getId() {
         return id;
     }
@@ -77,6 +84,14 @@ public class Driver {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getEmail() {  // 🛠️ Added getter
+        return email;
+    }
+
+    public void setEmail(String email) {  // 🛠️ Added setter
+        this.email = email;
     }
 
     public String getMobileNumber() {

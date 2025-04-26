@@ -22,11 +22,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-    .csrf().disable()
-    .cors().and()
-    .authorizeHttpRequests()
-    .requestMatchers("/api/auth/login").permitAll()
-    .anyRequest().authenticated();
+            .csrf().disable()
+            .cors()  // enable cors
+            .and()
+            .authorizeHttpRequests()
+                .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+                .anyRequest().authenticated();  // secure other endpoints
 
         return http.build();
     }
@@ -37,15 +38,15 @@ public class SecurityConfig {
     }
 
     @Bean
-public PasswordEncoder passwordEncoder() {
-    return NoOpPasswordEncoder.getInstance();
-}
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();  // ❗Only for testing. Use BCrypt in production!
+    }
 
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost:5173"));  // your React frontend URL
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
