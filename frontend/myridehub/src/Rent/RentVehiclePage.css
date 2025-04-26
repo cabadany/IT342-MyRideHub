@@ -15,37 +15,44 @@ html, body {
   display: flex;
   flex-direction: column;
   background-color: #100f0f;
-  overflow-x: hidden;
-}
+    overflow-x: hidden;
+  }
 
-.rent-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 60px;
-  background-color: transparent;
-}
-
-.logo img {
-  height: 80px;
-}
-
-.rent-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 32px;
-  align-items: center;
-}
-
-.rent-nav li {
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.rent-nav li a {
-  color: white;
-  text-decoration: none;
-}
+  .rent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background-color: transparent;
+  }
+  
+  .logo img {
+    height: 80px;
+  }
+  
+  .rent-nav {
+    display: flex;
+    justify-content: flex-end; /* Align nav links to the right */
+    width: 100%;
+  }
+  
+  .rent-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    justify-content: flex-end; /* Ensures items in the nav bar are pushed to the right */
+  }
+  
+  .rent-nav li {
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .rent-nav li a {
+    color: white;
+    text-decoration: none;
+  }
 
 .btn-outline {
   background-color: transparent;

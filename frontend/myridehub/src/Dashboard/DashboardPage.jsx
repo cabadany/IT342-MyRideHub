@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import './DashboardPage.css';
 import { Link } from "react-router-dom"; 
 
 export default function DashboardPage() {
   const [feedbackList, setFeedbackList] = useState([]);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Use useNavigate hook
   
   // State for controlling feedback dropdown visibility
   const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
@@ -14,8 +14,17 @@ export default function DashboardPage() {
     setIsFeedbackVisible(!isFeedbackVisible);
   };
 
+  // Function to handle "Learn More" button click to navigate to Testimonials
+  const handleLearnMoreClick = () => {
+    navigate('/testimonials'); // Navigate to testimonials page
+  };
+
   const handleFeedbackSubmit = (feedback) => {
     setFeedbackList([...feedbackList, feedback]);
+  };
+
+  const handleFeedbackClick = () => {
+    toggleFeedback();  // Toggle feedback input visibility
   };
 
   return (
@@ -25,12 +34,12 @@ export default function DashboardPage() {
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub Logo" />
         </div>
         <ul className="nav-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/booking">Book</a></li>
-          <li><a href="/rent">Rent</a></li>
-          <li><a href="/about-us">About Us</a></li>
-          <li><a href="/settings" className="nav-link">Settings</a></li>
-          <li><button className="contact-btn">Contact Us</button></li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/booking">Book</Link></li>
+          <li><Link to="/rent">Rent</Link></li>
+          <li><Link to="/about-us">About Us</Link></li>
+          <li><Link to="/settings" className="nav-link">Settings</Link></li>
+          <li><a href="/contact-us" className="contact-link">Contact Us</a></li>
         </ul>
       </nav>
 
@@ -42,28 +51,33 @@ export default function DashboardPage() {
             Whether you need a rental car for a trip or a quick ride around the city, Ride Hub connects
             you to reliable drivers and rental services with ease.
           </p>
-          <button className="learn-more-btn" onClick={toggleFeedback}>Learn More</button>
+          <button className="learn-more-btn" onClick={handleLearnMoreClick}>Learn More</button>
         </div>
       </section>
-
-    
 
       <section className="services">
         <div className="service">
-          <a href="/booking"><h2>BOOK A RIDE</h2></a>
+          <Link to="/booking"><h2>BOOK A RIDE</h2></Link>
           <p>
             Rent a motorcycle for agility and adventure or a car for comfort and convenience—MyRideHub
             has the perfect ride for you!
           </p>
         </div>
         <div className="service">
-          <a href="/rent"><h2>RENT A VEHICLE</h2></a>
+          <Link to="/rent"><h2>RENT A VEHICLE</h2></Link>
           <p>
             Rent a motorcycle for agility and adventure or a car for comfort and convenience—MyRideHub
             has the perfect ride for you!
           </p>
         </div>
       </section>
+
+      <button className="send-feedback-btn" onClick={toggleFeedback}>
+        Send Feedback
+      </button>
+
+       {/* Conditionally render the feedback form */}
+       {isFeedbackVisible && <FeedbackForm />}
     </div>
   );
 }
