@@ -56,12 +56,12 @@ export default function LandingPage() {
           <li><Link to="">Rent</Link></li>
           <li><Link to="/about-us">About Us</Link></li>
           <li><Link to="" className="nav-link">Settings</Link></li>
-          <li><Link to="/contact-us">Contact Us</Link></li>
+          <li><Link to="/contact-us">Contacts Us</Link></li>
           
         
 
-          <li><button className="contact-btn">Log In</button></li>
-          <li><button className="contact-btn">Sign Up</button></li>
+          <li><a href="/login" className="contact-link">Log In</a></li>
+          <li><a href="/signup" className="contact-link">Sign Up</a></li>
         </ul>
       </nav>
       

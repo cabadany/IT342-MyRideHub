@@ -21,7 +21,7 @@ export default function LoginPage() {
     e.preventDefault();
     // Basic login simulation
     alert("Login submitted!");
-    navigate("/");
+    navigate("/dashboard");
   };
 
   return (
