@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./RentNow.css"; // ← Make sure this is here
+import "./RentNow.css";
 
 const RentNow = () => {
   const { state } = useLocation();
@@ -9,27 +9,32 @@ const RentNow = () => {
 
   const [isDriverSelected, setIsDriverSelected] = useState(false);
   const [pickUpDate, setPickUpDate] = useState("");
-  const [pickUpTime, setPickUpTime] = useState("12:00 PM");
+  const [pickUpTime, setPickUpTime] = useState("12:00");
   const [returnDate, setReturnDate] = useState("");
-  const [returnTime, setReturnTime] = useState("12:00 PM");
+  const [returnTime, setReturnTime] = useState("12:00");
   const [total, setTotal] = useState(0);
 
   const handleDriverChange = (event) => {
     setIsDriverSelected(event.target.value === "withDriver");
   };
 
-  const calculateDays = (startDate, endDate) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const timeDiff = Math.abs(end - start);
-    return Math.ceil(timeDiff / (1000 * 3600 * 24));
+  const calculateDays = (startDate, startTime, endDate, endTime) => {
+    const start = new Date(`${startDate}T${startTime}`);
+    const end = new Date(`${endDate}T${endTime}`);
+    const diffMs = end - start;
+
+    if (diffMs <= 0) return 0;
+
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+    return Math.ceil(diffDays);
   };
 
   const handleCalculateTotal = () => {
-    const rentalDays = calculateDays(pickUpDate, returnDate);
+    const rentalDays = calculateDays(pickUpDate, pickUpTime, returnDate, returnTime);
     const pricePerDay = vehicle?.pricePerDay || 0;
     const driverFee = isDriverSelected ? 500 : 0;
-    setTotal(rentalDays * pricePerDay + driverFee);
+    const computedTotal = rentalDays * pricePerDay + driverFee;
+    setTotal(computedTotal);
   };
 
   const handleProceed = () => {
@@ -49,19 +54,11 @@ const RentNow = () => {
   return (
     <div className="rent-now-page">
       <div className="rent-container">
-        {/* Back Button */}
-        <button className="back-button" onClick={() => navigate(-1)}>
-          ← Back
-        </button>
-
+        <button className="back-button" onClick={() => navigate(-1)}>← Back</button>
         <h1 className="rent-title">{vehicle?.brand} {vehicle?.model}</h1>
 
         <div className="form-wrapper">
-          <img
-            src={vehicle?.imageUrl}
-            alt={vehicle?.model}
-            className="vehicle-image"
-          />
+          <img src={vehicle?.imageUrl} alt={vehicle?.model} className="vehicle-image" />
 
           <div className="form-container">
             <div className="driver-selection">
@@ -100,15 +97,12 @@ const RentNow = () => {
               </div>
               <div>
                 <label className="input-label">Pick Up Time</label>
-                <select
+                <input
+                  type="time"
                   value={pickUpTime}
                   onChange={(e) => setPickUpTime(e.target.value)}
                   className="input-field"
-                >
-                  <option>12:00 PM</option>
-                  <option>1:00 PM</option>
-                  <option>2:00 PM</option>
-                </select>
+                />
               </div>
               <div>
                 <label className="input-label">Return Date</label>
@@ -121,29 +115,22 @@ const RentNow = () => {
               </div>
               <div>
                 <label className="input-label">Return Time</label>
-                <select
+                <input
+                  type="time"
                   value={returnTime}
                   onChange={(e) => setReturnTime(e.target.value)}
                   className="input-field"
-                >
-                  <option>12:00 PM</option>
-                  <option>1:00 PM</option>
-                  <option>2:00 PM</option>
-                </select>
+                />
               </div>
             </div>
 
             <div className="total-container">
               <span className="total-text">Total: ₱ {total}</span>
-              <button
-                onClick={handleCalculateTotal}
-                className="calculate-button"
-              >
+              <button onClick={handleCalculateTotal} className="calculate-button">
                 Calculate
               </button>
             </div>
 
-            {/* Proceed Button */}
             <button className="proceed-button" onClick={handleProceed}>
               Confirm
             </button>

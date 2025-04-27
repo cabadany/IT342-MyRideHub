@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { LoadScript } from "@react-google-maps/api";
+import { LoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import MapAutocomplete from "../Map/MapAutocomplete";
-import MapPicker from "../Map/MapPicker";
 import "./BookingPage.css";
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo";
@@ -21,8 +20,8 @@ const VEHICLES = {
 
 const BookingPage = () => {
   const [bookingStep, setBookingStep] = useState(1);
-  const [pickupLocation, setPickupLocation] = useState("");
-  const [dropOffLocation, setDropOffLocation] = useState("");
+  const [pickupLocation, setPickupLocation] = useState(null);
+  const [dropOffLocation, setDropOffLocation] = useState(null);
   const [selectedType, setSelectedType] = useState("");
   const [totalPrice, setTotalPrice] = useState(null);
   const [distanceText, setDistanceText] = useState("");
@@ -30,8 +29,10 @@ const BookingPage = () => {
   const [availableVehicles, setAvailableVehicles] = useState([]);
   const [showMapPicker, setShowMapPicker] = useState(false);
   const [selectingField, setSelectingField] = useState(null);
+  const [selectedCoords, setSelectedCoords] = useState(null);
   const [loading, setLoading] = useState(false);
   const [rideStatus, setRideStatus] = useState("");
+  const [driverInfo, setDriverInfo] = useState(null);
 
   const dropoffRef = useRef(null);
 
@@ -41,29 +42,36 @@ const BookingPage = () => {
     }
   }, [bookingStep]);
 
-  const handleNextStep = () => setBookingStep((prev) => prev + 1);
-  const handlePrevStep = () => setBookingStep((prev) => prev - 1);
+  const handleNextStep = () => setBookingStep(prev => prev + 1);
+  const handlePrevStep = () => setBookingStep(prev => prev - 1);
 
   const handleLocationSelect = (coords) => {
-    const locationText = `Lat: ${coords.lat.toFixed(5)}, Lng: ${coords.lng.toFixed(5)}`;
     if (selectingField === "pickup") {
-      setPickupLocation(locationText);
+      setPickupLocation({
+        lat: coords.lat,
+        lng: coords.lng,
+        formatted_address: `Lat: ${coords.lat.toFixed(5)}, Lng: ${coords.lng.toFixed(5)}`
+      });
     } else if (selectingField === "dropoff") {
-      setDropOffLocation(locationText);
+      setDropOffLocation({
+        lat: coords.lat,
+        lng: coords.lng,
+        formatted_address: `Lat: ${coords.lat.toFixed(5)}, Lng: ${coords.lng.toFixed(5)}`
+      });
     }
     setShowMapPicker(false);
     setSelectingField(null);
+    setSelectedCoords(null);
   };
 
   const calculateFare = async () => {
     if (!pickupLocation || !dropOffLocation) return;
 
     const service = new window.google.maps.DistanceMatrixService();
-
     service.getDistanceMatrix(
       {
-        origins: [pickupLocation],
-        destinations: [dropOffLocation],
+        origins: [new window.google.maps.LatLng(pickupLocation.lat, pickupLocation.lng)],
+        destinations: [new window.google.maps.LatLng(dropOffLocation.lat, dropOffLocation.lng)],
         travelMode: window.google.maps.TravelMode.DRIVING,
         unitSystem: window.google.maps.UnitSystem.METRIC,
       },
@@ -94,18 +102,26 @@ const BookingPage = () => {
   const handleConfirmBooking = () => {
     setLoading(true);
     setRideStatus("");
+    setDriverInfo(null);
 
-    // Simulate an API call to find a driver
     setTimeout(() => {
-      // Simulating a driver found (you can randomly set this in a real-world scenario)
-      const driverFound = Math.random() > 0.5; // Randomly decide if a driver is found
+      const driverFound = Math.random() > 0.3;
+
       setLoading(false);
+
       if (driverFound) {
-        setRideStatus("We have found you a ride!");
+        const driver = {
+          name: "Juan Dela Cruz",
+          vehicle: selectedType,
+          plateNumber: selectedType === "Motorcycle" ? "MC-1234" : "CAR-5678",
+          estimatedArrival: "5 minutes",
+        };
+        setDriverInfo(driver);
+        setRideStatus("Driver found! Please wait at your pickup location.");
       } else {
-        setRideStatus("Sorry, no drivers available at the moment.");
+        setRideStatus("Sorry, no drivers available at the moment. Please try again later.");
       }
-    }, 3000); // Simulate a 3 second API call
+    }, 3000);
   };
 
   return (
@@ -113,7 +129,7 @@ const BookingPage = () => {
       <div className="booking-page">
         <nav className="booking-nav">
           <div className="logo-container">
-            <a href="/">
+            <a href="/dashboard">
               <img src="/Ride Hub Logo (White).png" alt="Ride Hub Logo" className="logo" />
             </a>
           </div>
@@ -122,127 +138,122 @@ const BookingPage = () => {
             <li><a href="/booking" className="nav-link active">Book</a></li>
             <li><a href="/rent" className="nav-link">Rent</a></li>
             <li><a href="/about-us" className="nav-link">About Us</a></li>
-            <li><a href="settings" className="nav-link">Settings</a></li>
+            <li><a href="/settings" className="nav-link">Settings</a></li>
             <li><a href="/contact-us" className="contact-link">Contact Us</a></li>
           </ul>
         </nav>
 
-        {!showMapPicker && (
-          <div className="booking-container">
-            {bookingStep === 1 && (
-              <div className="booking-form">
-                <h2 className="booking-title">BOOK NOW!</h2>
-                <div className="form-fields">
-                  <MapAutocomplete
-                    placeholder="Pickup Location"
-                    onPlaceSelected={(place) => setPickupLocation(place.formatted_address)}
-                    value={pickupLocation}
-                  />
-                  <a href="#" onClick={() => { setSelectingField("pickup"); setShowMapPicker(true); }} className="map-select-link">
-                    Choose from Maps
-                  </a>
-                  <button className="continue-btn" onClick={handleNextStep} disabled={!pickupLocation}>
-                    Confirm Pick-Up Location
+        <div className="booking-content">
+          {!showMapPicker ? (
+            <div className="booking-container">
+              {bookingStep === 1 && (
+                <div className="booking-form">
+                  <h2 className="booking-title">BOOK NOW!</h2>
+                  <div className="form-fields">
+                    <MapAutocomplete
+                      placeholder="Pickup Location"
+                      onPlaceSelected={(place) => setPickupLocation({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng(), formatted_address: place.formatted_address })}
+                      value={pickupLocation ? pickupLocation.formatted_address : ""}
+                    />
+                    <a href="#" onClick={() => { setSelectingField("pickup"); setShowMapPicker(true); }} className="map-select-link">
+                      Choose from Maps
+                    </a>
+                    <button className="continue-btn" onClick={handleNextStep} disabled={!pickupLocation}>
+                      Confirm Pick-Up Location
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {bookingStep === 2 && (
+                <div className="booking-form">
+                  <div className="form-header">
+                    <button className="back-btn" onClick={handlePrevStep}><span className="arrow-left-icon"></span></button>
+                    <h2 className="booking-title">Where to?</h2>
+                  </div>
+                  <div className="form-fields">
+                    <MapAutocomplete
+                      placeholder="Drop-off Location"
+                      onPlaceSelected={(place) => setDropOffLocation({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng(), formatted_address: place.formatted_address })}
+                      inputRef={dropoffRef}
+                      value={dropOffLocation ? dropOffLocation.formatted_address : ""}
+                    />
+                    <a href="#" onClick={() => { setSelectingField("dropoff"); setShowMapPicker(true); }} className="map-select-link">
+                      Choose from Maps
+                    </a>
+                    <button className="continue-btn" onClick={calculateFare} disabled={!dropOffLocation}>
+                      Calculate Fare
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {bookingStep === 3 && (
+                <div className="booking-form">
+                  <div className="form-header">
+                    <button className="back-btn" onClick={handlePrevStep}><span className="arrow-left-icon"></span></button>
+                    <h2 className="booking-title">Select Vehicle Type</h2>
+                  </div>
+                  <div className="vehicle-options">
+                    <div className="vehicle-option" onClick={() => handleVehicleSelection("Motorcycle")}>🏍️ Motorcycle</div>
+                    <div className="vehicle-option" onClick={() => handleVehicleSelection("Car")}>🚗 Car</div>
+                  </div>
+                </div>
+              )}
+
+              {bookingStep === 4 && (
+                <div className="booking-form">
+                  <h2 className="booking-title">Booking Confirmation</h2>
+                  <div className="confirmation-details">
+                    <p>Pickup: {pickupLocation?.formatted_address}</p>
+                    <p>Dropoff: {dropOffLocation?.formatted_address}</p>
+                    <p>Vehicle: {selectedType}</p>
+                    <p>Distance: {distanceText}</p>
+                    <p>Duration: {durationText}</p>
+                    <p>Fare: ₱{totalPrice}</p>
+                  </div>
+                  <button className="confirm-btn" onClick={handleConfirmBooking}>
+                    {loading ? "Loading..." : "Confirm Booking"}
                   </button>
-                </div>
-              </div>
-            )}
 
-            {bookingStep === 2 && (
-              <div className="booking-form">
-                <div className="form-header">
-                  <button className="back-btn" onClick={handlePrevStep}><span className="arrow-left-icon"></span></button>
-                  <h2 className="booking-title">Where to?</h2>
-                </div>
-                <div className="form-fields">
-                  <MapAutocomplete
-                    placeholder="Drop-off Location"
-                    onPlaceSelected={(place) => setDropOffLocation(place.formatted_address)}
-                    inputRef={dropoffRef}
-                    value={dropOffLocation}
-                  />
-                  <a href="#" onClick={() => { setSelectingField("dropoff"); setShowMapPicker(true); }} className="map-select-link">
-                    Choose from Maps
-                  </a>
-                  <button className="continue-btn" onClick={handleNextStep} disabled={!dropOffLocation}>
-                    Confirm Drop-Off Location
-                  </button>
-                </div>
-              </div>
-            )}
+                  {loading && <p>Searching for drivers...</p>}
 
-            {bookingStep === 3 && (
-              <div className="booking-form">
-                <div className="form-header">
-                  <button className="back-btn" onClick={handlePrevStep}><span className="arrow-left-icon"></span></button>
-                  <h2 className="booking-title">Select Vehicle Type</h2>
-                </div>
-                <div className="vehicle-options">
-                  <div className="vehicle-option" onClick={() => handleVehicleSelection("Motorcycle")}>
-                    <div className="vehicle-icon">🏍️</div>
-                    <div className="vehicle-details">
-                      <h3 className="vehicle-name">Motorcycle</h3>
-                      <p className="vehicle-description">For agility and adventure</p>
+                  {!loading && driverInfo && (
+                    <div className="driver-info">
+                      <h3>Driver Details</h3>
+                      <p><strong>Name:</strong> {driverInfo.name}</p>
+                      <p><strong>Vehicle:</strong> {driverInfo.vehicle}</p>
+                      <p><strong>Plate:</strong> {driverInfo.plateNumber}</p>
+                      <p><strong>ETA:</strong> {driverInfo.estimatedArrival}</p>
                     </div>
-                  </div>
-                  <div className="vehicle-option" onClick={() => handleVehicleSelection("Car")}>
-                    <div className="vehicle-icon">🚗</div>
-                    <div className="vehicle-details">
-                      <h3 className="vehicle-name">Car</h3>
-                      <p className="vehicle-description">For comfort and convenience</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+                  )}
 
-            {bookingStep === 4 && (
-              <div className="booking-form">
-                <h2 className="booking-title">Booking Confirmation</h2>
-                <div className="confirmation-details">
-                  <div className="confirmation-item">
-                    <p className="confirmation-label">Pickup Location</p>
-                    <p className="confirmation-value">{pickupLocation}</p>
-                  </div>
-                  <div className="confirmation-item">
-                    <p className="confirmation-label">Drop-off Location</p>
-                    <p className="confirmation-value">{dropOffLocation}</p>
-                  </div>
-                  <div className="confirmation-item">
-                    <p className="confirmation-label">Vehicle Type</p>
-                    <p className="confirmation-value">{selectedType}</p>
-                  </div>
-                  <div className="confirmation-item">
-                    <p className="confirmation-label">Distance</p>
-                    <p className="confirmation-value">{distanceText}</p>
-                  </div>
-                  <div className="confirmation-item">
-                    <p className="confirmation-label">Estimated Duration</p>
-                    <p className="confirmation-value">{durationText}</p>
-                  </div>
-                  <div className="confirmation-item">
-                    <p className="confirmation-label">Total Fare</p>
-                    <p className="confirmation-value">₱{totalPrice}</p>
-                  </div>
+                  {!loading && rideStatus && <p>{rideStatus}</p>}
                 </div>
-                <button className="confirm-btn" onClick={handleConfirmBooking}>
-                  {loading ? "Loading..." : "Confirm Booking"}
-                </button>
-                {rideStatus && <p>{rideStatus}</p>}
-              </div>
-            )}
-          </div>
-        )}
-
-        {showMapPicker && (
-          <div className="map-picker-modal full-overlay">
-            <div className="map-modal-content">
-              <MapPicker onLocationSelect={handleLocationSelect} />
+              )}
             </div>
-          </div>
-        )}
-
-        <div className="background-image"></div>
+          ) : (
+            <div className="map-picker-modal">
+              <GoogleMap
+                mapContainerStyle={{ width: '100%', height: '100vh' }}
+                center={selectedCoords || { lat: 10.3157, lng: 123.8854 }}
+                zoom={13}
+                onClick={(e) => setSelectedCoords({ lat: e.latLng.lat(), lng: e.latLng.lng() })}
+              >
+                {selectedCoords && <Marker position={selectedCoords} />}
+              </GoogleMap>
+              <div className="map-confirm-footer">
+                <button className="confirm-btn" onClick={() => {
+                  if (selectedCoords) {
+                    handleLocationSelect(selectedCoords);
+                  }
+                }}>
+                  Confirm Location
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </LoadScript>
   );

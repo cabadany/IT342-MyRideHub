@@ -1,24 +1,22 @@
 /* BookingPage.css */
-* {
+.booking-page * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
+.booking-page {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #000;
+  background-color: #0f0f0f;
   color: #fff;
   overflow-x: hidden;
-  width: 100vw;  /* Full width */
-  height: 100vh; /* Full height */
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
 }
 
-.booking-nav {
+.booking-page .booking-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -31,45 +29,46 @@ body {
   background-color: transparent;
 }
 
-.logo-container img {
+.booking-page .logo-container img {
   height: 60px;
 }
 
-.nav-links {
+.booking-page .nav-links {
   list-style: none;
   display: flex;
   gap: 32px;
   align-items: center;
 }
 
-.nav-links a {
+.booking-page .nav-links a {
   color: white;
   text-decoration: none;
   font-weight: 500;
 }
 
-.booking-container {
+.booking-page .booking-content {
+  margin-top: 120px;
+  width: 100%;
+  flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 0;  /* Remove padding */
-  min-height: 100vh;
-  background-color: #232222;
-  width: 100%;  /* Full width */
-  height: 100%; /* Full height */
+  align-items: start;
 }
 
-.booking-form {
+.booking-page .booking-container {
   width: 100%;
-  max-width: 800px; /* Max width */
-  background-color: #444;
-  border-radius: 12px;
+  max-width: 800px;
+  background-color: #181818;
   padding: 40px 30px;
+  border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-  color: white;
 }
 
-.booking-title {
+.booking-page .booking-form {
+  width: 100%;
+}
+
+.booking-page .booking-title {
   text-align: center;
   font-size: 28px;
   font-weight: bold;
@@ -77,14 +76,14 @@ body {
   color: #d3d3d3;
 }
 
-.form-fields {
+.booking-page .form-fields {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.continue-btn,
-.confirm-btn {
+.booking-page .continue-btn,
+.booking-page .confirm-btn {
   width: 100%;
   padding: 14px;
   background-color: #fff;
@@ -93,31 +92,33 @@ body {
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
+  margin-top: 10px;
 }
 
-.continue-btn:hover,
-.confirm-btn:hover {
+.booking-page .continue-btn:hover,
+.booking-page .confirm-btn:hover {
   background-color: #100f0f;
   color: #fff;
 }
 
-.map-select-link {
+.booking-page .map-select-link {
   text-align: center;
   color: #ffb3b3;
   text-decoration: underline;
+  cursor: pointer;
 }
 
-.map-select-link:hover {
+.booking-page .map-select-link:hover {
   color: #ff6666;
 }
 
-.vehicle-options {
+.booking-page .vehicle-options {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.vehicle-option {
+.booking-page .vehicle-option {
   display: flex;
   align-items: center;
   padding: 16px;
@@ -126,11 +127,11 @@ body {
   cursor: pointer;
 }
 
-.vehicle-option:hover {
+.booking-page .vehicle-option:hover {
   background-color: #555;
 }
 
-.vehicle-icon {
+.booking-page .vehicle-icon {
   width: 64px;
   height: 64px;
   background-color: #333;
@@ -142,34 +143,53 @@ body {
   font-size: 24px;
 }
 
-.vehicle-name {
+.booking-page .vehicle-name {
   font-weight: 500;
 }
 
-.vehicle-description {
+.booking-page .vehicle-description {
   font-size: 14px;
   color: #ccc;
 }
 
-.confirmation-details {
+.booking-page .confirmation-details {
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin-bottom: 24px;
 }
 
-.confirmation-item {
-  background-color: #444;
+.booking-page .confirmation-item {
+  background-color: #373737;
   padding: 16px;
   border-radius: 8px;
 }
 
-.confirmation-label {
+.booking-page .confirmation-label {
   font-size: 14px;
   color: #ccc;
 }
 
-.confirmation-value {
+.booking-page .confirmation-value {
   font-weight: 500;
   color: #fff;
+}
+
+.booking-page .map-picker-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-page .map-confirm-footer {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
 }

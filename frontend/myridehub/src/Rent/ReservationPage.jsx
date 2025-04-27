@@ -28,6 +28,26 @@ const ReservationPage = () => {
     return `${diff} day(s)`;
   };
 
+  const handleReserveNow = () => {
+    if (!form.agree) {
+      alert("Please agree to the Terms and Conditions before proceeding.");
+      return;
+    }
+
+    navigate("/rent/confirmation", {
+      state: {
+        vehicle,
+        pickUpDate,
+        pickUpTime,
+        returnDate,
+        returnTime,
+        total,
+        isDriverSelected,
+        customerInfo: form,
+      },
+    });
+  };
+
   return (
     <div className="reservation-container">
       {/* Back Button */}
@@ -114,7 +134,9 @@ const ReservationPage = () => {
           <div className="summary-box">
             <p>Estimated total due at the counter</p>
             <h2>PHP {total ? total.toLocaleString() : '0.00'}</h2>
-            <button className="reserve-button">RESERVE NOW</button>
+            <button className="reserve-button" onClick={handleReserveNow}>
+              RESERVE NOW
+            </button>
           </div>
         </div>
       </main>
