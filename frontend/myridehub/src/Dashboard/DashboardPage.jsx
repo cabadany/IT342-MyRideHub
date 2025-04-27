@@ -69,7 +69,7 @@ export default function DashboardPage() {
             )}
           </li>
 
-          <li><a href="/contact-us" className="contact-link">Contact Us</a></li>
+          <li><button className="contact-btn">Contact Us</button></li>
         </ul>
       </nav>
       
