@@ -17,7 +17,7 @@ html, body {
 
 .login-form-container {
   width: 50%;
-  background-color: #100f0f;
+  background-color: #000000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,11 +34,11 @@ html, body {
   text-align: center;
   margin-bottom: 16px;
   font-weight: bold;
-  color: white;
+  color: rgb(13, 13, 13);
 }
 
 .login-subtext {
-  color: white;
+  color: rgb(0, 0, 0);
   font-size: 14px;
   text-align: center;
   margin-bottom: 20px;
@@ -81,7 +81,7 @@ html, body {
 .login-form button[type="submit"] {
   width: 100%;
   padding: 12px;
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   color: white;
   border: none;
   border-radius: 4px;
@@ -90,7 +90,7 @@ html, body {
 }
 
 .login-form button:hover {
-  background-color: #333;
+  background-color: #000000;
 }
 
 .social-login {

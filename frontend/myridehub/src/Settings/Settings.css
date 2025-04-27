@@ -85,7 +85,7 @@ body {
 .submit-btn {
   flex: 1 1 100%;
   padding: 14px;
-  background-color: #2563eb;
+  background-color: #f3f3f3;
   color: #080808;
   font-size: 16px;
   font-weight: 600;
@@ -97,14 +97,14 @@ body {
 }
 
 .submit-btn:hover {
-  background-color: #1d4ed8;
+  background-color: #ffffff;
 }
 
 /* Back button */
 .back-btn {
   display: inline-block;
   margin: 20px;
-  background-color: #e5e7eb;
+  background-color: #393939;
   color: #0f0f10;
   padding: 10px 18px;
   border: none;

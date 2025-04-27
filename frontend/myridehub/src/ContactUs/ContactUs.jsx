@@ -1,10 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './ContactUs.css';
 
 const ContactUs = () => {
+  const navigate = useNavigate(); // Initialize navigate function
+
+  const handleBackButtonClick = () => {
+    navigate('/'); // Navigate back to home
+  };
+
   return (
     <div className="contact-container">
       <div className="contact-header">
+        <button className="back-button" onClick={handleBackButtonClick}>Back to Home</button> {/* Back button */}
         <h1>CONTACT US</h1>
         <p>
           Have questions, concerns, or need assistance with our services? Our team is here to help!

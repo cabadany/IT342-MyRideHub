@@ -127,4 +127,22 @@ html, body {
   .contact-form form button:hover {
     background: #333;
   }
-  
+
+/* Styling for the back button */
+.back-button {
+  position: absolute;
+  top: 10px; /* Move the button higher */
+  left: 20px;
+  background-color: #444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.back-button:hover {
+  background-color: #333;
+}

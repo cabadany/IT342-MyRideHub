@@ -1,5 +1,3 @@
-// BookingPage.jsx
-
 import { useState, useRef, useEffect } from "react";
 import { LoadScript } from "@react-google-maps/api";
 import MapAutocomplete from "../Map/MapAutocomplete";
@@ -10,6 +8,17 @@ const GOOGLE_MAPS_API_KEY = "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo";
 const BASE_FARE = 20;
 const RATE_PER_KM = 10;
 
+const VEHICLES = {
+  motorcycles: [
+    { id: 1, name: "Honda CRF250", description: "Agility and adventure" },
+    { id: 2, name: "Yamaha R1", description: "Sporty and quick" }
+  ],
+  cars: [
+    { id: 1, name: "Toyota Camry", description: "Comfort and convenience" },
+    { id: 2, name: "Honda Civic", description: "Reliable and efficient" }
+  ]
+};
+
 const BookingPage = () => {
   const [bookingStep, setBookingStep] = useState(1);
   const [pickupLocation, setPickupLocation] = useState("");
@@ -18,9 +27,11 @@ const BookingPage = () => {
   const [totalPrice, setTotalPrice] = useState(null);
   const [distanceText, setDistanceText] = useState("");
   const [durationText, setDurationText] = useState("");
-
+  const [availableVehicles, setAvailableVehicles] = useState([]);
   const [showMapPicker, setShowMapPicker] = useState(false);
   const [selectingField, setSelectingField] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [rideStatus, setRideStatus] = useState("");
 
   const dropoffRef = useRef(null);
 
@@ -72,6 +83,29 @@ const BookingPage = () => {
         }
       }
     );
+  };
+
+  const handleVehicleSelection = (type) => {
+    setSelectedType(type);
+    setAvailableVehicles(VEHICLES[type.toLowerCase()]);
+    handleNextStep();
+  };
+
+  const handleConfirmBooking = () => {
+    setLoading(true);
+    setRideStatus("");
+
+    // Simulate an API call to find a driver
+    setTimeout(() => {
+      // Simulating a driver found (you can randomly set this in a real-world scenario)
+      const driverFound = Math.random() > 0.5; // Randomly decide if a driver is found
+      setLoading(false);
+      if (driverFound) {
+        setRideStatus("We have found you a ride!");
+      } else {
+        setRideStatus("Sorry, no drivers available at the moment.");
+      }
+    }, 3000); // Simulate a 3 second API call
   };
 
   return (
@@ -144,14 +178,14 @@ const BookingPage = () => {
                   <h2 className="booking-title">Select Vehicle Type</h2>
                 </div>
                 <div className="vehicle-options">
-                  <div className="vehicle-option" onClick={() => { setSelectedType("Motorcycle"); calculateFare(); }}>
+                  <div className="vehicle-option" onClick={() => handleVehicleSelection("Motorcycle")}>
                     <div className="vehicle-icon">🏍️</div>
                     <div className="vehicle-details">
                       <h3 className="vehicle-name">Motorcycle</h3>
                       <p className="vehicle-description">For agility and adventure</p>
                     </div>
                   </div>
-                  <div className="vehicle-option" onClick={() => { setSelectedType("Car"); calculateFare(); }}>
+                  <div className="vehicle-option" onClick={() => handleVehicleSelection("Car")}>
                     <div className="vehicle-icon">🚗</div>
                     <div className="vehicle-details">
                       <h3 className="vehicle-name">Car</h3>
@@ -179,21 +213,22 @@ const BookingPage = () => {
                     <p className="confirmation-value">{selectedType}</p>
                   </div>
                   <div className="confirmation-item">
-                  <p className="confirmation-label">Distance</p>
-                  <p className="confirmation-value">{distanceText}</p>
-                </div>
-                <div className="confirmation-item">
-                  <p className="confirmation-label">Estimated Duration</p>
-                  <p className="confirmation-value">{durationText}</p>
-                </div>
-                <div className="confirmation-item">
-                  <p className="confirmation-label">Total Fare</p>
+                    <p className="confirmation-label">Distance</p>
+                    <p className="confirmation-value">{distanceText}</p>
+                  </div>
+                  <div className="confirmation-item">
+                    <p className="confirmation-label">Estimated Duration</p>
+                    <p className="confirmation-value">{durationText}</p>
+                  </div>
+                  <div className="confirmation-item">
+                    <p className="confirmation-label">Total Fare</p>
                     <p className="confirmation-value">₱{totalPrice}</p>
                   </div>
                 </div>
-                <button className="confirm-btn" onClick={() => alert("Booking confirmed!")}>
-                  Confirm Booking
+                <button className="confirm-btn" onClick={handleConfirmBooking}>
+                  {loading ? "Loading..." : "Confirm Booking"}
                 </button>
+                {rideStatus && <p>{rideStatus}</p>}
               </div>
             )}
           </div>
@@ -202,9 +237,6 @@ const BookingPage = () => {
         {showMapPicker && (
           <div className="map-picker-modal full-overlay">
             <div className="map-modal-content">
-              <button onClick={() => setShowMapPicker(false)} style={{ backgroundColor: "#ccc", border: "none", padding: "10px", borderRadius: "4px", cursor: "pointer", marginBottom: "10px" }}>
-                ← Back
-              </button>
               <MapPicker onLocationSelect={handleLocationSelect} />
             </div>
           </div>

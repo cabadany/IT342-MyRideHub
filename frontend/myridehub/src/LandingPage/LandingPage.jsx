@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './LandingPage.css'; // Make sure to change the name of your CSS file as well
+import './LandingPage.css';
 import { Link } from "react-router-dom";
 
 export default function LandingPage() {
@@ -45,21 +45,21 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="landing-container">
+    <div className="dashboard-container">
       <nav className="navbar">
         <div className="logo">
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub Logo" />
         </div>
         <ul className="nav-links">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/booking">Book</Link></li>
-          <li><Link to="/rent">Rent</Link></li>
+          <li><Link to="">Home</Link></li>
+          <li><Link to="">Book</Link></li>
+          <li><Link to="">Rent</Link></li>
           <li><Link to="/about-us">About Us</Link></li>
-          <li><Link to="/settings" className="nav-link">Settings</Link></li>
+          <li><Link to="" className="nav-link">Settings</Link></li>
+        
 
-          {/* Login and Sign Up buttons */}
-          <li><Link to="/login" className="login-link">Login</Link></li>
-          <li><Link to="/signup" className="signup-link">Sign Up</Link></li>
+          <li><a href="/login" className="contact-link">Log In</a></li>
+          <li><a href="/signup" className="contact-link">Sign Up</a></li>
         </ul>
       </nav>
       
@@ -77,21 +77,22 @@ export default function LandingPage() {
 
       <section className="services">
         <div className="service">
-          <Link to="/booking"><h2>BOOK A RIDE</h2></Link>
+          <Link to=""><h2>BOOK A RIDE</h2></Link>
           <p>
             Rent a motorcycle for agility and adventure or a car for comfort and convenience—MyRideHub
             has the perfect ride for you!
           </p>
         </div>
         <div className="service">
-          <Link to="/rent"><h2>RENT A VEHICLE</h2></Link>
+          <Link to=""><h2>RENT A VEHICLE</h2></Link>
           <p>
             Rent a motorcycle for agility and adventure or a car for comfort and convenience—MyRideHub
             has the perfect ride for you!
           </p>
         </div>
-
       </section>
+
+    
     </div>
   );
 }
