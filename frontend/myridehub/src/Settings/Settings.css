@@ -85,8 +85,8 @@ body {
 .submit-btn {
   flex: 1 1 100%;
   padding: 14px;
-  background-color: #f3f3f3;
-  color: #080808;
+  background-color: #22c55e; /* nice green */
+  color: white;
   font-size: 16px;
   font-weight: 600;
   border: none;
@@ -97,7 +97,7 @@ body {
 }
 
 .submit-btn:hover {
-  background-color: #ffffff;
+  background-color: #16a34a; /* darker green pag hover */
 }
 
 /* Back button */
