@@ -43,48 +43,51 @@ export default function DashboardPage() {
           <li><button className="contact-btn">Contact Us</button></li>
         </ul>
       </nav>
- 
+
+      {/* Hero Section */}
       <section className="hero">
-        <div className="hero-text">
-          <h1>ENJOY YOUR RIDE HUB!</h1>
+    <h1>ENJOY YOUR RIDE HUB!</h1>
+
+        <div className="hero-description">
           <p>
             Ride Hub is a modern and convenient platform designed for both drivers and passengers.
             Whether you need a rental car for a trip or a quick ride around the city, Ride Hub connects
             you to reliable drivers and rental services with ease.
           </p>
-          <button className="learn-more-btn" onClick={toggleLearnMore}>
-            Learn More
-          </button>
- 
-          {/* Dropdown Section */}
-          {isLearnMoreVisible && (
-            <>
-              <div className="learn-more-cards">
-                <div className="learn-more-card">
-                  <img src="/parkinglot.jpg" alt="Wide Vehicle Options" />
-                  <h3>Wide Vehicle Options</h3>
-                  <p>Choose from motorcycles, cars, and more!</p>
-                </div>
-                <div className="learn-more-card">
-                  <img src="/customersupport.jpg" alt="24/7 Customer Support" />
-                  <h3>24/7 Customer Support</h3>
-                  <p>Our support team is available anytime, anywhere.</p>
-                </div>
-                <div className="learn-more-card">
-                  <img src="/affordable-rates.png" alt="Affordable Rates" />
-                  <h3>Affordable Rates</h3>
-                  <p>Great quality rides at affordable prices.</p>
-                </div>
-              </div>
-
-              {/* Testimonials after Learn More cards */}
-              <Testimonials />
-            </>
-          )}
         </div>
+
+        <button className="learn-more-btn" onClick={toggleLearnMore}>
+          Learn More
+        </button>
+
+        {/* Dropdown Section */}
+        {isLearnMoreVisible && (
+          <>
+            <div className="learn-more-cards">
+              <div className="learn-more-card">
+                <img src="/parkinglot.jpg" alt="Wide Vehicle Options" />
+                <h3>Wide Vehicle Options</h3>
+                <p>Choose from motorcycles, cars, and more!</p>
+              </div>
+              <div className="learn-more-card">
+                <img src="/customersupport.jpg" alt="24/7 Customer Support" />
+                <h3>24/7 Customer Support</h3>
+                <p>Our support team is available anytime, anywhere.</p>
+              </div>
+              <div className="learn-more-card">
+                <img src="/affordable-rates.png" alt="Affordable Rates" />
+                <h3>Affordable Rates</h3>
+                <p>Great quality rides at affordable prices.</p>
+              </div>
+            </div>
+
+            {/* Testimonials after Learn More cards */}
+            <Testimonials />
+          </>
+        )}
       </section>
- 
-      {/* Hide services if Learn More is open */}
+
+      {/* Services Section */}
       {areServicesVisible && (
         <section className="services">
           <div className="service">
@@ -97,10 +100,6 @@ export default function DashboardPage() {
           </div>
         </section>
       )}
-
- 
-      {/* If you have a FeedbackForm component, you can add it here */}
-      {/* {isFeedbackVisible && <FeedbackForm />} */}
     </div>
   );
 }
