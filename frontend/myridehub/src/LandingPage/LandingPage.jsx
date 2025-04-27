@@ -35,7 +35,7 @@ export default function LandingPage() {
     navigate('/feedback');  // Navigate to the Feedback Form page
   };
 
-  // Navigation for history
+
   const handleGoToBookingHistory = () => {
     navigate('/booking-history');
   };
@@ -56,6 +56,7 @@ export default function LandingPage() {
           <li><Link to="">Rent</Link></li>
           <li><Link to="/about-us">About Us</Link></li>
           <li><Link to="" className="nav-link">Settings</Link></li>
+          <li><Link to="/contact-us">Contact Us</Link></li>
           
         
 
