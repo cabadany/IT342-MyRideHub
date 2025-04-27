@@ -1,49 +1,33 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import './DashboardPage.css';
-import { Link } from "react-router-dom";
-
+import Testimonials from './Testimonials'; // Import Testimonials component
+ 
 export default function DashboardPage() {
   const [feedbackList, setFeedbackList] = useState([]);
   const navigate = useNavigate();
-  
-  // State for controlling feedback dropdown visibility
+ 
   const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
-  
-  // State for controlling history dropdown visibility
-  const [isHistoryDropdownOpen, setIsHistoryDropdownOpen] = useState(false);
-
+  const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
+  const [areServicesVisible, setAreServicesVisible] = useState(true);
+ 
   const toggleFeedback = () => {
     setIsFeedbackVisible(!isFeedbackVisible);
   };
-
-  const toggleHistoryDropdown = () => {
-    setIsHistoryDropdownOpen(!isHistoryDropdownOpen);
+ 
+  const toggleLearnMore = () => {
+    setIsLearnMoreVisible(!isLearnMoreVisible);
+    setAreServicesVisible(!areServicesVisible);
   };
-
-  // Function to handle "Learn More" button click to navigate to Testimonials
-  const handleLearnMoreClick = () => {
-    navigate('/testimonials'); // Navigate to testimonials page
-  };
-
+ 
   const handleFeedbackSubmit = (feedback) => {
     setFeedbackList([...feedbackList, feedback]);
   };
-
-  // Function to handle feedback button click and navigate to Feedback Form page
+ 
   const handleFeedbackClick = () => {
-    navigate('/feedback');  // Navigate to the Feedback Form page
+    toggleFeedback();
   };
-
-  // Navigation for history
-  const handleGoToBookingHistory = () => {
-    navigate('/booking-history');
-  };
-
-  const handleGoToRentHistory = () => {
-    navigate('/rent-history');
-  };
-
+ 
   return (
     <div className="dashboard-container">
       <nav className="navbar">
@@ -51,28 +35,15 @@ export default function DashboardPage() {
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub Logo" />
         </div>
         <ul className="nav-links">
-          <li><Link to="/">Home</Link></li>
+          <li><Link to="/dashboard">Home</Link></li>
           <li><Link to="/booking">Book</Link></li>
           <li><Link to="/rent">Rent</Link></li>
           <li><Link to="/about-us">About Us</Link></li>
-          <li><Link to="/settings" className="nav-link">Settings</Link></li>
-         
-
-          {/* Dropdown for History */}
-          <li className="dropdown">
-            <a href="#" className="dropdown-link" onClick={toggleHistoryDropdown}>History</a>
-            {isHistoryDropdownOpen && (
-              <ul className="dropdown-menu">
-                <li><Link to="/booking-history">Booking History</Link></li>
-                <li><Link to="/rent-history">Rent History</Link></li>
-              </ul>
-            )}
-          </li>
-
+          <li><Link to="/settings">Settings</Link></li>
           <li><button className="contact-btn">Contact Us</button></li>
         </ul>
       </nav>
-      
+ 
       <section className="hero">
         <div className="hero-text">
           <h1>ENJOY YOUR RIDE HUB!</h1>
@@ -81,32 +52,55 @@ export default function DashboardPage() {
             Whether you need a rental car for a trip or a quick ride around the city, Ride Hub connects
             you to reliable drivers and rental services with ease.
           </p>
-          <button className="learn-more-btn" onClick={handleLearnMoreClick}>Learn More</button>
+          <button className="learn-more-btn" onClick={toggleLearnMore}>
+            Learn More
+          </button>
+ 
+          {/* Dropdown Section */}
+          {isLearnMoreVisible && (
+            <>
+              <div className="learn-more-cards">
+                <div className="learn-more-card">
+                  <img src="/parkinglot.jpg" alt="Wide Vehicle Options" />
+                  <h3>Wide Vehicle Options</h3>
+                  <p>Choose from motorcycles, cars, and more!</p>
+                </div>
+                <div className="learn-more-card">
+                  <img src="/customersupport.jpg" alt="24/7 Customer Support" />
+                  <h3>24/7 Customer Support</h3>
+                  <p>Our support team is available anytime, anywhere.</p>
+                </div>
+                <div className="learn-more-card">
+                  <img src="/affordable-rates.png" alt="Affordable Rates" />
+                  <h3>Affordable Rates</h3>
+                  <p>Great quality rides at affordable prices.</p>
+                </div>
+              </div>
+
+              {/* Testimonials after Learn More cards */}
+              <Testimonials />
+            </>
+          )}
         </div>
       </section>
+ 
+      {/* Hide services if Learn More is open */}
+      {areServicesVisible && (
+        <section className="services">
+          <div className="service">
+            <Link to="/booking"><h2>BOOK A RIDE</h2></Link>
+            <p>Rent a motorcycle for agility and adventure or a car for comfort and convenience—MyRideHub has the perfect ride for you!</p>
+          </div>
+          <div className="service">
+            <Link to="/rent"><h2>RENT A VEHICLE</h2></Link>
+            <p>Rent a motorcycle for agility and adventure or a car for comfort and convenience—MyRideHub has the perfect ride for you!</p>
+          </div>
+        </section>
+      )}
 
-      <section className="services">
-        <div className="service">
-          <Link to="/booking"><h2>BOOK A RIDE</h2></Link>
-          <p>
-            Rent a motorcycle for agility and adventure or a car for comfort and convenience—MyRideHub
-            has the perfect ride for you!
-          </p>
-        </div>
-        <div className="service">
-          <Link to="/rent"><h2>RENT A VEHICLE</h2></Link>
-          <p>
-            Rent a motorcycle for agility and adventure or a car for comfort and convenience—MyRideHub
-            has the perfect ride for you!
-          </p>
-        </div>
-      </section>
-
-      <button className="send-feedback-btn" onClick={handleFeedbackClick}>
-        Send Feedback
-      </button>
-
-      {isFeedbackVisible && <FeedbackForm />}
+ 
+      {/* If you have a FeedbackForm component, you can add it here */}
+      {/* {isFeedbackVisible && <FeedbackForm />} */}
     </div>
   );
 }
