@@ -27,6 +27,7 @@ import AboutUsPage from './AboutUsPage';
 import RentHistory from './History/RentHistory';
 import BookingHistory from './History/BookingHistory';
 import LandingPage from './LandingPage/LandingPage';  
+import ResetPassword from './ResetPassword/ResetPassword';  
 
 
 
@@ -61,6 +62,7 @@ export default function App() {
         <Route path="/rent-history" element={<RentHistory />} /> 
         <Route path="/booking-history" element={<BookingHistory />} />  
         <Route path="/" element={<LandingPage />} /> 
+        <Route path="/reset-password" element={<ResetPassword />} />  
 
 
         {/* Add other routes here */} 

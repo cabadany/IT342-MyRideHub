@@ -53,17 +53,17 @@ export default function LoginPage() {
               required
             />
 
-            <div className="form-options">
-              <label className="remember-me">
-                <input
-                  type="checkbox"
-                  name="rememberMe"
-                  onChange={handleChange}
-                />
-                Remember Me
-              </label>
-              <a href="#" className="forgot-password">Forgot Password?</a>
-            </div>
+<div className="form-options">
+  <label className="remember-me">
+    <input
+      type="checkbox"
+      name="rememberMe"
+      onChange={handleChange}
+    />
+    Remember Me
+  </label>
+  <Link to="/reset-password" className="forgot-password">Forgot Password?</Link>
+</div>
 
             <button type="submit">Log In</button>
 
