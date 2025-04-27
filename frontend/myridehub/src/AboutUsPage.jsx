@@ -11,7 +11,7 @@ const AboutUsPage = () => {
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub Logo" />
         </div>
         <ul className="nav-links">
-          <li><Link to="/">Home</Link></li>
+          <li><Link to="/dashboard">Home</Link></li>
           <li><Link to="/booking">Book</Link></li>
           <li><Link to="/rent">Rent</Link></li>
           <li><Link to="/about-us" className="active">About Us</Link></li>

@@ -37,7 +37,7 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/" element={<DashboardPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/rent" element={<RentVehiclePage />} />
@@ -60,7 +60,7 @@ export default function App() {
         <Route path="/about-us" element={<AboutUsPage />} /> 
         <Route path="/rent-history" element={<RentHistory />} /> 
         <Route path="/booking-history" element={<BookingHistory />} />  
-        <Route path="/landing" element={<LandingPage />} /> 
+        <Route path="/" element={<LandingPage />} /> 
 
 
         {/* Add other routes here */} 
