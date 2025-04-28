@@ -66,7 +66,7 @@ const CarDetail = () => {
               alt={vehicle.model}
               className="vehicle-image"
             />
-            <button className="btn-light" onClick={() => navigate('/rentnow', { state: { vehicle } })}>
+            <button className="btn-light" onClick={() => navigate('/rent/rent-now', { state: { vehicle } })}>
               Rent Now
             </button>
           </div>

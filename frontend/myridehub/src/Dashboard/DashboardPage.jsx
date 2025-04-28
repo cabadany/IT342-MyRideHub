@@ -2,32 +2,37 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import './DashboardPage.css';
 import Testimonials from './Testimonials'; // Import Testimonials component
- 
+
 export default function DashboardPage() {
   const [feedbackList, setFeedbackList] = useState([]);
   const navigate = useNavigate();
- 
+
   const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
   const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
   const [areServicesVisible, setAreServicesVisible] = useState(true);
- 
+  const [isHistoryDropdownOpen, setIsHistoryDropdownOpen] = useState(false); // <<== ADD THIS
+
   const toggleFeedback = () => {
     setIsFeedbackVisible(!isFeedbackVisible);
   };
- 
+
   const toggleLearnMore = () => {
     setIsLearnMoreVisible(!isLearnMoreVisible);
     setAreServicesVisible(!areServicesVisible);
   };
- 
+
+  const toggleHistoryDropdown = () => {
+    setIsHistoryDropdownOpen(!isHistoryDropdownOpen);
+  };
+
   const handleFeedbackSubmit = (feedback) => {
     setFeedbackList([...feedbackList, feedback]);
   };
- 
+
   const handleFeedbackClick = () => {
     toggleFeedback();
   };
- 
+
   return (
     <div className="dashboard-container">
       <nav className="navbar">
@@ -39,6 +44,18 @@ export default function DashboardPage() {
           <li><Link to="/booking">Book</Link></li>
           <li><Link to="/rent">Rent</Link></li>
           <li><Link to="/about-us">About Us</Link></li>
+
+          {/* New History Dropdown */}
+          <li className="history-dropdown" onClick={toggleHistoryDropdown}>
+            <span>History ▾</span>
+            {isHistoryDropdownOpen && (
+              <ul className="dropdown-menu">
+                <li><Link to="/rent-history">Rent History</Link></li>
+                <li><Link to="/booking-history">Booking History</Link></li>
+              </ul>
+            )}
+          </li>
+
           <li><Link to="/settings">Settings</Link></li>
           <li><button className="contact-btn">Contact Us</button></li>
         </ul>
@@ -46,7 +63,7 @@ export default function DashboardPage() {
 
       {/* Hero Section */}
       <section className="hero">
-    <h1>ENJOY YOUR RIDE HUB!</h1>
+        <h1>ENJOY YOUR RIDE HUB!</h1>
 
         <div className="hero-description">
           <p>

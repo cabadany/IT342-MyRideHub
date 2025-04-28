@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './RentHistory.css';
+import './HistoryPage.css'; // Shared CSS file
 
 const RentHistory = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate('/');
+    navigate('/dashboard');
   };
 
-  const [rentHistory, setRentHistory] = useState([
+  const [rentHistory] = useState([
     {
       vehicle: "Toyota Corolla",
       date: "2023-06-15",
@@ -31,10 +31,10 @@ const RentHistory = () => {
   ]);
 
   return (
-    <div className="rent-history-container">
+    <div className="history-container">
       <h1>Your Rent History</h1>
       <button onClick={handleBack}>Back to Home</button>
-      <div className="rent-history-table">
+      <div className="history-table">
         <table>
           <thead>
             <tr>

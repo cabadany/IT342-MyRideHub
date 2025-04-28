@@ -1,55 +1,62 @@
-import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import './Rent/ReservationPage.css';
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./PaymentPage.css";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { state } = useLocation();
+  const { paymentDetails } = state || {};
 
-  // Car and reservation details passed from previous page
-  const vehicle = location.state?.vehicle || {
-    model: 'Toyota Fortuner',
-    amount: '₱6,027.92',
-    rentalPeriod: 'April 20 - April 22',
-    pickupLocation: 'Downtown Branch'
-  };
+  const [paymentMethod, setPaymentMethod] = useState("Card"); 
 
-  const handlePayment = (method) => {
-    const transactionId = 'TXN' + Math.floor(Math.random() * 1000000000); // Mock ID
-    navigate('/confirmation', {
+  const handlePayNow = () => {
+    navigate("/rent/confirmation", {
       state: {
-        transactionId,
-        amountPaid: vehicle.amount,
-        model: vehicle.model,
-        rentalPeriod: vehicle.rentalPeriod,
-        pickupLocation: vehicle.pickupLocation
-      }
+        ...paymentDetails,
+        paymentSuccess: true,
+        paymentMethod: paymentMethod, 
+      },
     });
   };
 
+  if (!paymentDetails) {
+    return <p style={{ textAlign: "center", color: "white" }}>No Payment Details Found</p>;
+  }
+
   return (
     <div className="reservation-container">
-      <header className="reservation-header">
-        <img src="/Ride Hub Logo (Dark).png" alt="Logo" style={{ height: '40px' }} />
-        <h2 style={{ flex: 1, textAlign: 'center' }}>Select Payment Method</h2>
-        <button className="contact-button" onClick={() => navigate(-1)}>Back</button>
-      </header>
+      {/* Header area kung meron ka. Pwede mong ilagay dito */}
 
-      <main className="confirmation-box">
-        <p style={{ fontSize: '1.1rem', marginBottom: '1.5rem' }}>
-          You’re about to pay <strong>{vehicle.amount}</strong> for <strong>{vehicle.model}</strong>.
-        </p>
+      <div className="main-content">
+        <div className="payment-page">
+          <h1>Choose Payment Method</h1>
 
-        <div className="box" style={{ cursor: 'pointer' }} onClick={() => handlePayment('Credit Card')}>
-          💳 Credit/Debit Card
+          <div className="payment-method-buttons">
+            <button
+              className={paymentMethod === "Card" ? "active-button" : "inactive-button"}
+              onClick={() => setPaymentMethod("Card")}
+            >
+              Credit/Debit Card
+            </button>
+            <button
+              className={paymentMethod === "GCash" ? "active-button" : "inactive-button"}
+              onClick={() => setPaymentMethod("GCash")}
+            >
+              GCash
+            </button>
+          </div>
+
+          <div className="payment-info">
+            <p><strong>Vehicle:</strong> {paymentDetails.vehicle?.brand} {paymentDetails.vehicle?.model}</p>
+            <p><strong>Total Amount:</strong> ₱{paymentDetails.total?.toLocaleString()}</p>
+            <p><strong>Selected Payment:</strong> {paymentMethod}</p>
+          </div>
+
+          <button className="pay-now-button" onClick={handlePayNow}>
+            PAY NOW
+          </button>
         </div>
-        <div className="box" style={{ cursor: 'pointer' }} onClick={() => handlePayment('PayPal')}>
-          🅿️ PayPal
-        </div>
-        <div className="box" style={{ cursor: 'pointer' }} onClick={() => handlePayment('Gcash')}>
-          💸 GCash
-        </div>
-      </main>
+      </div>
     </div>
   );
 };

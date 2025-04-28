@@ -34,27 +34,29 @@ const ReservationPage = () => {
       return;
     }
 
-    navigate("/rent/confirmation", {
+    // Navigate to PaymentPage first
+    navigate("/rent/payment", {
       state: {
-        vehicle,
-        pickUpDate,
-        pickUpTime,
-        returnDate,
-        returnTime,
-        total,
-        isDriverSelected,
-        customerInfo: form,
-      },
+        fromReservation: true,
+        paymentDetails: {
+          vehicle,
+          pickUpDate,
+          pickUpTime,
+          returnDate,
+          returnTime,
+          total,
+          isDriverSelected,
+          customerInfo: form,
+        },
+      }
     });
   };
 
   return (
     <div className="reservation-container">
-      {/* Back Button */}
       <button className="back-button" onClick={() => navigate(-1)}>← Back</button>
 
       <main className="reservation-main">
-        {/* Left Section */}
         <div className="left-section">
           <div className="box">
             <h3>Booking Details</h3>
@@ -81,14 +83,12 @@ const ReservationPage = () => {
           </div>
         </div>
 
-        {/* Center Section */}
         <div className="center-section">
           <img src={vehicle?.imageUrl} alt={`${vehicle?.brand} ${vehicle?.model}`} />
           <h2>{vehicle?.brand} {vehicle?.model}</h2>
           <p>Rental Price: ₱ {vehicle?.pricePerDay?.toLocaleString()}/ Day</p>
         </div>
 
-        {/* Right Section */}
         <div className="right-section">
           <div className="box">
             <h3>Customer Details</h3>

@@ -1,66 +1,97 @@
-/* Payment Page Styles (shared layout) */
+/* Main Container */
 .reservation-container {
-  background-color: #121212;
+  background-color: #101010;
   color: white;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
-}
-
-/* Header */
-.reservation-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+}
+
+/* Center Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  padding: 1.5rem 3rem;
-  background-color: #1c1c1c;
+  padding: 2rem;
 }
 
-.contact-button {
-  background: #2b2b2b;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
-
-.contact-button:hover {
-  background-color: #3a3a3a;
-}
-
-/* Payment Box */
-.confirmation-box {
-  padding: 3rem;
+/* Payment Page */
+.payment-page {
+  background-color: #1f1f1f;
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+  max-width: 500px;
+  width: 100%;
   text-align: center;
-  background-color: #f2f2f2;
-  color: #222;
-  max-width: 600px;
-  margin: 4rem auto;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
-.confirmation-box p {
-  font-size: 1rem;
-  margin-bottom: 2rem;
+/* Header inside box */
+.payment-page h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
 }
 
 /* Payment Method Buttons */
-.box {
-  background-color: white;
-  color: black;
-  padding: 1rem 2rem;
-  margin-bottom: 1rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.payment-method-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.box:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-  background-color: #eaeaea;
+.payment-method-buttons button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.inactive-button {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+.active-button {
+  background-color: white;
+  color: black;
+}
+
+/* Payment Info */
+.payment-info {
+  background-color: #181818;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.payment-info p {
+  margin-bottom: 0.5rem;
+}
+
+/* Pay Now Button */
+.pay-now-button {
+  padding: 0.8rem 2.5rem;
+  background: linear-gradient(135deg, #636363, #e7e7e7);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.pay-now-button:hover {
+  background: linear-gradient(135deg, #8f8f8f, #0e0f0f);
+  transform: scale(1.05);
 }

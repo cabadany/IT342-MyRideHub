@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './BookingHistory.css';
+import './HistoryPage.css'; // Shared CSS file
 
 const BookingHistory = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate('/');
+    navigate('/dashboard');
   };
 
-  const [bookingHistory, setBookingHistory] = useState([
+  const [bookingHistory] = useState([
     {
       bookingId: "B12345",
       vehicle: "Honda Accord",
@@ -34,10 +34,10 @@ const BookingHistory = () => {
   ]);
 
   return (
-    <div className="booking-history-container">
+    <div className="history-container">
       <h1>Your Booking History</h1>
       <button onClick={handleBack}>Back to Home</button>
-      <div className="booking-history-table">
+      <div className="history-table">
         <table>
           <thead>
             <tr>

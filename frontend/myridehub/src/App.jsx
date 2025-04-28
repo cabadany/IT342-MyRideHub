@@ -9,7 +9,7 @@ import BookingPage from './Booking/BookingPage';
 import CarDetail from './Rent/CarDetail';
 import RentNow from './Rent/RentNow';
 import ReservationPage from './Rent/ReservationPage';
-import PaymentPage from './Rent/Payment';
+import PaymentPage from './Payment/PaymentPage';
 import SettingsPage from './Settings/Settings';
 import AdminLogin from './Admin/AdminLogin';  
 import AdminPanel from './Admin/AdminPanel';
@@ -29,6 +29,7 @@ import BookingHistory from './History/BookingHistory';
 import LandingPage from './LandingPage/LandingPage';  
 import ResetPassword from './ResetPassword/ResetPassword';  
 import ConfirmationPage from './Rent/ConfirmationPage';
+
 
 
 
@@ -65,6 +66,7 @@ export default function App() {
         <Route path="/" element={<LandingPage />} /> 
         <Route path="/reset-password" element={<ResetPassword />} />  
         <Route path="/rent/confirmation" element={<ConfirmationPage />} />
+       
 
         {/* Add other routes here */} 
  

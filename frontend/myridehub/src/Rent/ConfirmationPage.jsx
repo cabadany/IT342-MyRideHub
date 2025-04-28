@@ -13,7 +13,10 @@ const ConfirmationPage = () => {
     returnTime,
     total,
     isDriverSelected,
-    customerInfo
+    customerInfo,
+    paymentMethod,        // <=== ADD THIS
+    gcashNumber,          // <=== ADD THIS
+    gcashName             // <=== ADD THIS
   } = state || {};
 
   if (!state) {
@@ -53,6 +56,18 @@ const ConfirmationPage = () => {
           <p><strong>Model:</strong> {vehicle?.brand} {vehicle?.model}</p>
           <p><strong>Engine:</strong> {vehicle?.engine}</p>
           <p><strong>Seats:</strong> {vehicle?.seats}</p>
+        </div>
+
+        {/* Payment Section */}
+        <div className="confirmation-section">
+          <h2>Payment Details</h2>
+          <p><strong>Payment Method:</strong> {paymentMethod}</p>
+          {paymentMethod === "GCash" && (
+            <>
+              <p><strong>GCash Mobile Number:</strong> {gcashNumber}</p>
+              <p><strong>Account Holder Name:</strong> {gcashName}</p>
+            </>
+          )}
         </div>
       </div>
 
