@@ -42,5 +42,9 @@
         <activity android:name=".AboutUsActivity" android:exported="false" />
         <activity android:name=".MyOrderActivity" android:exported="false" />
 
+        <activity android:name=".SelectVehicleTypeActivity" android:exported="false" />
+        <activity android:name=".BookingSummaryActivity" android:exported="false" />
+        <activity android:name=".BookingSuccessActivity" android:exported="false" />
+
     </application>
 </manifest>

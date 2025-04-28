@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -19,10 +18,10 @@ class BookRideActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
-    private lateinit var confirmButton: Button
 
     private var pickupLocation: LatLng? = null
     private var dropOffLocation: LatLng? = null
+    private var isPickupSelected = false
 
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
 
@@ -31,24 +30,9 @@ class BookRideActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_book_ride)
 
         mapView = findViewById(R.id.mapView)
-        confirmButton = findViewById(R.id.confirmButton)
 
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
-
-        confirmButton.setOnClickListener {
-            if (pickupLocation != null && dropOffLocation != null) {
-                // Proceed to Step 2: Select Vehicle Type
-                val intent = Intent(this, SelectVehicleTypeActivity::class.java)
-                intent.putExtra("pickup_lat", pickupLocation!!.latitude)
-                intent.putExtra("pickup_lng", pickupLocation!!.longitude)
-                intent.putExtra("dropoff_lat", dropOffLocation!!.latitude)
-                intent.putExtra("dropoff_lng", dropOffLocation!!.longitude)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Please select both pickup and drop-off locations!", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -71,8 +55,6 @@ class BookRideActivity : AppCompatActivity(), OnMapReadyCallback {
         val defaultLocation = LatLng(14.5995, 120.9842) // Manila
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 12f))
 
-        var isPickupSelected = false
-
         googleMap.setOnMapClickListener { latLng ->
             if (!isPickupSelected) {
                 pickupLocation = latLng
@@ -83,7 +65,19 @@ class BookRideActivity : AppCompatActivity(), OnMapReadyCallback {
             } else {
                 dropOffLocation = latLng
                 googleMap.addMarker(MarkerOptions().position(latLng).title("Drop-off Location"))
-                Toast.makeText(this, "Drop-off set!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Drop-off set! Redirecting...", Toast.LENGTH_SHORT).show()
+
+                if (pickupLocation != null && dropOffLocation != null) {
+                    val intent = Intent(this, SelectVehicleTypeActivity::class.java)
+                    intent.putExtra("pickupLat", pickupLocation!!.latitude)
+                    intent.putExtra("pickupLng", pickupLocation!!.longitude)
+                    intent.putExtra("dropoffLat", dropOffLocation!!.latitude)
+                    intent.putExtra("dropoffLng", dropOffLocation!!.longitude)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(this, "Please select both pickup and drop-off!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -114,7 +108,9 @@ class BookRideActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                googleMap.isMyLocationEnabled = true
+                if (::googleMap.isInitialized) {
+                    googleMap.isMyLocationEnabled = true
+                }
             } else {
                 Toast.makeText(this, "Permission denied to access location", Toast.LENGTH_SHORT).show()
             }

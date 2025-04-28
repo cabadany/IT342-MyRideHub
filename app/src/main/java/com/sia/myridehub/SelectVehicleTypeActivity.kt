@@ -19,7 +19,6 @@ class SelectVehicleTypeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_vehicle_type)
 
-        // Get pickup and dropoff locations from previous activity
         pickupLat = intent.getDoubleExtra("pickupLat", 0.0)
         pickupLng = intent.getDoubleExtra("pickupLng", 0.0)
         dropoffLat = intent.getDoubleExtra("dropoffLat", 0.0)
@@ -45,5 +44,6 @@ class SelectVehicleTypeActivity : AppCompatActivity() {
         intent.putExtra("dropoffLng", dropoffLng)
         intent.putExtra("vehicleType", vehicleType)
         startActivity(intent)
+        finish()
     }
 }

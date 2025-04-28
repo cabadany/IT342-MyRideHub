@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#100F0F"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp">
+
+    <!-- Success Message -->
+    <TextView
+        android:id="@+id/txtSuccess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Booking Successful! 🎉"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- Go Home Button -->
+    <Button
+        android:id="@+id/btnGoHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back to Home"
+        android:textAllCaps="false"
+        android:background="@drawable/button_black"
+        android:textColor="@android:color/white"
+        android:paddingVertical="14dp"/>
+</LinearLayout>
