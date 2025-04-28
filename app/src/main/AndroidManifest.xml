@@ -46,5 +46,10 @@
         <activity android:name=".BookingSummaryActivity" android:exported="false" />
         <activity android:name=".BookingSuccessActivity" android:exported="false" />
 
+        <activity android:name=".RentFormActivity" android:exported="false" />
+        <activity android:name=".BookingDetailsActivity" android:exported="false" />
+
+        <activity android:name=".PaymentActivity" android:exported="false" />
+
     </application>
 </manifest>

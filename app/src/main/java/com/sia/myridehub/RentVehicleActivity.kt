@@ -17,7 +17,6 @@ class RentVehicleActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var menuButton: ImageButton
-    private lateinit var closeMenuButton: ImageButton
 
     private lateinit var fourWheelsToggle: TextView
     private lateinit var twoWheelsToggle: TextView
@@ -49,14 +48,12 @@ class RentVehicleActivity : AppCompatActivity() {
         initViews()
         initFirebase()
         loadVehicles()
-        setupNavigationItems()
     }
 
     private fun initViews() {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
         menuButton = findViewById(R.id.menuButton)
-        closeMenuButton = findViewById(R.id.closeMenuButton)
 
         fourWheelsToggle = findViewById(R.id.fourWheelsToggle)
         twoWheelsToggle = findViewById(R.id.twoWheelsToggle)
@@ -76,7 +73,6 @@ class RentVehicleActivity : AppCompatActivity() {
         fuelType = findViewById(R.id.fuel)
 
         menuButton.setOnClickListener { drawerLayout.openDrawer(Gravity.RIGHT) }
-        closeMenuButton.setOnClickListener { drawerLayout.closeDrawer(Gravity.RIGHT) }
 
         fourWheelsToggle.setOnClickListener { toggleCategory("4 Wheels") }
         twoWheelsToggle.setOnClickListener { toggleCategory("2 Wheels") }
@@ -105,12 +101,14 @@ class RentVehicleActivity : AppCompatActivity() {
 
     private fun loadVehicles() {
         showLoading(true)
-        database.addValueEventListener(object : ValueEventListener {
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 vehicleList.clear()
-                for (vehicleSnapshot in snapshot.children) {
-                    val vehicle = vehicleSnapshot.getValue(Vehicle::class.java)
-                    vehicle?.let { vehicleList.add(it) }
+                if (snapshot.exists()) {
+                    for (vehicleSnapshot in snapshot.children) {
+                        val vehicle = vehicleSnapshot.getValue(Vehicle::class.java)
+                        vehicle?.let { vehicleList.add(it) }
+                    }
                 }
                 showLoading(false)
                 if (vehicleList.isNotEmpty()) {
@@ -153,13 +151,13 @@ class RentVehicleActivity : AppCompatActivity() {
     private fun showCurrentVehicle() {
         if (filteredList.isNotEmpty()) {
             val vehicle = filteredList[currentVehicleIndex]
-            vehicleName.text = vehicle.model
-            rentPrice.text = "₱${vehicle.pricePerDay}/day"
-            seats.text = "Seats: ${vehicle.seats}"
-            engine.text = "Engine: ${vehicle.engine}"
-            color.text = "Color: ${vehicle.color}"
-            transmission.text = "Transmission: ${vehicle.transmission}"
-            fuelType.text = "Fuel: ${vehicle.fuelType}"
+            vehicleName.text = vehicle.model ?: "Unknown"
+            rentPrice.text = "₱${vehicle.pricePerDay ?: 0}/day"
+            seats.text = "Seats: ${vehicle.seats ?: "-"}"
+            engine.text = "Engine: ${vehicle.engine ?: "-"}"
+            color.text = "Color: ${vehicle.color ?: "-"}"
+            transmission.text = "Transmission: ${vehicle.transmission ?: "-"}"
+            fuelType.text = "Fuel: ${vehicle.fuelType ?: "-"}"
 
             Glide.with(this)
                 .load(vehicle.imageUrl)
@@ -196,33 +194,6 @@ class RentVehicleActivity : AppCompatActivity() {
     private fun showLoading(isLoading: Boolean) {
         progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         rentNowButton.isEnabled = !isLoading
-    }
-
-    private fun setupNavigationItems() {
-        navigationView.findViewById<LinearLayout>(R.id.dashboardItem)?.setOnClickListener {
-            navigateTo(MainActivity::class.java)
-        }
-        navigationView.findViewById<LinearLayout>(R.id.myOrderItem)?.setOnClickListener {
-            navigateTo(MyOrderActivity::class.java)
-        }
-        navigationView.findViewById<LinearLayout>(R.id.myProfileItem)?.setOnClickListener {
-            navigateTo(ProfileActivity::class.java)
-        }
-        navigationView.findViewById<LinearLayout>(R.id.aboutUsItem)?.setOnClickListener {
-            navigateTo(AboutUsActivity::class.java)
-        }
-        navigationView.findViewById<LinearLayout>(R.id.contactUsItem)?.setOnClickListener {
-            navigateTo(ContactUsActivity::class.java)
-        }
-        navigationView.findViewById<LinearLayout>(R.id.logOutItem)?.setOnClickListener {
-            navigateTo(LoginActivity::class.java)
-        }
-    }
-
-    private fun navigateTo(destination: Class<*>) {
-        startActivity(Intent(this, destination))
-        drawerLayout.closeDrawer(Gravity.RIGHT)
-        finish()
     }
 
     override fun onBackPressed() {
