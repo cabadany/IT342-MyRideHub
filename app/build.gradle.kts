@@ -49,6 +49,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:17.0.1")
     implementation("com.google.android.gms:play-services-location:17.0.0")
 
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+
     // AndroidX and Material Design
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
