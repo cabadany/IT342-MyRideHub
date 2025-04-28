@@ -19,31 +19,30 @@ class SelectVehicleTypeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_vehicle_type)
 
+        motorcycleButton = findViewById(R.id.motorcycleButton)
+        carButton = findViewById(R.id.carButton)
+
         pickupLat = intent.getDoubleExtra("pickupLat", 0.0)
         pickupLng = intent.getDoubleExtra("pickupLng", 0.0)
         dropoffLat = intent.getDoubleExtra("dropoffLat", 0.0)
         dropoffLng = intent.getDoubleExtra("dropoffLng", 0.0)
 
-        motorcycleButton = findViewById(R.id.motorcycleButton)
-        carButton = findViewById(R.id.carButton)
-
         motorcycleButton.setOnClickListener {
-            goToBookingSummary("Motorcycle")
+            proceedToBookingSummary("Motorcycle")
         }
 
         carButton.setOnClickListener {
-            goToBookingSummary("Car")
+            proceedToBookingSummary("Car")
         }
     }
 
-    private fun goToBookingSummary(vehicleType: String) {
+    private fun proceedToBookingSummary(vehicleType: String) {
         val intent = Intent(this, BookingSummaryActivity::class.java)
         intent.putExtra("pickupLat", pickupLat)
         intent.putExtra("pickupLng", pickupLng)
         intent.putExtra("dropoffLat", dropoffLat)
         intent.putExtra("dropoffLng", dropoffLng)
-        intent.putExtra("vehicleType", vehicleType)
+        intent.putExtra("vehicleType", vehicleType) // Pass vehicle type too
         startActivity(intent)
-        finish()
     }
 }

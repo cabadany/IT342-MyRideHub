@@ -1,12 +1,16 @@
 package com.sia.myridehub
 
 import android.content.Intent
+import android.location.Geocoder
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.database.FirebaseDatabase
+import com.sia.myridehub.model.Booking
+import java.util.*
 import kotlin.math.*
 
 class BookingSummaryActivity : AppCompatActivity() {
@@ -23,6 +27,10 @@ class BookingSummaryActivity : AppCompatActivity() {
     private var dropoffLat = 0.0
     private var dropoffLng = 0.0
     private var vehicleType = ""
+
+    private var pickupAddress: String = ""
+    private var dropoffAddress: String = ""
+    private var rideFare: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +52,7 @@ class BookingSummaryActivity : AppCompatActivity() {
         displayBookingDetails()
 
         confirmBookingButton.setOnClickListener {
-            Toast.makeText(this, "Booking confirmed! 🚀", Toast.LENGTH_SHORT).show()
-            confirmBookingButton.postDelayed({
-                val intent = Intent(this, BookingSuccessActivity::class.java)
-                startActivity(intent)
-                finish()
-            }, 1500)
+            saveBookingToFirebase()
         }
     }
 
@@ -57,22 +60,27 @@ class BookingSummaryActivity : AppCompatActivity() {
         val pickup = LatLng(pickupLat, pickupLng)
         val dropoff = LatLng(dropoffLat, dropoffLng)
 
-        pickupTextView.text = "Pickup: ${pickup.latitude}, ${pickup.longitude}"
-        dropoffTextView.text = "Drop-off: ${dropoff.latitude}, ${dropoff.longitude}"
+        pickupAddress = getAddressFromLatLng(pickup.latitude, pickup.longitude)
+        dropoffAddress = getAddressFromLatLng(dropoff.latitude, dropoff.longitude)
+
+        pickupTextView.text = "Pickup: $pickupAddress"
+        dropoffTextView.text = "Drop-off: $dropoffAddress"
         vehicleTypeTextView.text = "Vehicle: $vehicleType"
 
         val distanceInKm = calculateDistanceInKm(pickup, dropoff)
         distanceTextView.text = "Distance: %.2f km".format(distanceInKm)
 
-        val fare = calculateFare(distanceInKm, vehicleType)
-        fareTextView.text = "Fare: ₱%.2f".format(fare)
+        rideFare = calculateFare(distanceInKm, vehicleType)
+        fareTextView.text = "Fare: ₱%.2f".format(rideFare)
     }
 
     private fun calculateDistanceInKm(pickup: LatLng, dropoff: LatLng): Double {
-        val earthRadius = 6371 // km
+        val earthRadius = 6371 // Radius of the earth in km
         val dLat = Math.toRadians(dropoff.latitude - pickup.latitude)
         val dLng = Math.toRadians(dropoff.longitude - pickup.longitude)
-        val a = sin(dLat / 2).pow(2.0) + cos(Math.toRadians(pickup.latitude)) * cos(Math.toRadians(dropoff.latitude)) * sin(dLng / 2).pow(2.0)
+        val a = sin(dLat / 2).pow(2.0) + cos(Math.toRadians(pickup.latitude)) *
+                cos(Math.toRadians(dropoff.latitude)) *
+                sin(dLng / 2).pow(2.0)
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
         return earthRadius * c
     }
@@ -89,5 +97,50 @@ class BookingSummaryActivity : AppCompatActivity() {
             else -> 10.0
         }
         return baseFare + (distanceInKm * perKmRate)
+    }
+
+    private fun getAddressFromLatLng(lat: Double, lng: Double): String {
+        val geocoder = Geocoder(this, Locale.getDefault())
+        return try {
+            val addresses = geocoder.getFromLocation(lat, lng, 1)
+            if (!addresses.isNullOrEmpty()) {
+                addresses[0].getAddressLine(0)
+            } else {
+                "Unknown Address"
+            }
+        } catch (e: Exception) {
+            "Unknown Address"
+        }
+    }
+
+    private fun saveBookingToFirebase() {
+        val database = FirebaseDatabase.getInstance()
+        val bookingsRef = database.getReference("bookings")
+
+        val bookingId = bookingsRef.push().key ?: return
+
+        val booking = Booking(
+            bookingId = bookingId,
+            pickupDate = pickupAddress, // 🔥 Now saving the real address
+            returnDate = dropoffAddress, // 🔥 Now saving the real address
+            pickupTime = "ASAP",
+            dropoffTime = "ETA 20min",
+            withDriver = true,
+            totalDays = 1,
+            totalPrice = rideFare.toInt(), // 🔥 Save fare as Int
+            timestamp = System.currentTimeMillis(),
+            type = "booking"
+        )
+
+        bookingsRef.child(bookingId).setValue(booking).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(this, "Booking Confirmed! 🚀", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, BookingSuccessActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Failed to save booking. Please try again.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
