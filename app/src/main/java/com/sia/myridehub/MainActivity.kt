@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.Gravity
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.Toast
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var menuButton: ImageButton
     private lateinit var closeMenuButton: ImageButton
     private lateinit var profileImage: ImageView
+    private lateinit var navigationView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,64 +28,73 @@ class MainActivity : AppCompatActivity() {
         menuButton = findViewById(R.id.menuButton)
         closeMenuButton = findViewById(R.id.closeMenuButton)
         profileImage = findViewById(R.id.profileImage)
+        navigationView = findViewById(R.id.navigationView)
 
-        // Set profile image directly from drawable
+        // Set profile image
         profileImage.setImageResource(R.drawable.profile_placeholder)
 
-        // Set up navigation drawer
+        // Open navigation drawer
         menuButton.setOnClickListener {
             drawerLayout.openDrawer(Gravity.RIGHT)
         }
 
+        // Close navigation drawer
         closeMenuButton.setOnClickListener {
             drawerLayout.closeDrawer(Gravity.RIGHT)
         }
 
-        // Set up navigation menu items
+        // Setup sidebar menu items
         setupNavigationItems()
+
+        // Handle clicking "Rent a Vehicle" on the main page
+        findViewById<TextView>(R.id.rentVehicleTitle).setOnClickListener {
+            val intent = Intent(this, RentVehicleActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Handle clicking "Book a Ride" on the main page
+        findViewById<TextView>(R.id.bookRideTitle).setOnClickListener {
+            val intent = Intent(this, BookRideActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setupNavigationItems() {
-        // Dashboard - already on this page
-        findViewById<android.widget.LinearLayout>(R.id.dashboardItem).setOnClickListener {
+        // Find inside navigation view
+        navigationView.findViewById<LinearLayout>(R.id.dashboardItem)?.setOnClickListener {
             drawerLayout.closeDrawer(Gravity.RIGHT)
+            // Already on dashboard
         }
 
-        // My Order
-        findViewById<android.widget.LinearLayout>(R.id.myOrderItem).setOnClickListener {
-            // Handle my order click
+        navigationView.findViewById<LinearLayout>(R.id.myOrderItem)?.setOnClickListener {
             drawerLayout.closeDrawer(Gravity.RIGHT)
-            Toast.makeText(this, "My Order clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MyOrderActivity::class.java)
+            startActivity(intent)
         }
 
-        // My Profile
-        findViewById<android.widget.LinearLayout>(R.id.myProfileItem).setOnClickListener {
-            // Handle my profile click
+        navigationView.findViewById<LinearLayout>(R.id.myProfileItem)?.setOnClickListener {
             drawerLayout.closeDrawer(Gravity.RIGHT)
-            Toast.makeText(this, "My Profile clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
         }
 
-        // About Us
-        findViewById<android.widget.LinearLayout>(R.id.aboutUsItem).setOnClickListener {
-            // Handle about us click
+        navigationView.findViewById<LinearLayout>(R.id.aboutUsItem)?.setOnClickListener {
             drawerLayout.closeDrawer(Gravity.RIGHT)
-            Toast.makeText(this, "About Us clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, AboutUsActivity::class.java)
+            startActivity(intent)
         }
 
-        // Contact Us
-        findViewById<android.widget.LinearLayout>(R.id.contactUsItem).setOnClickListener {
-            // Navigate to Contact Us screen
+        navigationView.findViewById<LinearLayout>(R.id.contactUsItem)?.setOnClickListener {
+            drawerLayout.closeDrawer(Gravity.RIGHT)
             val intent = Intent(this, ContactUsActivity::class.java)
             startActivity(intent)
-            drawerLayout.closeDrawer(Gravity.RIGHT)
         }
 
-        // Log Out
-        findViewById<android.widget.LinearLayout>(R.id.logOutItem).setOnClickListener {
-            // Handle log out click
+        navigationView.findViewById<LinearLayout>(R.id.logOutItem)?.setOnClickListener {
+            drawerLayout.closeDrawer(Gravity.RIGHT)
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish()
+            finish() // Close app after logout
         }
     }
 }

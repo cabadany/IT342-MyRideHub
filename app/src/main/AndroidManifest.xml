@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 🔥 Permissions needed for Google Maps -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyRideHub">
+
+        <!-- 🔥 Google Maps API Key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo" />
+
+        <!-- Main Entry Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -17,18 +28,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".RentVehicleActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ContactUsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
-    </application>
 
+        <activity android:name=".RentVehicleActivity" android:exported="false" />
+        <activity android:name=".ContactUsActivity" android:exported="false" />
+        <activity android:name=".LoginActivity" android:exported="false" />
+        <activity android:name=".RegisterActivity" android:exported="false" />
+        <activity android:name=".BookRideActivity" android:exported="false" />
+
+        <activity android:name=".ProfileActivity" android:exported="false" />
+        <activity android:name=".EditProfileActivity" android:exported="false" />
+        <activity android:name=".ChangePasswordActivity" android:exported="false" />
+
+        <activity android:name=".AboutUsActivity" android:exported="false" />
+        <activity android:name=".MyOrderActivity" android:exported="false" />
+
+    </application>
 </manifest>

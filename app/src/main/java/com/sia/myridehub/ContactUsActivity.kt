@@ -7,9 +7,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class ContactUsActivity : AppCompatActivity() {
 
@@ -17,67 +21,62 @@ class ContactUsActivity : AppCompatActivity() {
     private lateinit var menuButton: ImageButton
     private lateinit var closeMenuButton: ImageButton
     private lateinit var profileImage: ImageView
+    private lateinit var navigationView: NavigationView
     private lateinit var firstNameEditText: EditText
     private lateinit var lastNameEditText: EditText
     private lateinit var emailEditText: EditText
     private lateinit var messageEditText: EditText
     private lateinit var sendButton: Button
+    private lateinit var databaseReference: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_us)
 
-        // Initialize views
         drawerLayout = findViewById(R.id.drawerLayout)
         menuButton = findViewById(R.id.menuButton)
         closeMenuButton = findViewById(R.id.closeMenuButton)
         profileImage = findViewById(R.id.profileImage)
+        navigationView = findViewById(R.id.navigationView)
         firstNameEditText = findViewById(R.id.etFirstName)
         lastNameEditText = findViewById(R.id.etLastName)
         emailEditText = findViewById(R.id.etEmail)
         messageEditText = findViewById(R.id.etMessage)
         sendButton = findViewById(R.id.btnSend)
 
-        // Set profile image directly from drawable
         profileImage.setImageResource(R.drawable.profile_placeholder)
 
-        // Set up navigation drawer
+        databaseReference = FirebaseDatabase
+            .getInstance("https://my-ride-hub-ab024-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("inquiries")
+
         menuButton.setOnClickListener {
             drawerLayout.openDrawer(Gravity.RIGHT)
         }
-
         closeMenuButton.setOnClickListener {
             drawerLayout.closeDrawer(Gravity.RIGHT)
         }
 
-        // Set up send button
         sendButton.setOnClickListener {
             if (validateForm()) {
-                // Send the inquiry
                 sendInquiry()
             }
         }
 
-        // Set up navigation menu items
         setupNavigationItems()
     }
 
     private fun validateForm(): Boolean {
         var isValid = true
 
-        // Validate first name
         if (firstNameEditText.text.toString().trim().isEmpty()) {
             firstNameEditText.error = "First name is required"
             isValid = false
         }
-
-        // Validate last name
         if (lastNameEditText.text.toString().trim().isEmpty()) {
             lastNameEditText.error = "Last name is required"
             isValid = false
         }
-
-        // Validate email
         val email = emailEditText.text.toString().trim()
         if (email.isEmpty()) {
             emailEditText.error = "Email is required"
@@ -86,8 +85,6 @@ class ContactUsActivity : AppCompatActivity() {
             emailEditText.error = "Please enter a valid email address"
             isValid = false
         }
-
-        // Validate message
         if (messageEditText.text.toString().trim().isEmpty()) {
             messageEditText.error = "Message is required"
             isValid = false
@@ -97,56 +94,57 @@ class ContactUsActivity : AppCompatActivity() {
     }
 
     private fun sendInquiry() {
-        // Here you would typically send the inquiry to your backend
-        // For this example, we'll just show a success message
-        Toast.makeText(this, "Your inquiry has been sent successfully!", Toast.LENGTH_LONG).show()
+        val inquiryId = databaseReference.push().key
 
-        // Clear the form
-        firstNameEditText.text.clear()
-        lastNameEditText.text.clear()
-        emailEditText.text.clear()
-        messageEditText.text.clear()
+        if (inquiryId == null) {
+            Toast.makeText(this, "Failed to generate inquiry ID", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val inquiryData = mapOf(
+            "firstName" to firstNameEditText.text.toString().trim(),
+            "lastName" to lastNameEditText.text.toString().trim(),
+            "email" to emailEditText.text.toString().trim(),
+            "message" to messageEditText.text.toString().trim()
+        )
+
+        databaseReference.child(inquiryId).setValue(inquiryData)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Inquiry sent successfully!", Toast.LENGTH_LONG).show()
+
+                    firstNameEditText.text.clear()
+                    lastNameEditText.text.clear()
+                    emailEditText.text.clear()
+                    messageEditText.text.clear()
+                } else {
+                    Toast.makeText(this, "Failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                }
+            }
     }
 
     private fun setupNavigationItems() {
-        // Dashboard
-        findViewById<android.widget.LinearLayout>(R.id.dashboardItem).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+        navigationView.findViewById<LinearLayout>(R.id.dashboardItem)?.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
-
-        // My Order
-        findViewById<android.widget.LinearLayout>(R.id.myOrderItem).setOnClickListener {
-            // Handle my order click
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-            Toast.makeText(this, "My Order clicked", Toast.LENGTH_SHORT).show()
+        navigationView.findViewById<LinearLayout>(R.id.myOrderItem)?.setOnClickListener {
+            startActivity(Intent(this, MyOrderActivity::class.java))
+            finish()
         }
-
-        // My Profile
-        findViewById<android.widget.LinearLayout>(R.id.myProfileItem).setOnClickListener {
-            // Handle my profile click
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-            Toast.makeText(this, "My Profile clicked", Toast.LENGTH_SHORT).show()
+        navigationView.findViewById<LinearLayout>(R.id.myProfileItem)?.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+            finish()
         }
-
-        // About Us
-        findViewById<android.widget.LinearLayout>(R.id.aboutUsItem).setOnClickListener {
-            // Handle about us click
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-            Toast.makeText(this, "About Us clicked", Toast.LENGTH_SHORT).show()
+        navigationView.findViewById<LinearLayout>(R.id.aboutUsItem)?.setOnClickListener {
+            startActivity(Intent(this, AboutUsActivity::class.java))
+            finish()
         }
-
-        // Contact Us - already on this page
-        findViewById<android.widget.LinearLayout>(R.id.contactUsItem).setOnClickListener {
+        navigationView.findViewById<LinearLayout>(R.id.contactUsItem)?.setOnClickListener {
             drawerLayout.closeDrawer(Gravity.RIGHT)
         }
-
-        // Log Out
-        findViewById<android.widget.LinearLayout>(R.id.logOutItem).setOnClickListener {
-            // Handle log out click
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+        navigationView.findViewById<LinearLayout>(R.id.logOutItem)?.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
     }

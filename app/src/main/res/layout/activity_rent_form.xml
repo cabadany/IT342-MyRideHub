@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="#ffffff">
+
+    <Button
+        android:id="@+id/pickUpDateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Pick-up Date"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/returnDateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Return Date"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/pickUpTimeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Pick-up Time"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/dropOffTimeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Drop-off Time"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirm Booking"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF"/>
+</LinearLayout>
