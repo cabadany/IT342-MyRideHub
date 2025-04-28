@@ -52,5 +52,7 @@
         <activity android:name=".PaymentActivity" android:exported="false" />
         <activity android:name=".ViewBookingDetailsActivity" android:exported="false" />
 
+        <activity android:name=".InquirySuccessActivity" android:exported="false" />
+
     </application>
 </manifest>

@@ -6,8 +6,6 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -20,7 +18,6 @@ class ContactUsActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var menuButton: ImageButton
     private lateinit var closeMenuButton: ImageButton
-    private lateinit var profileImage: ImageView
     private lateinit var navigationView: NavigationView
     private lateinit var firstNameEditText: EditText
     private lateinit var lastNameEditText: EditText
@@ -33,10 +30,10 @@ class ContactUsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_us)
 
+        // Initialize views
         drawerLayout = findViewById(R.id.drawerLayout)
         menuButton = findViewById(R.id.menuButton)
         closeMenuButton = findViewById(R.id.closeMenuButton)
-        profileImage = findViewById(R.id.profileImage)
         navigationView = findViewById(R.id.navigationView)
         firstNameEditText = findViewById(R.id.etFirstName)
         lastNameEditText = findViewById(R.id.etLastName)
@@ -44,12 +41,12 @@ class ContactUsActivity : AppCompatActivity() {
         messageEditText = findViewById(R.id.etMessage)
         sendButton = findViewById(R.id.btnSend)
 
-        profileImage.setImageResource(R.drawable.profile_placeholder)
-
+        // ✅ Correct Firebase database URL
         databaseReference = FirebaseDatabase
-            .getInstance("https://my-ride-hub-ab024-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getInstance("https://my-ride-hub-ab024-default-rtdb.firebaseio.com/")
             .getReference("inquiries")
 
+        // Drawer button actions
         menuButton.setOnClickListener {
             drawerLayout.openDrawer(Gravity.RIGHT)
         }
@@ -62,8 +59,6 @@ class ContactUsActivity : AppCompatActivity() {
                 sendInquiry()
             }
         }
-
-        setupNavigationItems()
     }
 
     private fun validateForm(): Boolean {
@@ -108,44 +103,26 @@ class ContactUsActivity : AppCompatActivity() {
             "message" to messageEditText.text.toString().trim()
         )
 
+        sendButton.isEnabled = false
+        sendButton.text = "Sending..."
+
         databaseReference.child(inquiryId).setValue(inquiryData)
             .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Inquiry sent successfully!", Toast.LENGTH_LONG).show()
+                sendButton.isEnabled = true
+                sendButton.text = "Send"
 
-                    firstNameEditText.text.clear()
-                    lastNameEditText.text.clear()
-                    emailEditText.text.clear()
-                    messageEditText.text.clear()
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Inquiry sent successfully!", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, InquirySuccessActivity::class.java))
+                    finish()
                 } else {
-                    Toast.makeText(this, "Failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Failed to send inquiry: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }
             }
-    }
-
-    private fun setupNavigationItems() {
-        navigationView.findViewById<LinearLayout>(R.id.dashboardItem)?.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
-        navigationView.findViewById<LinearLayout>(R.id.myOrderItem)?.setOnClickListener {
-            startActivity(Intent(this, MyOrderActivity::class.java))
-            finish()
-        }
-        navigationView.findViewById<LinearLayout>(R.id.myProfileItem)?.setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
-            finish()
-        }
-        navigationView.findViewById<LinearLayout>(R.id.aboutUsItem)?.setOnClickListener {
-            startActivity(Intent(this, AboutUsActivity::class.java))
-            finish()
-        }
-        navigationView.findViewById<LinearLayout>(R.id.contactUsItem)?.setOnClickListener {
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-        }
-        navigationView.findViewById<LinearLayout>(R.id.logOutItem)?.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
+            .addOnFailureListener { exception ->
+                sendButton.isEnabled = true
+                sendButton.text = "Send"
+                Toast.makeText(this, "Error: ${exception.message}", Toast.LENGTH_LONG).show()
+            }
     }
 }
