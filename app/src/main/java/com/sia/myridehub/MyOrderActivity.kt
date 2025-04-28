@@ -4,12 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -17,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.FirebaseDatabase
 import com.sia.myridehub.adapter.HistoryAdapter
+import com.sia.myridehub.model.Booking
 
 class MyOrderActivity : AppCompatActivity() {
 
@@ -25,6 +21,7 @@ class MyOrderActivity : AppCompatActivity() {
     private lateinit var spinnerHistoryType: Spinner
     private lateinit var recyclerViewHistory: RecyclerView
     private lateinit var historyAdapter: HistoryAdapter
+    private lateinit var emptyStateLayout: LinearLayout
 
     // Track whether currently viewing Booking or Renting
     private var currentType: Int = 0
@@ -37,6 +34,7 @@ class MyOrderActivity : AppCompatActivity() {
         menuButton = findViewById(R.id.menuButton)
         spinnerHistoryType = findViewById(R.id.spinnerHistoryType)
         recyclerViewHistory = findViewById(R.id.recyclerViewHistory)
+        emptyStateLayout = findViewById(R.id.emptyStateLayout)
 
         menuButton.setOnClickListener {
             drawerLayout.openDrawer(Gravity.RIGHT)
@@ -85,15 +83,11 @@ class MyOrderActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                val deletedItem = historyAdapter.getItem(position)
-
-                // Remove item visually
                 historyAdapter.removeItem(position)
 
-                // Show toast message
                 Toast.makeText(
                     this@MyOrderActivity,
-                    "$deletedItem deleted!",
+                    "Deleted!",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -104,21 +98,30 @@ class MyOrderActivity : AppCompatActivity() {
 
     private fun loadHistoryFromFirebase(type: Int) {
         val database = FirebaseDatabase.getInstance().reference
-        val userId = "userId123" // Replace with real authenticated user ID later
 
-        val path = if (type == 0) "users/$userId/bookings" else "users/$userId/rentings"
-
-        database.child(path).get().addOnSuccessListener { snapshot ->
-            val list = mutableListOf<String>()
+        database.child("bookings").get().addOnSuccessListener { snapshot ->
+            val bookingList = mutableListOf<Booking>()
             snapshot.children.forEach { child ->
-                list.add(child.value.toString())
+                val booking = child.getValue(Booking::class.java)
+                booking?.let {
+                    if (type == 0 && it.type == "booking") {
+                        bookingList.add(it)
+                    } else if (type == 1 && it.type == "renting") {
+                        bookingList.add(it)
+                    }
+                }
             }
-            if (list.isEmpty()) {
-                list.add("No history found")
+
+            if (bookingList.isEmpty()) {
+                showEmptyState()
+            } else {
+                val sortedList = bookingList.sortedByDescending { it.timestamp }
+                historyAdapter.updateData(sortedList)
+                hideEmptyState()
             }
-            historyAdapter.updateData(list)
         }.addOnFailureListener {
-            historyAdapter.updateData(listOf("Failed to load data"))
+            showEmptyState()
+            Toast.makeText(this, "Failed to load history", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -151,5 +154,15 @@ class MyOrderActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
+    }
+
+    private fun showEmptyState() {
+        recyclerViewHistory.visibility = View.GONE
+        emptyStateLayout.visibility = View.VISIBLE
+    }
+
+    private fun hideEmptyState() {
+        recyclerViewHistory.visibility = View.VISIBLE
+        emptyStateLayout.visibility = View.GONE
     }
 }

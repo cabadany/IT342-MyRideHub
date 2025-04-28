@@ -1,42 +1,64 @@
 package com.sia.myridehub.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.sia.myridehub.R
+import com.sia.myridehub.ViewBookingDetailsActivity
+import com.sia.myridehub.model.Booking
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
-    private var dataList = emptyList<String>()
+    private val bookings = mutableListOf<Booking>()
+
+    fun updateData(newItems: List<Booking>) {
+        bookings.clear()
+        bookings.addAll(newItems)
+        notifyDataSetChanged()
+    }
+
+    fun getItem(position: Int): Booking {
+        return bookings[position]
+    }
+
+    fun removeItem(position: Int) {
+        bookings.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(android.R.layout.simple_list_item_1, parent, false)
+            .inflate(R.layout.item_booking_history, parent, false)
         return HistoryViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.textView.text = dataList[position]
+        val booking = bookings[position]
+
+        holder.pickupReturn.text = "📅 ${booking.pickupDate} ➔ ${booking.returnDate}"
+        holder.totalPrice.text = "💵 ₱${booking.totalPrice}"
+
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, ViewBookingDetailsActivity::class.java)
+            intent.putExtra("pickupDate", booking.pickupDate)
+            intent.putExtra("returnDate", booking.returnDate)
+            intent.putExtra("pickupTime", booking.pickupTime)
+            intent.putExtra("dropoffTime", booking.dropoffTime)
+            intent.putExtra("withDriver", booking.withDriver ?: false)
+            intent.putExtra("totalDays", booking.totalDays ?: 0)
+            intent.putExtra("totalPrice", booking.totalPrice ?: 0)
+            context.startActivity(intent)
+        }
     }
 
-    override fun getItemCount(): Int = dataList.size
+    override fun getItemCount(): Int = bookings.size
 
-    fun updateData(newData: List<String>) {
-        dataList = newData
-        notifyDataSetChanged()
-    }
-
-    fun removeItem(position: Int) {
-        dataList = dataList.toMutableList().apply { removeAt(position) }
-        notifyItemRemoved(position)
-    }
-
-    fun getItem(position: Int): String {
-        return dataList[position]
-    }
-
-    class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(android.R.id.text1)
+    class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val pickupReturn: TextView = itemView.findViewById(R.id.textPickupReturn)
+        val totalPrice: TextView = itemView.findViewById(R.id.textTotalPrice)
     }
 }
