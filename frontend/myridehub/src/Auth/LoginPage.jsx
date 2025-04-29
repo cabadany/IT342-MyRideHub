@@ -1,11 +1,11 @@
 // LoginPage.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google"; 
+import { jwtDecode } from "jwt-decode"; 
 import { toast, ToastContainer } from "react-toastify";
-import { GoogleLogin } from "@react-oauth/google"; // <-- Google login button
-import { jwtDecode } from "jwt-decode"; // ✅ Correct
 import "react-toastify/dist/ReactToastify.css";
-import "./LoginPage.css";
+import './LoginPage.css';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ export default function LoginPage() {
         password: formData.password
       };
 
-      const response = await fetch('http://localhost:8080/api/auth/login', { // <-- your login API
+      const response = await fetch('http://localhost:8080/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -66,12 +66,13 @@ export default function LoginPage() {
 
   const handleGoogleLoginSuccess = (credentialResponse) => {
     const { credential } = credentialResponse;
-    const decoded = jwt_decode(credential);
+    const decoded = jwtDecode(credential);
 
     console.log("Google Decoded:", decoded);
 
-    // Example: Save Google JWT or you can call backend with it
     localStorage.setItem('token', credential);
+    localStorage.setItem('userName', decoded.name);
+    localStorage.setItem('userPicture', decoded.picture);
 
     toast.success(`Welcome ${decoded.name || decoded.email}!`);
     setTimeout(() => navigate("/dashboard"), 1500);
@@ -129,12 +130,16 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Google Login Button */}
           <div className="social-login">
             <p>Or log in with:</p>
+
+            {/* Google Login Button */}
             <GoogleLogin
               onSuccess={handleGoogleLoginSuccess}
               onError={handleGoogleLoginFailure}
+              width="100%"
+              theme="outline"
+              size="large"
             />
           </div>
 
