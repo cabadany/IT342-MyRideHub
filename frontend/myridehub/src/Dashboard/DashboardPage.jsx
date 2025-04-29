@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import './DashboardPage.css';
 import Testimonials from './Testimonials';
-import { jwtDecode } from "jwt-decode"; // ✅ Correct import
+import { jwtDecode } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -13,6 +13,13 @@ export default function DashboardPage() {
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [userPicture, setUserPicture] = useState("");
+
+  const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
+  const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
+  const [areServicesVisible, setAreServicesVisible] = useState(true);
+  const [isHistoryDropdownOpen, setIsHistoryDropdownOpen] = useState(false);
+
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -43,6 +50,17 @@ export default function DashboardPage() {
     } else {
       handleAutoLogout();
     }
+
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsHistoryDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const handleAutoLogout = () => {
@@ -60,11 +78,6 @@ export default function DashboardPage() {
       navigate("/login");
     }, 1500);
   };
-
-  const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
-  const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
-  const [areServicesVisible, setAreServicesVisible] = useState(true);
-  const [isHistoryDropdownOpen, setIsHistoryDropdownOpen] = useState(false);
 
   const toggleFeedback = () => setIsFeedbackVisible(!isFeedbackVisible);
   const toggleLearnMore = () => {
@@ -121,7 +134,7 @@ export default function DashboardPage() {
           <li><Link to="/rent">Rent</Link></li>
           <li><Link to="/about-us">About Us</Link></li>
 
-          <li className="history-dropdown" onClick={toggleHistoryDropdown}>
+          <li className="history-dropdown" onClick={toggleHistoryDropdown} ref={dropdownRef}>
             <span>History ▾</span>
             {isHistoryDropdownOpen && (
               <ul className="dropdown-menu">

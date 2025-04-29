@@ -1,3 +1,4 @@
+/* Reset & Base */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -31,27 +32,111 @@ html, body {
   padding: 20px 60px;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 100;
 }
 
 .logo img {
   height: 50px;
 }
 
+/* User Welcome Section */
+.welcome-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Logout Button */
+.welcome-user button {
+  background-color: #f44336;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.welcome-user button:hover {
+  background-color: #d32f2f;
+}
+
+/* Navigation Links */
 .nav-links {
   list-style: none;
   display: flex;
   gap: 30px;
 }
 
+.nav-links li {
+  position: relative;
+}
+
 .nav-links li a {
   color: white;
   text-decoration: none;
   font-weight: 500;
-  transition: 0.3s;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s;
 }
 
 .nav-links li a:hover {
-  text-decoration: underline;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Dropdown Menu for History */
+.history-dropdown {
+  cursor: pointer;
+  position: relative;
+}
+
+.dropdown-menu {
+  background-color: white;
+  color: #111;
+  position: absolute;
+  top: 100%;
+  margin-top: 8px;
+  right: 0;
+  padding: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  list-style: none;
+  min-width: 160px;
+  z-index: 999;
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+  transition: background-color 0.2s;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-menu li a {
+  color: #111;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Contact Us Button */
+.contact-btn {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.contact-btn:hover {
+  background-color: #059669;
 }
 
 /* Hero Section */
@@ -80,7 +165,7 @@ html, body {
   font-size: 18px;
   line-height: 1.8;
   color: #e5e5e5;
-  animation: fadeInUp 1s ease-out 0.5s both; /* delay para sumunod after title */
+  animation: fadeInUp 1s ease-out 0.5s both;
 }
 
 .learn-more-btn {
@@ -92,8 +177,7 @@ html, body {
   cursor: pointer;
   transition: 0.3s;
   font-size: 16px;
-  margin-top: 0; /* Move it higher (no extra gap above) */
-  margin-bottom: 20px; /* Add space below */
+  margin-bottom: 20px;
 }
 
 .learn-more-btn:hover {
@@ -106,7 +190,7 @@ html, body {
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
-  margin-top: 80px; 
+  margin-top: 80px;
   padding: 0 20px;
 }
 
@@ -162,17 +246,15 @@ html, body {
   max-width: 350px;
 }
 
-
-
 /* Animations */
-@keyframes fadeIn {
-  0% {
+@keyframes fadeSlideDown {
+  from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateY(-20px);
   }
-  100% {
+  to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
   }
 }
 
