@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import emailjs from '@emailjs/browser'; // Install emailjs-com
+import emailjs from '@emailjs/browser';
 import './ContactUs.css';
 
 const ContactUs = () => {
@@ -24,15 +24,15 @@ const ContactUs = () => {
     e.preventDefault();
 
     emailjs.send(
-      'service_qjtctpm',  // replace this with your EmailJS Service ID
-      'template_cdfktrr', // replace this with your EmailJS Template ID
+      'service_qjtctpm',
+      'template_cdfktrr',
       {
         from_name: formData.fullName,
         from_email: formData.email,
         message: formData.message,
-        to_email: 'myridehub.team@gmail.com' // Hardcoded receiver
+        to_email: 'myridehub.team@gmail.com'
       },
-      'your_public_api_key' // replace this with your EmailJS Public Key
+      'amfqsOzG5FitWxMF_'
     ).then((result) => {
       alert('Message sent successfully!');
       setFormData({ fullName: '', email: '', message: '' });
