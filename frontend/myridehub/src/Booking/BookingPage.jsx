@@ -5,8 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./BookingPage.css";
 
-// ✅ Environment variable for backend base URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // Make sure your .env is correct!
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo";
 const BASE_FARE = 20;
@@ -105,7 +104,7 @@ export default function BookingPage() {
       const bookingData = {
         customerName: "Juan Dela Cruz",
         contactNumber: "09123456789",
-        vehicle: { id: 1 },
+        vehicle: { id: 1 }, // Replace with actual selected vehicle id if dynamic
         pickupLocation: pickupLocation?.formatted_address || "Unknown Pickup",
         dropOffLocation: dropOffLocation?.formatted_address || "Unknown Dropoff",
         pickupDate: new Date().toISOString(),
@@ -182,9 +181,10 @@ export default function BookingPage() {
                 <div className={`step ${bookingStep >= 4 ? "active" : ""}`}>Confirm</div>
               </div>
 
+              {/* Step 1: Pickup */}
               {bookingStep === 1 && (
                 <div className="booking-form">
-                  <h2 className="booking-title">BOOK NOW!</h2>
+                  <h2 className="booking-title">Select Pickup Location</h2>
                   <div className="form-fields">
                     <MapAutocomplete
                       placeholder="Pickup Location"
@@ -205,7 +205,32 @@ export default function BookingPage() {
                 </div>
               )}
 
-              {/* Other steps to follow... */}
+              {/* Step 2: Dropoff */}
+              {bookingStep === 2 && (
+                <div className="booking-form">
+                  <h2 className="booking-title">Select Drop-off Location</h2>
+                  <div className="form-fields">
+                    <MapAutocomplete
+                      placeholder="Drop-off Location"
+                      onPlaceSelected={(place) => setDropOffLocation({
+                        lat: place.geometry.location.lat(),
+                        lng: place.geometry.location.lng(),
+                        formatted_address: place.formatted_address
+                      })}
+                      value={dropOffLocation?.formatted_address || ""}
+                      inputRef={dropoffRef}
+                    />
+                    <a href="#" className="map-select-link" onClick={() => { setSelectingField("dropoff"); setShowMapPicker(true); }}>
+                      Choose from Maps
+                    </a>
+                    <button className="continue-btn" onClick={calculateFare} disabled={!dropOffLocation}>
+                      Confirm Drop-off
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Other steps continue... */}
             </div>
           ) : (
             <div className="map-picker-modal">
