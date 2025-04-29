@@ -7,6 +7,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './LoginPage.css';
 
+// ✅ Connect to backend using environment variable
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function LoginPage() {
   const navigate = useNavigate();
 
@@ -35,7 +38,7 @@ export default function LoginPage() {
         password: formData.password
       };
 
-      const response = await fetch('http://localhost:8080/api/users', {
+      const response = await fetch(`${API_BASE_URL}/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -133,7 +136,6 @@ export default function LoginPage() {
           <div className="social-login">
             <p>Or log in with:</p>
 
-            {/* Google Login Button */}
             <GoogleLogin
               onSuccess={handleGoogleLoginSuccess}
               onError={handleGoogleLoginFailure}

@@ -1,6 +1,10 @@
+// SignupPage.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import './SignupPage.css';
+
+// ✅ Connect to backend using environment variable
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -47,17 +51,28 @@ export default function SignupPage() {
       contactNumber: fullContactNumber
     };
 
-    const response = await fetch("http://localhost:8080/api/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(submissionData)
-    });
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(submissionData)
+      });
 
-    const result = await response.json();
-    console.log(result);
-    alert("Account created successfully!");
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        alert("Account created successfully!");
+      } else {
+        const error = await response.text();
+        console.error("Signup failed:", error);
+        alert(error || "Signup failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      alert("Something went wrong. Please try again later.");
+    }
   };
 
   return (
@@ -86,7 +101,7 @@ export default function SignupPage() {
               <select name="countryCode" value={formData.countryCode} onChange={handleChange} className="country-code-select">
                 <option value="+63">PH +63 (Philippines)</option>
                 <option value="+1">US +1 (USA)</option>
-                <option value="+44">CB +44 (UK)</option>
+                <option value="+44">UK +44 (United Kingdom)</option>
                 <option value="+61">AU +61 (Australia)</option>
                 <option value="+91">IN +91 (India)</option>
               </select>
@@ -105,8 +120,8 @@ export default function SignupPage() {
             <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
 
             <div className="terms">
-              <input type="checkbox" id="terms" name="agreed" checked={formData.agreed} onChange={handleChange} />
-              <label htmlFor="terms">I agree to the the Terms and Conditions</label>
+              <input type="checkbox" id="terms" name="agreed" checked={formData.agreed} onChange={handleChange} required />
+              <label htmlFor="terms">I agree to the Terms and Conditions</label>
             </div>
 
             <button type="submit">Create Account</button>
