@@ -38,8 +38,8 @@ public class Vehicle {
 
     private String imageUrl;
 
-    @Column(nullable = false)
-    private boolean available;
+    @Column(name = "available")
+    private Boolean available;
 
     @Column(nullable = false)
     private String category;
