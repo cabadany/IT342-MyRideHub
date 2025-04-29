@@ -145,7 +145,7 @@ export default function DashboardPage() {
           </li>
 
           <li><Link to="/settings">Settings</Link></li>
-          <li><button className="contact-btn">Contact Us</button></li>
+          <li><button className="contact-btn"><Link to="/contact-us">Contact Us</Link></button></li>
         </ul>
       </nav>
 
