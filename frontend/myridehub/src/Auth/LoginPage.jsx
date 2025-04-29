@@ -1,4 +1,3 @@
-// LoginPage.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google"; 
@@ -7,7 +6,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './LoginPage.css';
 
-// ✅ Connect to backend using environment variable
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function LoginPage() {
@@ -38,7 +36,7 @@ export default function LoginPage() {
         password: formData.password
       };
 
-      const response = await fetch(`${API_BASE_URL}/api/users/login`, {
+      const response = await fetch(`${API_BASE_URL}/api/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -48,7 +46,7 @@ export default function LoginPage() {
 
       if (response.ok) {
         const data = await response.json();
-        const jwtToken = data.jwt;
+        const jwtToken = data.jwt; // Assuming backend returns jwt field
 
         localStorage.setItem('token', jwtToken);
 
