@@ -19,7 +19,7 @@ import com.sia.myridehub.service.VehicleService;
 
 @RestController
 @RequestMapping("/api/vehicles")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 public class VehicleController {
 
     private final VehicleService vehicleService;
@@ -46,7 +46,6 @@ public class VehicleController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Vehicle> updateVehicle(@PathVariable Long id, @RequestBody Vehicle vehicle) {
-        // Check if the vehicle exists before updating
         return vehicleService.getVehicleById(id)
                 .map(existingVehicle -> {
                     vehicle.setId(id);
@@ -57,12 +56,11 @@ public class VehicleController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
-        // Check if vehicle exists before attempting delete to avoid exceptions
         if (vehicleService.getVehicleById(id).isPresent()) {
             vehicleService.deleteVehicle(id);
-            return ResponseEntity.noContent().build(); // 204 No Content
+            return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found
+            return ResponseEntity.notFound().build();
         }
     }
 }

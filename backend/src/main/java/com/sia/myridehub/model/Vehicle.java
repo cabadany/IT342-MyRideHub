@@ -67,30 +67,6 @@ public class Vehicle {
 
     public Vehicle() {}
 
-    public Vehicle(Long id, String brand, String model, int year, double pricePerDay, String type, 
-                   String seats, String engine, String imageUrl, boolean available, String category,
-                   String color, String transmission, String fuelType, String vin,
-                   String registration, String regExpiry, String features) {
-        this.id = id;
-        this.brand = brand;
-        this.model = model;
-        this.year = year;
-        this.pricePerDay = pricePerDay;
-        this.type = type;
-        this.seats = seats;
-        this.engine = engine;
-        this.imageUrl = imageUrl;
-        this.available = available;
-        this.category = category;
-        this.color = color;
-        this.transmission = transmission;
-        this.fuelType = fuelType;
-        this.vin = vin;
-        this.registration = registration;
-        this.regExpiry = regExpiry;
-        this.features = features;
-    }
-
     public Long getId() {
         return id;
     }
