@@ -5,6 +5,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./BookingPage.css";
 
+// ✅ Environment variable for backend base URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const GOOGLE_MAPS_API_KEY = "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo";
 const BASE_FARE = 20;
 const RATE_PER_KM = 10;
@@ -49,18 +52,12 @@ export default function BookingPage() {
   const handlePrevStep = () => setBookingStep(prev => prev - 1);
 
   const handleLocationSelect = (coords) => {
+    const formatted_address = `Lat: ${coords.lat.toFixed(5)}, Lng: ${coords.lng.toFixed(5)}`;
+    const location = { lat: coords.lat, lng: coords.lng, formatted_address };
     if (selectingField === "pickup") {
-      setPickupLocation({
-        lat: coords.lat,
-        lng: coords.lng,
-        formatted_address: `Lat: ${coords.lat.toFixed(5)}, Lng: ${coords.lng.toFixed(5)}`
-      });
+      setPickupLocation(location);
     } else if (selectingField === "dropoff") {
-      setDropOffLocation({
-        lat: coords.lat,
-        lng: coords.lng,
-        formatted_address: `Lat: ${coords.lat.toFixed(5)}, Lng: ${coords.lng.toFixed(5)}`
-      });
+      setDropOffLocation(location);
     }
     setShowMapPicker(false);
     setSelectingField(null);
@@ -117,7 +114,7 @@ export default function BookingPage() {
         status: "Pending"
       };
 
-      const response = await axios.post("http://localhost:8080/api/bookings", bookingData);
+      const response = await axios.post(`${API_BASE_URL}/api/bookings`, bookingData);
       console.log("Booking saved:", response.data);
     } catch (error) {
       console.error("Error saving booking:", error);
@@ -145,17 +142,11 @@ export default function BookingPage() {
           };
           setDriverInfo(driver);
           setRideStatus("Driver found! Please wait at your pickup location.");
-
-          // 🎯 Auto redirect to dashboard after 3 seconds
-          setTimeout(() => {
-            navigate("/dashboard");
-          }, 3000);
-
+          setTimeout(() => navigate("/dashboard"), 3000);
         } else {
           setRideStatus("No drivers available. Try again later.");
         }
       }, 3000);
-
     } catch (error) {
       setLoading(false);
       alert("Booking failed. Please try again.");
@@ -184,8 +175,6 @@ export default function BookingPage() {
         <div className="booking-content">
           {!showMapPicker ? (
             <div className="booking-container">
-              
-              {/* Stepper Progress */}
               <div className="booking-stepper">
                 <div className={`step ${bookingStep >= 1 ? "active" : ""}`}>Pickup</div>
                 <div className={`step ${bookingStep >= 2 ? "active" : ""}`}>Drop-off</div>
@@ -193,7 +182,6 @@ export default function BookingPage() {
                 <div className={`step ${bookingStep >= 4 ? "active" : ""}`}>Confirm</div>
               </div>
 
-              {/* Booking Steps */}
               {bookingStep === 1 && (
                 <div className="booking-form">
                   <h2 className="booking-title">BOOK NOW!</h2>
@@ -217,7 +205,7 @@ export default function BookingPage() {
                 </div>
               )}
 
-              {/* Other steps can continue like you have before... */}
+              {/* Other steps to follow... */}
             </div>
           ) : (
             <div className="map-picker-modal">
