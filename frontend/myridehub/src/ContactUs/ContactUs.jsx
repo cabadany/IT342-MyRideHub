@@ -43,7 +43,7 @@ const ContactUs = () => {
   };
 
   const handleBackButtonClick = () => {
-    navigate('/');
+    navigate('/dashboard');
   };
 
   return (
