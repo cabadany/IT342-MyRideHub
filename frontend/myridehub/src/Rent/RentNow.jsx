@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./RentNow.css";
 
 const RentNow = () => {
@@ -22,11 +22,7 @@ const RentNow = () => {
     const start = new Date(`${startDate}T${startTime}`);
     const end = new Date(`${endDate}T${endTime}`);
     const diffMs = end - start;
-
-    if (diffMs <= 0) return 0;
-
-    const diffDays = diffMs / (1000 * 60 * 60 * 24);
-    return Math.ceil(diffDays);
+    return diffMs > 0 ? Math.ceil(diffMs / (1000 * 60 * 60 * 24)) : 0;
   };
 
   const handleCalculateTotal = () => {

@@ -1,23 +1,69 @@
 import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { saveRental } from "../../api";
 import "./Payment.css";
-import { useNavigate } from "react-router-dom";
 
 const Payment = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const {
+    vehicle,
+    pickUpDate,
+    pickUpTime,
+    returnDate,
+    returnTime,
+    total,
+    isDriverSelected,
+    customerInfo
+  } = state || {};
+
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [gcashInfo, setGcashInfo] = useState({ number: "", name: "" });
 
-  const handlePayment = () => {
-    if (paymentMethod === "gcash") {
-      if (!gcashInfo.number || !gcashInfo.name) {
-        alert("Please enter your GCash information.");
-        return;
-      }
-      alert("GCash Payment Successful!");
-    } else {
-      alert("Card Payment Successful!");
+  const handlePayment = async () => {
+    if (paymentMethod === "gcash" && (!gcashInfo.number || !gcashInfo.name)) {
+      alert("Please enter your GCash information.");
+      return;
     }
-    navigate("/");
+
+    const rentalData = {
+      vehicleId: vehicle?.id,
+      customerName: `${customerInfo.firstName} ${customerInfo.lastName}`,
+      email: customerInfo.email,
+      phone: customerInfo.phone,
+      pickUpDate,
+      pickUpTime,
+      returnDate,
+      returnTime,
+      paymentMethod,
+      gcashNumber: gcashInfo.number,
+      gcashName: gcashInfo.name,
+      withDriver: isDriverSelected,
+      totalFare: total,
+    };
+
+    try {
+      await saveRental(rentalData);
+      alert("Payment Successful! Reservation Saved.");
+      navigate("/rent/confirmation", {
+        state: {
+          vehicle,
+          pickUpDate,
+          pickUpTime,
+          returnDate,
+          returnTime,
+          total,
+          isDriverSelected,
+          customerInfo,
+          paymentMethod,
+          gcashNumber: gcashInfo.number,
+          gcashName: gcashInfo.name,
+        }
+      });
+    } catch (error) {
+      console.error("Error saving rental:", error);
+      alert("Something went wrong while saving reservation.");
+    }
   };
 
   return (

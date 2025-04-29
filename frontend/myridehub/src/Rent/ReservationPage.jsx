@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import './ReservationPage.css';
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./ReservationPage.css";
 
 const ReservationPage = () => {
   const navigate = useNavigate();
@@ -20,35 +20,23 @@ const ReservationPage = () => {
     setForm({ ...form, [name]: type === 'checkbox' ? checked : value });
   };
 
-  const calculateRentalDuration = () => {
-    if (!pickUpDate || !returnDate) return 'N/A';
-    const start = new Date(pickUpDate);
-    const end = new Date(returnDate);
-    const diff = Math.ceil((end - start) / (1000 * 3600 * 24));
-    return `${diff} day(s)`;
-  };
-
   const handleReserveNow = () => {
     if (!form.agree) {
       alert("Please agree to the Terms and Conditions before proceeding.");
       return;
     }
 
-    // Navigate to PaymentPage first
     navigate("/rent/payment", {
       state: {
-        fromReservation: true,
-        paymentDetails: {
-          vehicle,
-          pickUpDate,
-          pickUpTime,
-          returnDate,
-          returnTime,
-          total,
-          isDriverSelected,
-          customerInfo: form,
-        },
-      }
+        vehicle,
+        pickUpDate,
+        pickUpTime,
+        returnDate,
+        returnTime,
+        total,
+        isDriverSelected,
+        customerInfo: form,
+      },
     });
   };
 
@@ -62,16 +50,12 @@ const ReservationPage = () => {
             <h3>Booking Details</h3>
             <p>Pick-up Date & Time: {pickUpDate} at {pickUpTime}</p>
             <p>Return Date & Time: {returnDate} at {returnTime}</p>
-            <p>Rental Duration: {calculateRentalDuration()}</p>
           </div>
 
           {isDriverSelected && (
             <div className="box">
               <h3>Driver Information</h3>
-              <p>Driver’s Name</p>
-              <p>Driver’s Contact Number</p>
-              <p>Driver’s License ID</p>
-              <p>Experience Level</p>
+              <p>Driver Included.</p>
             </div>
           )}
 
@@ -128,7 +112,6 @@ const ReservationPage = () => {
                 onChange={handleChange}
               /> I have read and agree to the Terms and Conditions.
             </label>
-            <small>By using MyRideHub...</small>
           </div>
 
           <div className="summary-box">
