@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import './DashboardPage.css';
 import Testimonials from './Testimonials';
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // ✅ Correct import
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -10,33 +10,28 @@ export default function DashboardPage() {
   const [feedbackList, setFeedbackList] = useState([]);
   const navigate = useNavigate();
 
-  const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
-  const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
-  const [areServicesVisible, setAreServicesVisible] = useState(true);
-  const [isHistoryDropdownOpen, setIsHistoryDropdownOpen] = useState(false);
-
   const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userPicture, setUserPicture] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const name = localStorage.getItem('userName');
+    const picture = localStorage.getItem('userPicture');
+
     if (token) {
       try {
         const decoded = jwtDecode(token);
 
-        // Optional console logs to debug
-        console.log("Decoded Token:", decoded);
-
         setUserEmail(decoded.sub || decoded.email);
+        setUserName(name || decoded.name);
+        setUserPicture(picture || decoded.picture);
 
-        const currentTime = Date.now() / 1000; // in seconds
-        console.log("Current time:", currentTime, "Token expiry:", decoded.exp);
-
+        const currentTime = Date.now() / 1000;
         if (decoded.exp && decoded.exp < currentTime) {
-          // Expired immediately
           handleAutoLogout();
         } else {
-          // Set timer to auto logout when token expires
-          const timeUntilExpiry = (decoded.exp - currentTime) * 1000; // milliseconds
+          const timeUntilExpiry = (decoded.exp - currentTime) * 1000;
           setTimeout(() => {
             handleAutoLogout();
           }, timeUntilExpiry);
@@ -51,25 +46,32 @@ export default function DashboardPage() {
   }, []);
 
   const handleAutoLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.clear();
     toast.error("⚡ Session expired. Please login again.");
     setTimeout(() => {
       navigate("/login");
     }, 2000);
   };
 
-  const toggleFeedback = () => {
-    setIsFeedbackVisible(!isFeedbackVisible);
+  const handleLogout = () => {
+    localStorage.clear();
+    toast.success("Logged out successfully!");
+    setTimeout(() => {
+      navigate("/login");
+    }, 1500);
   };
 
+  const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
+  const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
+  const [areServicesVisible, setAreServicesVisible] = useState(true);
+  const [isHistoryDropdownOpen, setIsHistoryDropdownOpen] = useState(false);
+
+  const toggleFeedback = () => setIsFeedbackVisible(!isFeedbackVisible);
   const toggleLearnMore = () => {
     setIsLearnMoreVisible(!isLearnMoreVisible);
     setAreServicesVisible(!areServicesVisible);
   };
-
-  const toggleHistoryDropdown = () => {
-    setIsHistoryDropdownOpen(!isHistoryDropdownOpen);
-  };
+  const toggleHistoryDropdown = () => setIsHistoryDropdownOpen(!isHistoryDropdownOpen);
 
   return (
     <div className="dashboard-container">
@@ -80,8 +82,37 @@ export default function DashboardPage() {
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub Logo" />
         </div>
 
-        <div className="welcome-user">
-          {userEmail && <span>Hi, {userEmail}</span>}
+        <div className="welcome-user" style={{ display: 'flex', alignItems: 'center' }}>
+          {userPicture && (
+            <img
+              src={userPicture}
+              alt="Profile"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                marginRight: "10px"
+              }}
+            />
+          )}
+          {userName && <span>Hi, {userName}</span>}
+
+          <button
+            onClick={handleLogout}
+            style={{
+              marginLeft: "16px",
+              padding: "8px 12px",
+              backgroundColor: "#f44336",
+              border: "none",
+              color: "#fff",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontWeight: "bold"
+            }}
+          >
+            Logout
+          </button>
         </div>
 
         <ul className="nav-links">
@@ -105,11 +136,16 @@ export default function DashboardPage() {
         </ul>
       </nav>
 
+      {/* Hero Section */}
       <section className="hero">
         <h1>ENJOY YOUR RIDE HUB!</h1>
 
         <div className="hero-description">
-          <p>Ride Hub is a modern and convenient platform designed for both drivers and passengers. Whether you need a rental car for a trip or a quick ride around the city, Ride Hub connects you to reliable drivers and rental services with ease.</p>
+          <p>
+            Ride Hub is a modern and convenient platform designed for both drivers and passengers.
+            Whether you need a rental car for a trip or a quick ride around the city, Ride Hub connects
+            you to reliable drivers and rental services with ease.
+          </p>
         </div>
 
         <button className="learn-more-btn" onClick={toggleLearnMore}>
@@ -141,6 +177,7 @@ export default function DashboardPage() {
         )}
       </section>
 
+      {/* Services Section */}
       {areServicesVisible && (
         <section className="services">
           <div className="service">
