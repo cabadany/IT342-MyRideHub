@@ -65,13 +65,14 @@ html, body {
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
-  color: white;
+  color: black;
   margin-bottom: 16px;
 }
 
 .forgot-password {
   color: #00aaff;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .forgot-password:hover {
@@ -99,7 +100,7 @@ html, body {
 }
 
 .social-login p {
-  color: white;
+  color: black;
   margin-bottom: 12px;
 }
 
@@ -123,7 +124,7 @@ html, body {
 }
 
 .signup-link {
-  color: white;
+  color: black;
   font-size: 14px;
   text-align: center;
   margin-top: 24px;

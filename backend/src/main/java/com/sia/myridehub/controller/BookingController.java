@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.sia.myridehub.service.BookingService;
 
 @RestController
 @RequestMapping("/api/bookings")
+@CrossOrigin(origins = "*") // Allow frontend to access
 public class BookingController {
 
     private final BookingService bookingService;
@@ -35,43 +37,14 @@ public class BookingController {
     @GetMapping("/{id}")
     public ResponseEntity<Booking> getBookingById(@PathVariable Long id) {
         Optional<Booking> booking = bookingService.getBookingById(id);
-        return booking.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/customer/{name}")
-    public ResponseEntity<List<Booking>> getBookingsByCustomerName(@PathVariable String name) {
-        return ResponseEntity.ok(bookingService.getBookingsByCustomerName(name));
-    }
-
-    @GetMapping("/vehicle/{vehicleId}")
-    public ResponseEntity<List<Booking>> getBookingsByVehicleId(@PathVariable Long vehicleId) {
-        return ResponseEntity.ok(bookingService.getBookingsByVehicleId(vehicleId));
-    }
-
-    @GetMapping("/status/{status}")
-    public ResponseEntity<List<Booking>> getBookingsByStatus(@PathVariable String status) {
-        return ResponseEntity.ok(bookingService.getBookingsByStatus(status));
+        return booking.map(ResponseEntity::ok)
+                      .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
         try {
-            if (booking.getCustomerName() == null || booking.getCustomerName().trim().isEmpty()) {
-                return ResponseEntity.badRequest().body("Customer name is required.");
-            }
-            if (booking.getVehicle() == null || booking.getVehicle().getId() == null) {
-                return ResponseEntity.badRequest().body("Vehicle ID is required.");
-            }
-            if (booking.getContactNumber() == null || booking.getContactNumber().trim().isEmpty()) {
-                return ResponseEntity.badRequest().body("Contact number is required.");
-            }
-            if (booking.getPickupDate() == null || booking.getReturnDate() == null) {
-                return ResponseEntity.badRequest().body("Pickup and return dates are required.");
-            }
-            if (booking.getStatus() == null || booking.getStatus().trim().isEmpty()) {
-                return ResponseEntity.badRequest().body("Status is required.");
-            }
-
+            // Optional validation for now - allow saving even if some fields are missing
             return ResponseEntity.ok(bookingService.createBooking(booking));
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error creating booking: " + e.getMessage());

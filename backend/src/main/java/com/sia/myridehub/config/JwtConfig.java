@@ -15,7 +15,7 @@ import jakarta.annotation.PostConstruct;
 public class JwtConfig {
 
     private Key secretKey;
-    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 hours
+    private final long EXPIRATION_TIME = 1000L * 60 * 60 * 10;
 
     @PostConstruct
     public void init() {
@@ -23,10 +23,11 @@ public class JwtConfig {
     }
 
     public String generateToken(UserDetails userDetails) {
+        long now = System.currentTimeMillis();
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setIssuedAt(new Date(now))
+                .setExpiration(new Date(now + EXPIRATION_TIME))
                 .signWith(secretKey)
                 .compact();
     }

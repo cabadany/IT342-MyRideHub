@@ -9,7 +9,6 @@ const Settings = () => {
     fullName: '',
     email: '',
     phone: '',
-    profilePicture: '',
     address: '',
     emergencyContact: '',
     username: '',
@@ -17,25 +16,15 @@ const Settings = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'file' ? files[0] : value,
+      [name]: value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const profileData = {
-      fullName: formData.fullName,
-      email: formData.email,
-      phone: formData.phone,
-      address: formData.address,
-      emergencyContact: formData.emergencyContact,
-      username: formData.username,
-      password: formData.password,
-    };
 
     try {
       const response = await fetch('http://localhost:8080/api/user/profile', {
@@ -43,14 +32,19 @@ const Settings = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(profileData),
+        body: JSON.stringify(formData),
       });
 
-      const result = await response.text();
-      alert(result);
+      if (response.ok) {
+        const result = await response.text();
+        alert(result || "Profile saved successfully!");
+      } else {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
+      }
     } catch (error) {
       console.error('Error saving profile:', error);
-      alert('Something went wrong!');
+      alert('Something went wrong saving the profile!');
     }
   };
 
@@ -60,7 +54,7 @@ const Settings = () => {
         ← Back to Dashboard
       </button>
       <div className="settings-container">
-        <h2> Settings </h2>
+        <h2>Settings</h2>
         <form onSubmit={handleSubmit} className="settings-form">
           <div className="form-group">
             <label>Full Name</label>
@@ -95,11 +89,6 @@ const Settings = () => {
           <div className="form-group">
             <label>Password</label>
             <input name="password" type="password" value={formData.password} onChange={handleChange} />
-          </div>
-
-          <div className="form-group">
-            <label>Profile Picture</label>
-            <input name="profilePicture" type="file" accept="image/*" onChange={handleChange} />
           </div>
 
           <button type="submit" className="submit-btn">Update Profile</button>

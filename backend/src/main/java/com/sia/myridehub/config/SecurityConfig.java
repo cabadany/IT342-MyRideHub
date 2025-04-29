@@ -27,7 +27,9 @@ public class SecurityConfig {
             .and()
             .authorizeHttpRequests()
                 .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+                .requestMatchers("/api/users", "/api/users/**").permitAll()
                 .requestMatchers("/api/vehicles/**").permitAll()
+                .requestMatchers("/api/bookings/**").permitAll()
                 .anyRequest().authenticated();  // secure other endpoints
 
         return http.build();

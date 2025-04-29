@@ -1,5 +1,10 @@
+// App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import { GoogleOAuthProvider } from '@react-oauth/google'; // ✅ Import GoogleOAuthProvider
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 import SignupPage from './Auth/SignupPage';
 import LoginPage from './Auth/LoginPage';
@@ -29,48 +34,124 @@ import BookingHistory from './History/BookingHistory';
 import LandingPage from './LandingPage/LandingPage';  
 import ResetPassword from './ResetPassword/ResetPassword';  
 import ConfirmationPage from './Rent/ConfirmationPage';
-
-
-
-
+import ProtectedRoute from './ProtectedRoute';
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/booking" element={<BookingPage />} />
-        <Route path="/rent" element={<RentVehiclePage />} />
-        <Route path="/rent/car-detail" element={<CarDetail />} />
-        <Route path="/rent/rent-now" element={<RentNow />} />
-        <Route path="/rent/reservation" element={<ReservationPage />} />
-        <Route path="/rent/payment" element={<PaymentPage />} />
-        <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/admin/panel" element={<AdminPanel />} />  
-        <Route path="/cardashboard" element={<CarsDashboard />} />  
-        <Route path="/motordashboard" element={<MotorcyclesDashboard />} />
-        <Route path="/usersdashboard" element={<UsersDashboard />} />  
-        <Route path="/contact-us" element={<ContactUs />} />  
-        <Route path="/driver-registration" element={<DriverRegistrationPage />} />
-        <Route path="/driver-login" element={<DriverLoginPage />} />
-        <Route path="/driver-dashboard" element={<DriverDashboard />} />
-        <Route path="/help" element={<HelpPage />} />
-        <Route path="/testimonials" element={<Testimonials />} />
-        <Route path="/feedback" element={<FeedbackForm />} /> 
-        <Route path="/about-us" element={<AboutUsPage />} /> 
-        <Route path="/rent-history" element={<RentHistory />} /> 
-        <Route path="/booking-history" element={<BookingHistory />} />  
-        <Route path="/" element={<LandingPage />} /> 
-        <Route path="/reset-password" element={<ResetPassword />} />  
-        <Route path="/rent/confirmation" element={<ConfirmationPage />} />
-       
+    <GoogleOAuthProvider clientId="655397651649-4tgqpa540obk51rdnsq8d8mqaneoln3b.apps.googleusercontent.com">
+      <Router>
+        <ToastContainer />
+        <Routes>
 
-        {/* Add other routes here */} 
- 
-      </Routes>
-    </Router>
+          {/* Public Routes */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/about-us" element={<AboutUsPage />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/testimonials" element={<Testimonials />} />
+          <Route path="/feedback" element={<FeedbackForm />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/driver-registration" element={<DriverRegistrationPage />} />
+          <Route path="/driver-login" element={<DriverLoginPage />} />
+          <Route path="/admin" element={<AdminLogin />} />
+
+          {/* Protected User Routes */}
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/settings" element={
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/booking" element={
+            <ProtectedRoute>
+              <BookingPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/rent" element={
+            <ProtectedRoute>
+              <RentVehiclePage />
+            </ProtectedRoute>
+          } />
+          <Route path="/rent/car-detail" element={
+            <ProtectedRoute>
+              <CarDetail />
+            </ProtectedRoute>
+          } />
+          <Route path="/rent/rent-now" element={
+            <ProtectedRoute>
+              <RentNow />
+            </ProtectedRoute>
+          } />
+          <Route path="/rent/reservation" element={
+            <ProtectedRoute>
+              <ReservationPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/rent/payment" element={
+            <ProtectedRoute>
+              <PaymentPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/rent/confirmation" element={
+            <ProtectedRoute>
+              <ConfirmationPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/rent-history" element={
+            <ProtectedRoute>
+              <RentHistory />
+            </ProtectedRoute>
+          } />
+          <Route path="/booking-history" element={
+            <ProtectedRoute>
+              <BookingHistory />
+            </ProtectedRoute>
+          } />
+
+          {/* Protected Driver Routes */}
+          <Route path="/driver-dashboard" element={
+            <ProtectedRoute>
+              <DriverDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/help" element={
+            <ProtectedRoute>
+              <HelpPage />
+            </ProtectedRoute>
+          } />
+
+          {/* Protected Admin Routes */}
+          <Route path="/admin/panel" element={
+            <ProtectedRoute>
+              <AdminPanel />
+            </ProtectedRoute>
+          } />
+          <Route path="/cardashboard" element={
+            <ProtectedRoute>
+              <CarsDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/motordashboard" element={
+            <ProtectedRoute>
+              <MotorcyclesDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/usersdashboard" element={
+            <ProtectedRoute>
+              <UsersDashboard />
+            </ProtectedRoute>
+          } />
+
+          {/* Fallback Route */}
+          {/* <Route path="*" element={<NotFoundPage />} /> */}
+
+        </Routes>
+      </Router>
+    </GoogleOAuthProvider>
   );
 }

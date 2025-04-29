@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { LoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import MapAutocomplete from "../Map/MapAutocomplete";
+import axios from "axios";
 import "./BookingPage.css";
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo";
@@ -99,34 +100,67 @@ const BookingPage = () => {
     handleNextStep();
   };
 
-  const handleConfirmBooking = () => {
+  // ✅ Corrected: Save Booking to Backend with Full Fields
+  const saveBookingToBackend = async () => {
+    try {
+      const bookingData = {
+        customerName: "Juan Dela Cruz",
+        contactNumber: "09123456789",
+        vehicle: { id: 1 },  // You can dynamically set based on selected vehicle
+        pickupLocation: pickupLocation ? pickupLocation.formatted_address : "Unknown Pickup",
+        dropOffLocation: dropOffLocation ? dropOffLocation.formatted_address : "Unknown Dropoff",
+        pickupDate: new Date().toISOString(),
+        returnDate: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(), // +2 hours
+        totalPrice: totalPrice ? parseFloat(totalPrice) : 0,
+        status: "Pending"
+      };
+
+      const response = await axios.post("http://localhost:8080/api/bookings", bookingData);
+
+      console.log("Booking saved successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error saving booking:", error);
+      throw error;
+    }
+  };
+
+  const handleConfirmBooking = async () => {
     setLoading(true);
     setRideStatus("");
     setDriverInfo(null);
 
-    setTimeout(() => {
-      const driverFound = Math.random() > 0.3;
+    try {
+      await saveBookingToBackend(); // ✅ Save booking with full fields
 
+      setTimeout(() => {
+        const driverFound = Math.random() > 0.3;
+        setLoading(false);
+
+        if (driverFound) {
+          const driver = {
+            name: "Juan Dela Cruz",
+            vehicle: selectedType,
+            plateNumber: selectedType === "Motorcycle" ? "MC-1234" : "CAR-5678",
+            estimatedArrival: "5 minutes",
+          };
+          setDriverInfo(driver);
+          setRideStatus("Driver found! Please wait at your pickup location.");
+        } else {
+          setRideStatus("Sorry, no drivers available at the moment. Please try again later.");
+        }
+      }, 3000);
+
+    } catch (error) {
       setLoading(false);
-
-      if (driverFound) {
-        const driver = {
-          name: "Juan Dela Cruz",
-          vehicle: selectedType,
-          plateNumber: selectedType === "Motorcycle" ? "MC-1234" : "CAR-5678",
-          estimatedArrival: "5 minutes",
-        };
-        setDriverInfo(driver);
-        setRideStatus("Driver found! Please wait at your pickup location.");
-      } else {
-        setRideStatus("Sorry, no drivers available at the moment. Please try again later.");
-      }
-    }, 3000);
+      alert("Failed to save booking. Please try again later.");
+    }
   };
 
   return (
     <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={["places"]}>
       <div className="booking-page">
+        {/* Navigation */}
         <nav className="booking-nav">
           <div className="logo-container">
             <a href="/dashboard">
@@ -143,9 +177,11 @@ const BookingPage = () => {
           </ul>
         </nav>
 
+        {/* Booking Content */}
         <div className="booking-content">
           {!showMapPicker ? (
             <div className="booking-container">
+              {/* Step 1: Pickup Location */}
               {bookingStep === 1 && (
                 <div className="booking-form">
                   <h2 className="booking-title">BOOK NOW!</h2>
@@ -165,6 +201,7 @@ const BookingPage = () => {
                 </div>
               )}
 
+              {/* Step 2: Drop-off Location */}
               {bookingStep === 2 && (
                 <div className="booking-form">
                   <div className="form-header">
@@ -188,6 +225,7 @@ const BookingPage = () => {
                 </div>
               )}
 
+              {/* Step 3: Select Vehicle Type */}
               {bookingStep === 3 && (
                 <div className="booking-form">
                   <div className="form-header">
@@ -201,6 +239,7 @@ const BookingPage = () => {
                 </div>
               )}
 
+              {/* Step 4: Confirm Booking */}
               {bookingStep === 4 && (
                 <div className="booking-form">
                   <h2 className="booking-title">Booking Confirmation</h2>

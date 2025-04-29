@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import './DashboardPage.css';
-import Testimonials from './Testimonials'; // Import Testimonials component
+import Testimonials from './Testimonials';
+import { jwtDecode } from "jwt-decode";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function DashboardPage() {
   const [feedbackList, setFeedbackList] = useState([]);
@@ -10,7 +13,50 @@ export default function DashboardPage() {
   const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
   const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
   const [areServicesVisible, setAreServicesVisible] = useState(true);
-  const [isHistoryDropdownOpen, setIsHistoryDropdownOpen] = useState(false); // <<== ADD THIS
+  const [isHistoryDropdownOpen, setIsHistoryDropdownOpen] = useState(false);
+
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+
+        // Optional console logs to debug
+        console.log("Decoded Token:", decoded);
+
+        setUserEmail(decoded.sub || decoded.email);
+
+        const currentTime = Date.now() / 1000; // in seconds
+        console.log("Current time:", currentTime, "Token expiry:", decoded.exp);
+
+        if (decoded.exp && decoded.exp < currentTime) {
+          // Expired immediately
+          handleAutoLogout();
+        } else {
+          // Set timer to auto logout when token expires
+          const timeUntilExpiry = (decoded.exp - currentTime) * 1000; // milliseconds
+          setTimeout(() => {
+            handleAutoLogout();
+          }, timeUntilExpiry);
+        }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        handleAutoLogout();
+      }
+    } else {
+      handleAutoLogout();
+    }
+  }, []);
+
+  const handleAutoLogout = () => {
+    localStorage.removeItem('token');
+    toast.error("⚡ Session expired. Please login again.");
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
+  };
 
   const toggleFeedback = () => {
     setIsFeedbackVisible(!isFeedbackVisible);
@@ -25,27 +71,25 @@ export default function DashboardPage() {
     setIsHistoryDropdownOpen(!isHistoryDropdownOpen);
   };
 
-  const handleFeedbackSubmit = (feedback) => {
-    setFeedbackList([...feedbackList, feedback]);
-  };
-
-  const handleFeedbackClick = () => {
-    toggleFeedback();
-  };
-
   return (
     <div className="dashboard-container">
+      <ToastContainer />
+
       <nav className="navbar">
         <div className="logo">
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub Logo" />
         </div>
+
+        <div className="welcome-user">
+          {userEmail && <span>Hi, {userEmail}</span>}
+        </div>
+
         <ul className="nav-links">
           <li><Link to="/dashboard">Home</Link></li>
           <li><Link to="/booking">Book</Link></li>
           <li><Link to="/rent">Rent</Link></li>
           <li><Link to="/about-us">About Us</Link></li>
 
-          {/* New History Dropdown */}
           <li className="history-dropdown" onClick={toggleHistoryDropdown}>
             <span>History ▾</span>
             {isHistoryDropdownOpen && (
@@ -61,23 +105,17 @@ export default function DashboardPage() {
         </ul>
       </nav>
 
-      {/* Hero Section */}
       <section className="hero">
         <h1>ENJOY YOUR RIDE HUB!</h1>
 
         <div className="hero-description">
-          <p>
-            Ride Hub is a modern and convenient platform designed for both drivers and passengers.
-            Whether you need a rental car for a trip or a quick ride around the city, Ride Hub connects
-            you to reliable drivers and rental services with ease.
-          </p>
+          <p>Ride Hub is a modern and convenient platform designed for both drivers and passengers. Whether you need a rental car for a trip or a quick ride around the city, Ride Hub connects you to reliable drivers and rental services with ease.</p>
         </div>
 
         <button className="learn-more-btn" onClick={toggleLearnMore}>
           Learn More
         </button>
 
-        {/* Dropdown Section */}
         {isLearnMoreVisible && (
           <>
             <div className="learn-more-cards">
@@ -98,13 +136,11 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Testimonials after Learn More cards */}
             <Testimonials />
           </>
         )}
       </section>
 
-      {/* Services Section */}
       {areServicesVisible && (
         <section className="services">
           <div className="service">
