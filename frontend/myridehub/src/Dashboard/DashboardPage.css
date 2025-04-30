@@ -1,142 +1,134 @@
-/* Reset */
+/* Base Resets */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-body, html {
+body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #111;
+  background-color: #000;
   color: #fff;
-  line-height: 1.6;
-  scroll-behavior: smooth;
 }
 
+/* Container Utility */
 .container {
-  width: 90%;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 20px;
 }
 
 /* Header */
 .main-header {
   background-color: #000;
   padding: 20px 0;
-  position: sticky;
-  top: 0;
-  z-index: 999;
+  border-bottom: 1px solid #444;
 }
 
 .header-flex {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+  align-items: center;
 }
 
 .logo img {
   height: 50px;
 }
 
+/* Navigation */
 .main-nav .nav-links {
-  display: flex;
   list-style: none;
-  gap: 20px;
+  display: flex;
+  gap: 25px;
 }
 
-.main-nav .nav-links li a,
-.contact-btn,
-.btn-primary,
-.btn-secondary {
-  color: white;
+.main-nav .nav-links li {
+  position: relative;
+}
+
+.main-nav .nav-links a {
+  color: #fff;
   text-decoration: none;
   font-weight: 500;
-  padding: 8px 14px;
-  border-radius: 6px;
-  transition: background-color 0.3s;
+  padding: 6px 10px;
+  transition: background 0.2s;
 }
 
-.btn-primary {
-  background-color: #10b981;
-}
-
-.btn-secondary {
-  background-color: transparent;
-  border: 2px solid #10b981;
-  color: #10b981;
-}
-
-.btn-primary:hover,
-.btn-secondary:hover {
-  opacity: 0.9;
+.main-nav .nav-links a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
 }
 
 .history-dropdown {
   cursor: pointer;
-  position: relative;
 }
 
 .dropdown-menu {
-  background-color: white;
-  color: black;
   position: absolute;
-  top: 100%;
+  top: 30px;
   right: 0;
-  padding: 10px 0;
-  border-radius: 8px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  background-color: #111;
+  padding: 10px;
+  border-radius: 6px;
   list-style: none;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
   z-index: 1000;
 }
 
 .dropdown-menu li {
-  padding: 10px 20px;
+  margin-bottom: 8px;
 }
 
-.dropdown-menu li:hover {
-  background-color: #eee;
+.dropdown-menu li a {
+  color: #fff;
+  text-decoration: none;
 }
 
+/* Profile Info */
 .profile-info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .profile-pic {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .logout-btn {
-  background: #f44336;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-weight: bold;
+  background-color: #e53935;
   color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-/* Hero */
+.logout-btn:hover {
+  background-color: #c62828;
+}
+
+/* Hero Section */
 .hero-section {
-  padding: 80px 20px;
+  background-image: url('/road.png');
+  background-size: cover;
+  background-position: center;
   text-align: center;
-  background: linear-gradient(to bottom right, #0f766e, #1e3a8a);
+  padding: 80px 20px;
 }
 
 .hero-section h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  font-size: 48px;
+  margin-bottom: 16px;
 }
 
 .hero-section p {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-  color: #f0fdf4;
+  font-size: 18px;
+  color: #ddd;
+  margin-bottom: 32px;
 }
 
 .cta-buttons {
@@ -145,86 +137,93 @@ body, html {
   gap: 20px;
 }
 
-/* Features */
+.btn-primary,
+.btn-secondary {
+  padding: 12px 24px;
+  font-weight: bold;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.btn-primary {
+  background-color: #10b981;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Features Section */
 .features-section {
+  background-color: #111;
   padding: 60px 20px;
-  background-color: #1f2937;
+  text-align: center;
 }
 
 .features-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 20px;
   justify-content: center;
 }
 
 .feature-card {
-  background-color: #2d3748;
+  background-color: #222;
   padding: 20px;
-  border-radius: 12px;
-  width: 300px;
-  text-align: center;
+  border-radius: 10px;
+  width: 280px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
 }
 
 .feature-card img {
   width: 100%;
-  height: 180px;
+  height: 160px;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 .feature-card h3 {
   margin-bottom: 10px;
-  font-size: 1.2rem;
 }
 
-.feature-card p {
-  font-size: 0.95rem;
-  color: #cbd5e1;
-}
-
-/* How It Works */
+/* How it Works */
 .how-it-works {
+  background-color: #000;
   padding: 60px 20px;
-  background-color: #111827;
-  text-align: center;
 }
 
 .how-it-works h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .how-it-works ol {
-  list-style: decimal inside;
   max-width: 600px;
   margin: 0 auto;
-  text-align: left;
+  font-size: 16px;
+  line-height: 1.8;
 }
 
-.how-it-works li {
-  margin-bottom: 1rem;
-}
-
-/* Testimonials */
+/* Testimonials Section */
 .testimonials-section {
+  background-color: #111;
   padding: 60px 20px;
-  background-color: #1e293b;
-  color: white;
-  text-align: center;
 }
 
 .testimonials-section h2 {
-  margin-bottom: 2rem;
-  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 /* Footer */
 .main-footer {
   background-color: #000;
   padding: 40px 20px;
-  color: white;
+  border-top: 1px solid #444;
 }
 
 .footer-content {
@@ -232,48 +231,32 @@ body, html {
   flex-wrap: wrap;
   gap: 40px;
   justify-content: space-between;
-  align-items: flex-start;
 }
 
 .footer-logo {
   width: 120px;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
+}
+
+.footer-contact,
+.main-footer h4 {
+  color: #10b981;
 }
 
 .main-footer ul {
   list-style: none;
-  padding: 0;
+  padding-left: 0;
 }
 
 .main-footer ul li {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .main-footer ul li a {
-  color: white;
+  color: #fff;
   text-decoration: none;
 }
 
-.footer-contact p {
-  margin-bottom: 0.5rem;
-}
-
-@media (max-width: 768px) {
-  .features-grid,
-  .footer-content,
-  .cta-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .header-flex {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .main-nav .nav-links {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
+.main-footer ul li a:hover {
+  text-decoration: underline;
 }
