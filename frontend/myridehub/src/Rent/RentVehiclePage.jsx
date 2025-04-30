@@ -11,14 +11,15 @@ const RentVehiclePage = () => {
   useEffect(() => {
     axios
       .get("https://it342-myridehub.onrender.com/api/vehicles")
-      .then((res) => setVehicles(res.data))
+      .then((res) => {
+        console.log("Fetched vehicles:", res.data); // Debug log
+        setVehicles(res.data);
+      })
       .catch((err) => console.error("Failed to fetch vehicles:", err));
   }, []);
 
   const filteredVehicles = vehicles.filter((v) =>
-    category === "4wheels"
-      ? v.type.toLowerCase() === "4W"
-      : v.type.toLowerCase() === "2W"
+    category === "4wheels" ? v.type === "4W" : v.type === "2W"
   );
 
   const handleDetailsClick = (vehicle) => {

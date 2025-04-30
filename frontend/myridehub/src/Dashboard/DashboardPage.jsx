@@ -141,9 +141,9 @@ export default function DashboardPage() {
 
       <div className="dashboard-footer">
         <div className="footer-links">
+          <Link to="/fare-calculator">Fare Calculator</Link>
           <Link to="/passenger-appeal">Passenger Appeal Form</Link>
           <Link to="/terms">Terms and Conditions</Link>
-          <Link to="/fare-calculator">Fare Calculator</Link>
         </div>
         <div className="footer-logo">
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub" />

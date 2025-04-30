@@ -198,7 +198,7 @@ html, body {
 
 .vehicle-info .price {
   font-weight: bold;
-  color: #100f0f;
+  color: #000;
   margin-bottom: 6px;
 }
 
@@ -217,19 +217,19 @@ html, body {
 }
 
 .btn-light {
-  background-color: #100f0f;
+  background-color: #000;
   color: white;
   border: none;
 }
 
 .btn-dark {
   background-color: transparent;
-  color: #100f0f;
-  border: 1px solid #100f0f;
+  color: #000;
+  border: 1px solid #000;
 }
 
 .btn-dark:hover {
-  background-color: #100f0f;
+  background-color: #000;
   color: white;
 }
 
