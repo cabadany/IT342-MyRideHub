@@ -11,7 +11,7 @@ const CarDetail = () => {
 
   useEffect(() => {
     if (passedVehicle?.id) {
-      axios.get(`http://localhost:8080/api/vehicles/${passedVehicle.id}`)
+      axios.get(`https://it342-myridehub.onrender.com/api/vehicles/${passedVehicle.id}`)
         .then(res => setVehicle(res.data))
         .catch(err => console.error('Failed to fetch vehicle details:', err));
     } else {

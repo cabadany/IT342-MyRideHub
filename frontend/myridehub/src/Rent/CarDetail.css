@@ -1,28 +1,28 @@
-/* Overall Page */
 .rent-page {
-  background-color: #100f0f;
-  color: white;
+  background-color: #ffffff;
+  color: #100f0f;
   font-family: 'Arial', sans-serif;
   min-height: 100vh;
-  padding-bottom: 4rem;
-  overflow-x: hidden;
-}
-
-/* Main Section */
-.rent-main {
-  width: 100vw;
-  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
   box-sizing: border-box;
-  position: relative;
 }
 
-/* Back Button */
+.rent-main {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .back-button {
-  position: absolute;
-  top: 1.5rem;
-  left: 2rem;
+  align-self: flex-start;
+  margin-bottom: 1rem;
   background-color: transparent;
-  color: white;
+  color: #100f0f;
   font-weight: bold;
   font-size: 1rem;
   border: none;
@@ -31,16 +31,15 @@
 }
 
 .back-button:hover {
-  color: #cccccc;
+  color: #555;
 }
 
-/* Main Layout */
 .main-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3rem;
-  padding: 5rem 2rem 2rem;
+  width: 100%;
   text-align: center;
 }
 
@@ -50,69 +49,70 @@
     justify-content: center;
     align-items: flex-start;
     text-align: left;
-    padding: 5rem 4rem 2rem;
+  }
+
+  .back-button {
+    align-self: flex-start;
   }
 }
 
-/* Vehicle Details Box */
 .details-box {
-  background-color: #100f0f;
-  border: 1px solid #333;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
   border-radius: 0.75rem;
   padding: 2rem;
   width: 100%;
   max-width: 500px;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
-  margin-top: 60px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .title {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
-  color: white;
+  color: #0d0d0d;
+  text-align: center;
 }
 
 .section-title {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #f3f3f3;
+  color: #333;
+  text-align: center;
 }
 
 .section-list {
-  font-size: 0.875rem;
-  line-height: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.6rem;
   list-style-type: disc;
   padding-left: 1.25rem;
   margin-bottom: 1.5rem;
-  color: #e5e5e5;
+  color: #444;
+  text-align: left;
 }
 
-/* Image Box */
 .image-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   max-width: 500px;
-  margin-top: 250px;
+  width: 100%;
 }
 
 .vehicle-image {
-  width: 1  00%;
-  max-width: 600px;
+  width: 100%;
+  max-width: 400px;
   object-fit: contain;
   border-radius: 0.5rem;
-  background-color: #100f0f;
+  background-color: #fff;
   padding: 1rem;
   margin-bottom: 1.5rem;
 }
 
-/* Button Styling */
 .btn-light {
-  background-color: white;
-  color: #0d0d0d;
+  background-color: #0d0d0d;
+  color: white;
   font-weight: bold;
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
@@ -122,5 +122,5 @@
 }
 
 .btn-light:hover {
-  background-color: #f5f5f5;
+  background-color: #333;
 }

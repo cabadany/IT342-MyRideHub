@@ -67,6 +67,7 @@ export default function DashboardPage() {
         <div className="nav-wrapper">
           <ul className="nav-menu">
             <li><Link to="/dashboard">HOME</Link></li>
+
             <li className="dropdown-container">
               <span className="dropdown-toggle">OUR SERVICES ▾</span>
               <ul className="dropdown-menu">
@@ -76,18 +77,31 @@ export default function DashboardPage() {
                 <li><Link to="/terms">Terms and Conditions</Link></li>
               </ul>
             </li>
+
+            <li className="dropdown-container">
+              <span className="dropdown-toggle">HISTORY ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/rent-history">Rent History</Link></li>
+                <li><Link to="/book-history">Book History</Link></li>
+              </ul>
+            </li>
+
             <li className="dropdown-container">
               <span className="dropdown-toggle">JOIN US ▾</span>
               <ul className="dropdown-menu">
                 <li><Link to="/be-a-driver">Be a Driver</Link></li>
               </ul>
             </li>
+
             <li className="dropdown-container">
               <span className="dropdown-toggle">CONTACT US ▾</span>
               <ul className="dropdown-menu">
                 <li><Link to="/passenger-appeal">Passenger Appeal Form</Link></li>
               </ul>
             </li>
+
+            <li><Link to="/settings">SETTINGS</Link></li>
+
             <li>
               <div className="search-bar">
                 <input type="text" placeholder="Search..." />
