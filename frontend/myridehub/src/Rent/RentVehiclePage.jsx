@@ -9,7 +9,7 @@ const RentVehiclePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/vehicles")
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/vehicles`)
       .then((res) => setVehicles(res.data))
       .catch((err) => console.error("Failed to fetch vehicles:", err));
   }, []);
@@ -68,7 +68,6 @@ const RentVehiclePage = () => {
         </div>
       </nav>
 
-      {/* Full-width divider line */}
       <div className="divider-line"></div>
 
       <div className="rent-title">
