@@ -1,17 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import './DashboardPage.css';
-import Testimonials from './Testimonials';
 import { jwtDecode } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function DashboardPage() {
-  const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [userPicture, setUserPicture] = useState("");
-  const [isHistoryDropdownOpen, setIsHistoryDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,31 +18,15 @@ export default function DashboardPage() {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        setUserEmail(decoded.sub || decoded.email);
         setUserName(name || decoded.name);
         setUserPicture(picture || decoded.picture);
-
         const currentTime = Date.now() / 1000;
-        if (decoded.exp && decoded.exp < currentTime) {
-          handleAutoLogout();
-        } else {
-          const timeUntilExpiry = (decoded.exp - currentTime) * 1000;
-          setTimeout(() => handleAutoLogout(), timeUntilExpiry);
-        }
+        if (decoded.exp && decoded.exp < currentTime) handleAutoLogout();
+        else setTimeout(() => handleAutoLogout(), (decoded.exp - currentTime) * 1000);
       } catch {
         handleAutoLogout();
       }
-    } else {
-      handleAutoLogout();
-    }
-
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setIsHistoryDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    } else handleAutoLogout();
   }, []);
 
   const handleAutoLogout = () => {
@@ -62,118 +42,102 @@ export default function DashboardPage() {
   };
 
   return (
-    <>
+    <div className="dashboard-page">
       <ToastContainer />
-      <header className="main-header">
-        <div className="container header-flex">
-          <div className="logo">
-            <Link to="/dashboard"><img src="/Ride Hub Logo (White).png" alt="Ride Hub" /></Link>
-          </div>
 
-          <nav className="main-nav">
-            <ul className="nav-links">
-              <li><Link to="/dashboard">Home</Link></li>
-              <li><Link to="/booking">Book</Link></li>
-              <li><Link to="/rent">Rent</Link></li>
-              <li><Link to="/about-us">About</Link></li>
-              <li className="history-dropdown" onClick={() => setIsHistoryDropdownOpen(!isHistoryDropdownOpen)} ref={dropdownRef}>
-                <span>History ▾</span>
-                {isHistoryDropdownOpen && (
-                  <ul className="dropdown-menu">
-                    <li><Link to="/rent-history">Rent History</Link></li>
-                    <li><Link to="/booking-history">Booking History</Link></li>
-                  </ul>
-                )}
-              </li>
-              <li><Link to="/contact-us">Contact</Link></li>
-            </ul>
-          </nav>
+      <div className="logo-top-center">
+        <img src="/Ride Hub Logo (Dark).png" alt="Ride Hub" className="dashboard-logo" />
+      </div>
 
-          <div className="profile-info">
-            {userPicture && <img src={userPicture} alt="Profile" className="profile-pic" />}
-            {userName && <span>Hi, {userName}</span>}
-            <button className="logout-btn" onClick={handleLogout}>Logout</button>
-          </div>
+      <nav className="main-nav">
+        <div className="nav-wrapper">
+          <ul className="nav-menu">
+            <li><Link to="/dashboard">HOME</Link></li>
+            <li className="dropdown-container">
+              <span className="dropdown-toggle">OUR SERVICES ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/booking">Book a Vehicle</Link></li>
+                <li><Link to="/rent">Rent a Vehicle</Link></li>
+                <li><Link to="/fare-calculator">Fare Calculator</Link></li>
+                <li><Link to="/terms">Terms and Conditions</Link></li>
+              </ul>
+            </li>
+            <li className="dropdown-container">
+              <span className="dropdown-toggle">JOIN US ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/be-a-driver">Be a Driver</Link></li>
+              </ul>
+            </li>
+            <li className="dropdown-container">
+              <span className="dropdown-toggle">CONTACT US ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/passenger-appeal">Passenger Appeal Form</Link></li>
+              </ul>
+            </li>
+            <li>
+              <div className="search-bar">
+                <input type="text" placeholder="Search..." />
+              </div>
+            </li>
+          </ul>
         </div>
-      </header>
+      </nav>
 
-      <section className="hero-section">
-        <div className="container">
-          <h1>ENJOY YOUR RIDE HUB!</h1>
-          <p>Your go-to ride and vehicle rental service, made easy, fast, and reliable.</p>
-          <div className="cta-buttons">
-            <Link className="btn-primary" to="/booking">Book a Ride</Link>
-            <Link className="btn-secondary" to="/rent">Rent a Vehicle</Link>
-          </div>
+      <div className="divider-line"></div>
+
+      <div className="hero-image-section">
+        <img src="/for dashboard.png" alt="Hero" className="hero-img" />
+        <div className="hero-overlay">
+          <h1 className="hero-title">RIDE HUB</h1>
+          <Link to="/booking" className="hero-btn">Book a Ride</Link>
+          <Link to="/rent" className="hero-btn">Rent a Vehicle</Link>
         </div>
-      </section>
+      </div>
 
-      <section className="features-section">
-        <div className="container">
-          <div className="features-grid">
-            <div className="feature-card">
-              <img src="/parkinglot.jpg" alt="Wide Options" />
-              <h3>Wide Vehicle Options</h3>
-              <p>From motorcycles to cars, we've got the right ride for every trip.</p>
-            </div>
-            <div className="feature-card">
-              <img src="/customersupport.jpg" alt="Support" />
-              <h3>24/7 Customer Support</h3>
-              <p>Questions? Our team is always ready to assist you anytime.</p>
-            </div>
-            <div className="feature-card">
-              <img src="/affordable-rates.png" alt="Affordable" />
-              <h3>Affordable Rates</h3>
-              <p>Great rides at fair prices. No hidden fees.</p>
-            </div>
+      <section className="dashboard-articles">
+        <div className="article">
+          <img src="/article 1.png" alt="Wide Vehicle Options" />
+          <div className="article-text">
+            <h3>Wide Vehicle Options</h3>
+            <p>
+              Whether you're navigating the city or going on a road trip, we offer a variety of vehicles to meet your needs. Choose from compact scooters, reliable sedans, spacious SUVs, and more—all maintained to deliver comfort, safety, and performance wherever you go.
+            </p>
           </div>
         </div>
-      </section>
-
-      <section className="how-it-works">
-        <div className="container">
-          <h2>How It Works</h2>
-          <ol>
-            <li>Sign up or log in to your Ride Hub account.</li>
-            <li>Choose whether to book a ride or rent a vehicle.</li>
-            <li>Select your pickup and drop-off locations or vehicle type.</li>
-            <li>Confirm your booking and enjoy the ride!</li>
-          </ol>
+        <div className="article">
+          <img src="/article 2.png" alt="24/7 Customer Support" />
+          <div className="article-text">
+            <h3>24/7 Customer Support</h3>
+            <p>
+              Day or night, our customer care agents are just a click or call away. We provide 24/7 live assistance to help you with bookings, concerns on the road, payments, or safety-related issues—because your peace of mind is our priority.
+            </p>
+          </div>
         </div>
-      </section>
-
-      <section className="testimonials-section">
-        <div className="container">
-          <h2>What Our Customers Say</h2>
-          <Testimonials />
+        <div className="article">
+          <img src="/article 3.png" alt="Budget-Friendly Rates" />
+          <div className="article-text">
+            <h3>Budget-Friendly Rates</h3>
+            <p>
+              Enjoy reliable transport options without breaking the bank. With our competitive and transparent pricing, you'll know exactly what you’re paying for. We offer flexible rates for both short and long trips, so you can ride more and worry less.
+            </p>
+          </div>
         </div>
       </section>
 
-      <footer className="main-footer">
-        <div className="container footer-content">
-          <div>
-            <img className="footer-logo" src="/Ride Hub Logo (White).png" alt="Ride Hub" />
-            <p>&copy; 2025 MyRideHub. All rights reserved.</p>
-          </div>
-
-          <div>
-            <h4>Quick Links</h4>
-            <ul>
-              <li><Link to="/dashboard">Home</Link></li>
-              <li><Link to="/booking">Book</Link></li>
-              <li><Link to="/rent">Rent</Link></li>
-              <li><Link to="/about-us">About</Link></li>
-            </ul>
-          </div>
-
-          <div className="footer-contact">
-            <h4>Contact Us</h4>
-            <p>Email: myridehub.team@gmail.com</p>
-            <p>Phone: 0912-345-6789</p>
-            <p>Address: Natalio B. Bacalso Ave., Cebu</p>
-          </div>
+      <div className="dashboard-footer">
+        <div className="footer-links">
+          <Link to="/passenger-appeal">Passenger Appeal Form</Link>
+          <Link to="/terms">Terms and Conditions</Link>
+          <Link to="/fare-calculator">Fare Calculator</Link>
         </div>
-      </footer>
-    </>
+        <div className="footer-logo">
+          <img src="/Ride Hub Logo (White).png" alt="Ride Hub" />
+        </div>
+      </div>
+
+      <div className="dashboard-copyright">
+        ©2025 by RIDE HUB Philippines. All Rights Reserved
+      </div>
+    </div>
   );
 }
