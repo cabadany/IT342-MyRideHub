@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './AdminLogin.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,18 +16,26 @@ export default function AdminLogin() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/login', {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
         email,
         password
       });
 
       const token = response.data.token;
-      localStorage.setItem('authToken', token);
 
-      navigate('/admin/panel');
+      if (token) {
+        localStorage.setItem('authToken', token);
+        navigate('/admin/panel');
+      } else {
+        setError('Invalid response from server.');
+      }
     } catch (err) {
-      console.error(err);
-      setError('Login failed. Please try again.');
+      console.error('Login error:', err);
+      if (err.response?.status === 401) {
+        setError('Invalid credentials. Please try again.');
+      } else {
+        setError('Login failed. Please try again later.');
+      }
     }
   };
 

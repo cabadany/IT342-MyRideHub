@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './HistoryPage.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // ✅ Connect to your .env backend URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const BookingHistory = () => {
   const navigate = useNavigate();

@@ -1,50 +1,45 @@
 package com.sia.myridehub.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sia.myridehub.config.JwtConfig;
+import com.sia.myridehub.config.JwtTokenProvider;
 import com.sia.myridehub.model.dto.AuthRequest;
-import com.sia.myridehub.model.dto.AuthResponse;
-import com.sia.myridehub.service.AdminService;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin("*")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    private AdminService adminService;
-
-    @Autowired
-    private JwtConfig jwtConfig;
+    public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
-            authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                    authRequest.getEmail(),
-                    authRequest.getPassword()
-                )
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.status(401).body("Invalid credentials");
+
+            String token = jwtTokenProvider.generateToken(authentication);
+            return ResponseEntity.ok(Map.of("token", token));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Login failed. Invalid credentials.");
         }
-
-        UserDetails userDetails = adminService.loadUserByUsername(authRequest.getEmail());
-        String jwt = jwtConfig.generateToken(userDetails);
-
-        return ResponseEntity.ok(new AuthResponse(jwt));
     }
 }
