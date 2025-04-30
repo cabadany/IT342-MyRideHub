@@ -12,7 +12,7 @@ const RentVehiclePage = () => {
     axios
       .get("https://it342-myridehub.onrender.com/api/vehicles")
       .then((res) => {
-        console.log("Fetched vehicles:", res.data); // Debug log
+        console.log("Fetched vehicles:", res.data);
         setVehicles(res.data);
       })
       .catch((err) => console.error("Failed to fetch vehicles:", err));
@@ -61,12 +61,10 @@ const RentVehiclePage = () => {
                 <li><a href="/passenger-appeal">Passenger Appeal Form</a></li>
               </ul>
             </li>
-            <li>
-              <div className="search-bar">
-                <input type="text" placeholder="Search..." />
-              </div>
-            </li>
           </ul>
+          <div className="search-bar">
+            <input type="text" placeholder="Search..." />
+          </div>
         </div>
       </nav>
 

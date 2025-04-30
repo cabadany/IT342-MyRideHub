@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 import "./RentNow.css";
 
 const RentNow = () => {
@@ -33,18 +34,35 @@ const RentNow = () => {
     setTotal(computedTotal);
   };
 
-  const handleProceed = () => {
-    navigate("/rent/reservation", {
-      state: {
-        vehicle,
-        isDriverSelected,
+  const handleProceed = async () => {
+    try {
+      const response = await axios.post("https://it342-myridehub.onrender.com/api/rentals", {
+        vehicleId: vehicle?.id,
         pickUpDate,
         pickUpTime,
         returnDate,
         returnTime,
         total,
-      },
-    });
+        withDriver: isDriverSelected
+      });
+
+      if (response.status === 200 || response.status === 201) {
+        navigate("/rent/reservation", {
+          state: {
+            vehicle,
+            isDriverSelected,
+            pickUpDate,
+            pickUpTime,
+            returnDate,
+            returnTime,
+            total,
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Failed to submit rental info:", error);
+      alert("An error occurred while submitting your reservation. Please try again.");
+    }
   };
 
   return (

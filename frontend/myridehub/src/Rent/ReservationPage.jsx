@@ -1,55 +1,96 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./ReservationPage.css";
 
 const ReservationPage = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { vehicle, pickUpDate, pickUpTime, returnDate, returnTime, total, isDriverSelected } = state || {};
+  const {
+    vehicle,
+    pickUpDate,
+    pickUpTime,
+    returnDate,
+    returnTime,
+    total,
+    isDriverSelected,
+  } = state || {};
 
   const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    agree: false
+    firstName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    agree: false,
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm({ ...form, [name]: type === 'checkbox' ? checked : value });
+    setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   };
 
-  const handleReserveNow = () => {
+  const handleReserveNow = async () => {
     if (!form.agree) {
       alert("Please agree to the Terms and Conditions before proceeding.");
       return;
     }
 
-    navigate("/rent/payment", {
-      state: {
-        vehicle,
-        pickUpDate,
-        pickUpTime,
-        returnDate,
-        returnTime,
-        total,
-        isDriverSelected,
-        customerInfo: form,
+    const reservationPayload = {
+      vehicleId: vehicle.id,
+      pickUpDate,
+      pickUpTime,
+      returnDate,
+      returnTime,
+      totalAmount: total,
+      withDriver: isDriverSelected,
+      customer: {
+        firstName: form.firstName,
+        lastName: form.lastName,
+        phone: form.phone,
+        email: form.email,
       },
-    });
+    };
+
+    try {
+      await axios.post(
+        "https://it342-myridehub.onrender.com/api/reservations",
+        reservationPayload
+      );
+
+      navigate("/rent/payment", {
+        state: {
+          vehicle,
+          pickUpDate,
+          pickUpTime,
+          returnDate,
+          returnTime,
+          total,
+          isDriverSelected,
+          customerInfo: form,
+        },
+      });
+    } catch (err) {
+      console.error("Reservation failed:", err);
+      alert("Reservation could not be completed. Please try again.");
+    }
   };
 
   return (
     <div className="reservation-container">
-      <button className="back-button" onClick={() => navigate(-1)}>← Back</button>
+      <button className="back-button" onClick={() => navigate(-1)}>
+        ← Back
+      </button>
 
       <main className="reservation-main">
         <div className="left-section">
           <div className="box">
             <h3>Booking Details</h3>
-            <p>Pick-up Date & Time: {pickUpDate} at {pickUpTime}</p>
-            <p>Return Date & Time: {returnDate} at {returnTime}</p>
+            <p>
+              Pick-up Date & Time: {pickUpDate} at {pickUpTime}
+            </p>
+            <p>
+              Return Date & Time: {returnDate} at {returnTime}
+            </p>
           </div>
 
           {isDriverSelected && (
@@ -61,15 +102,22 @@ const ReservationPage = () => {
 
           <div className="box">
             <h3>Vehicle Details</h3>
-            <p>Car Model & Variant: {vehicle?.brand} {vehicle?.model}</p>
+            <p>
+              Car Model & Variant: {vehicle?.brand} {vehicle?.model}
+            </p>
             <p>Engine: {vehicle?.engine}</p>
             <p>Seats: {vehicle?.seats}</p>
           </div>
         </div>
 
         <div className="center-section">
-          <img src={vehicle?.imageUrl} alt={`${vehicle?.brand} ${vehicle?.model}`} />
-          <h2>{vehicle?.brand} {vehicle?.model}</h2>
+          <img
+            src={vehicle?.imageUrl}
+            alt={`${vehicle?.brand} ${vehicle?.model}`}
+          />
+          <h2>
+            {vehicle?.brand} {vehicle?.model}
+          </h2>
           <p>Rental Price: ₱ {vehicle?.pricePerDay?.toLocaleString()}/ Day</p>
         </div>
 
@@ -110,13 +158,14 @@ const ReservationPage = () => {
                 name="agree"
                 checked={form.agree}
                 onChange={handleChange}
-              /> I have read and agree to the Terms and Conditions.
+              />{" "}
+              I have read and agree to the Terms and Conditions.
             </label>
           </div>
 
           <div className="summary-box">
             <p>Estimated total due at the counter</p>
-            <h2>PHP {total ? total.toLocaleString() : '0.00'}</h2>
+            <h2>PHP {total ? total.toLocaleString() : "0.00"}</h2>
             <button className="reserve-button" onClick={handleReserveNow}>
               RESERVE NOW
             </button>

@@ -1,3 +1,4 @@
+/* Reset & Base */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -19,6 +20,7 @@ html, body {
   flex-direction: column;
 }
 
+/* Top Logo */
 .logo-top-center {
   display: flex;
   justify-content: center;
@@ -30,6 +32,7 @@ html, body {
   height: 90px;
 }
 
+/* Navigation */
 .main-nav {
   width: 100%;
   background-color: #fff;
@@ -101,6 +104,7 @@ html, body {
   text-decoration: none;
 }
 
+/* Search Bar */
 .search-bar {
   border: 1px solid #ccc;
   padding: 6px 12px;
@@ -117,6 +121,7 @@ html, body {
   outline: none;
 }
 
+/* Divider line */
 .divider-line {
   width: 100vw;
   height: 1px;
@@ -124,6 +129,7 @@ html, body {
   margin: 0;
 }
 
+/* Page Title */
 .rent-title h1 {
   text-align: center;
   font-size: 32px;
@@ -131,6 +137,7 @@ html, body {
   color: #000;
 }
 
+/* Category Buttons */
 .category-buttons {
   display: flex;
   justify-content: center;
@@ -153,6 +160,7 @@ html, body {
   color: white;
 }
 
+/* Vehicle Grid */
 .vehicle-grid {
   display: flex;
   flex-wrap: wrap;
@@ -217,11 +225,11 @@ html, body {
 .btn-dark {
   background-color: transparent;
   color: #000;
-  border: 1px solid #000;
+  border: 1px solid #100f0f;
 }
 
 .btn-dark:hover {
-  background-color: #000;
+  background-color: #100f0f;
   color: white;
 }
 
