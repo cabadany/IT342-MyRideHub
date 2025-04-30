@@ -51,9 +51,10 @@ public class SecurityConfig {
         config.setAllowCredentials(true);
         config.setAllowedOrigins(Arrays.asList(
             "http://localhost:5173",
-            "https://my-ride-hubapp.vercel.app"
+            "https://my-ride-hubapp.vercel.app",
+            "https://my-ridehub-production.up.railway.app"
         ));
-        config.setAllowedHeaders(Arrays.asList("*"));
+        config.addAllowedHeader("*");
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

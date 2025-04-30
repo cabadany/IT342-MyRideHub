@@ -1,3 +1,4 @@
+/* Reset & Base */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -34,7 +35,7 @@ html, body {
   height: 90px;
 }
 
-/* Navigation */
+/* Navigation Bar */
 .main-nav {
   width: 100%;
   background-color: #fff;
@@ -46,6 +47,14 @@ html, body {
   align-items: center;
   gap: 40px;
   flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Shadow on Scroll */
+.main-nav.scrolled {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Nav Menu */
@@ -71,7 +80,7 @@ html, body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Hover & Active */
+/* Hover & Active States */
 .nav-menu li a:hover,
 .nav-menu li span:hover,
 .nav-menu li a.active,
@@ -85,7 +94,7 @@ html, body {
   position: relative;
 }
 
-/* Ensure dropdown stays open while hovering either parent or submenu */
+/* Dropdown Visibility */
 .dropdown-container:hover .dropdown-menu,
 .dropdown-menu:hover {
   display: block;
@@ -145,13 +154,13 @@ html, body {
 
 /* Divider Line */
 .divider-line {
-  width: 100%;
+  width: 100vw;
   height: 1px;
   background-color: #ccc;
   margin: 0;
 }
 
-/* Hero Image */
+/* Hero Image Section */
 .hero-image-section {
   position: relative;
   width: 100%;
@@ -165,7 +174,6 @@ html, body {
   object-fit: cover;
 }
 
-/* Hero Button Container on Top of Image */
 .hero-overlay {
   position: absolute;
   top: 25%;
@@ -178,7 +186,6 @@ html, body {
   margin-top: 60px;
 }
 
-/* Hero Buttons */
 .hero-btn {
   background-color: #ffffff;
   color: #100f0f;
@@ -204,6 +211,7 @@ html, body {
   margin-bottom: 10px;
 }
 
+/* Articles Section */
 .dashboard-articles {
   display: flex;
   flex-direction: column;
@@ -245,6 +253,7 @@ html, body {
   text-align: left;
 }
 
+/* Footer */
 .dashboard-footer {
   background-color: #000;
   color: white;

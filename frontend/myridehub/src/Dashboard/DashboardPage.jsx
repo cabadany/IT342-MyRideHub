@@ -29,6 +29,20 @@ export default function DashboardPage() {
     } else handleAutoLogout();
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const nav = document.querySelector(".main-nav");
+      if (window.scrollY > 10) {
+        nav.classList.add("scrolled");
+      } else {
+        nav.classList.remove("scrolled");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleAutoLogout = () => {
     localStorage.clear();
     toast.error("Session expired. Please log in again.");
@@ -100,7 +114,8 @@ export default function DashboardPage() {
           <div className="article-text">
             <h3>Wide Vehicle Options</h3>
             <p>
-              Whether you're navigating the city or going on a road trip, we offer a variety of vehicles to meet your needs. Choose from compact scooters, reliable sedans, spacious SUVs, and more—all maintained to deliver comfort, safety, and performance wherever you go.
+              Whether you're navigating the city or going on a road trip, we offer a variety of vehicles to meet your needs.
+              Choose from compact scooters, reliable sedans, spacious SUVs, and more—all maintained to deliver comfort, safety, and performance.
             </p>
           </div>
         </div>
@@ -109,7 +124,7 @@ export default function DashboardPage() {
           <div className="article-text">
             <h3>24/7 Customer Support</h3>
             <p>
-              Day or night, our customer care agents are just a click or call away. We provide 24/7 live assistance to help you with bookings, concerns on the road, payments, or safety-related issues—because your peace of mind is our priority.
+              Day or night, our customer care agents are just a click or call away. We provide 24/7 assistance to help you with bookings, concerns on the road, or safety-related issues—because your peace of mind is our priority.
             </p>
           </div>
         </div>
@@ -118,7 +133,7 @@ export default function DashboardPage() {
           <div className="article-text">
             <h3>Budget-Friendly Rates</h3>
             <p>
-              Enjoy reliable transport options without breaking the bank. With our competitive and transparent pricing, you'll know exactly what you’re paying for. We offer flexible rates for both short and long trips, so you can ride more and worry less.
+              Enjoy reliable transport options without breaking the bank. With our competitive and transparent pricing, you'll know exactly what you’re paying for. We offer flexible rates for both short and long trips.
             </p>
           </div>
         </div>
