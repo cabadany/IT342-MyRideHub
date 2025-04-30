@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthController {
 
     @GetMapping("/")
-    public String healthCheck() {
+    public String health() {
         return "✅ RideHub backend is running!";
     }
 }
