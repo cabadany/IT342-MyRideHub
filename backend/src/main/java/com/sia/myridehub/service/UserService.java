@@ -27,6 +27,20 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public User getOrCreateByEmail(String email) {
+        return userRepository.findByEmail(email).orElseGet(() -> {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setUsername(email.split("@")[0]);
+            newUser.setFullName("Google User");
+            return userRepository.save(newUser);
+        });
+    }
+
     public User updateUser(Long id, User updatedUser) {
         return userRepository.findById(id).map(user -> {
             user.setFullName(updatedUser.getFullName());
@@ -41,5 +55,9 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public User getCurrentUserOrCreate(String email) {
+        return getOrCreateByEmail(email);
     }
 }

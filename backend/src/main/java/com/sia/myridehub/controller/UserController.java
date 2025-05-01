@@ -18,9 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sia.myridehub.model.User;
 import com.sia.myridehub.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "https://it342-myridehub.onrender.com"
+})
 public class UserController {
 
     @Autowired
@@ -50,5 +55,29 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<?> getCurrentUser(HttpServletRequest request) {
+        String email = request.getHeader("X-User-Email");
+        System.out.println("[DEBUG] Received X-User-Email header: " + email);
+
+        if (email == null || email.isEmpty()) {
+            return ResponseEntity.badRequest().body("Missing X-User-Email header");
+        }
+
+        try {
+            Optional<User> user = userService.findByEmail(email);
+            if (user.isPresent()) {
+                return ResponseEntity.ok(user.get());
+            } else {
+                System.err.println("[WARN] User not found for email: " + email);
+                return ResponseEntity.status(404).body("User not found for email: " + email);
+            }
+        } catch (Exception e) {
+            System.err.println("[ERROR] Exception during getCurrentUser: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Internal server error: " + e.getMessage());
+        }
     }
 }
