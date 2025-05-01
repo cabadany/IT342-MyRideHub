@@ -1,14 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { LoadScript, GoogleMap, Marker } from "@react-google-maps/api";
+import { Link, useNavigate } from "react-router-dom";
 import MapAutocomplete from "../Map/MapAutocomplete";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import "./BookingPage.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const GOOGLE_MAPS_API_KEY = "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo";
 const BASE_FARE = 20;
 const RATE_PER_KM = 10;
+const libraries = ["places"];
 
 export default function BookingPage() {
   const [bookingStep, setBookingStep] = useState(1);
@@ -48,9 +49,12 @@ export default function BookingPage() {
 
   const handleNextStep = () => setBookingStep((prev) => prev + 1);
 
-  const handleLocationSelect = (coords) => {
-    const formatted_address = `Lat: ${coords.lat.toFixed(5)}, Lng: ${coords.lng.toFixed(5)}`;
-    const location = { lat: coords.lat, lng: coords.lng, formatted_address };
+  const handleLocationSelect = (place) => {
+    const location = {
+      lat: place.geometry.location.lat(),
+      lng: place.geometry.location.lng(),
+      formatted_address: place.formatted_address || place.description || place.name || `Lat: ${place.geometry.location.lat().toFixed(5)}, Lng: ${place.geometry.location.lng().toFixed(5)}`
+    };
     if (selectingField === "pickup") setPickupLocation(location);
     else if (selectingField === "dropoff") setDropOffLocation(location);
     setShowMapPicker(false);
@@ -134,7 +138,7 @@ export default function BookingPage() {
   };
 
   return (
-    <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={["places"]}>
+    <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={libraries}>
       <div className="booking-page">
         <div className="logo-top-center">
           <img src="/Ride Hub Logo (Dark).png" alt="Ride Hub" className="dashboard-logo" />
@@ -143,31 +147,44 @@ export default function BookingPage() {
         <nav className="main-nav">
           <div className="nav-wrapper">
             <ul className="nav-menu">
-              <li><a href="/dashboard">HOME</a></li>
-              <li className="dropdown">
+              <li><Link to="/dashboard">HOME</Link></li>
+              <li className="dropdown-container">
                 <span>OUR SERVICES ▾</span>
                 <ul className="dropdown-menu">
-                  <li><a href="/booking">Book a Vehicle</a></li>
-                  <li><a href="/rent">Rent a Vehicle</a></li>
-                  <li><a href="/fare-calculator">Fare Calculator</a></li>
-                  <li><a href="/terms">Terms and Conditions</a></li>
+                  <li><Link to="/booking">Book a Vehicle</Link></li>
+                  <li><Link to="/rent">Rent a Vehicle</Link></li>
+                  <li><Link to="/fare-calculator">Fare Calculator</Link></li>
+                  <li><Link to="/terms">Terms and Conditions</Link></li>
                 </ul>
               </li>
-              <li className="dropdown">
+              <li className="dropdown-container">
+                <span>HISTORY ▾</span>
+                <ul className="dropdown-menu">
+                  <li><Link to="/rent-history">Rent History</Link></li>
+                  <li><Link to="/book-history">Book History</Link></li>
+                </ul>
+              </li>
+              <li className="dropdown-container">
                 <span>JOIN US ▾</span>
                 <ul className="dropdown-menu">
-                  <li><a href="/be-a-driver">Be a Driver</a></li>
+                  <li><Link to="/be-a-driver">Be a Driver</Link></li>
                 </ul>
               </li>
-              <li className="dropdown">
+              <li className="dropdown-container">
                 <span>CONTACT US ▾</span>
                 <ul className="dropdown-menu">
-                  <li><a href="/passenger-appeal">Passenger Appeal Form</a></li>
+                  <li><Link to="/passenger-appeal">Passenger Appeal Form</Link></li>
                 </ul>
               </li>
+              <li><Link to="/settings">SETTINGS</Link></li>
             </ul>
+            <div className="search-bar">
+              <input type="text" placeholder="Search..." />
+            </div>
           </div>
         </nav>
+
+        <div className="divider-line"></div>
 
         <div className="booking-stepper">
           <div className={`step ${bookingStep >= 1 ? "active" : ""}`}>Pickup</div>
@@ -181,13 +198,7 @@ export default function BookingPage() {
             <h2>Select Pickup Location</h2>
             <MapAutocomplete
               placeholder="Pickup Location"
-              onPlaceSelected={(place) =>
-                setPickupLocation({
-                  lat: place.geometry.location.lat(),
-                  lng: place.geometry.location.lng(),
-                  formatted_address: place.formatted_address,
-                })
-              }
+              onPlaceSelected={(place) => handleLocationSelect(place)}
               value={pickupLocation?.formatted_address || ""}
             />
             <button onClick={() => { setSelectingField("pickup"); setShowMapPicker(true); }}>Pick from Map</button>
@@ -200,13 +211,7 @@ export default function BookingPage() {
             <h2>Select Drop-off Location</h2>
             <MapAutocomplete
               placeholder="Drop-off Location"
-              onPlaceSelected={(place) =>
-                setDropOffLocation({
-                  lat: place.geometry.location.lat(),
-                  lng: place.geometry.location.lng(),
-                  formatted_address: place.formatted_address,
-                })
-              }
+              onPlaceSelected={(place) => handleLocationSelect(place)}
               value={dropOffLocation?.formatted_address || ""}
               inputRef={dropoffRef}
             />
@@ -256,7 +261,15 @@ export default function BookingPage() {
             >
               {selectedCoords && <Marker position={selectedCoords} />}
             </GoogleMap>
-            <button onClick={() => selectedCoords && handleLocationSelect(selectedCoords)}>Confirm Location</button>
+            <button onClick={() => selectedCoords && handleLocationSelect({
+              geometry: {
+                location: {
+                  lat: () => selectedCoords.lat,
+                  lng: () => selectedCoords.lng
+                }
+              },
+              formatted_address: `Lat: ${selectedCoords.lat.toFixed(5)}, Lng: ${selectedCoords.lng.toFixed(5)}`
+            })}>Confirm Location</button>
           </div>
         )}
       </div>

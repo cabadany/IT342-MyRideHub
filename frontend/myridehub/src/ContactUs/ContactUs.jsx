@@ -1,115 +1,134 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import emailjs from '@emailjs/browser';
-import './ContactUs.css';
+import React, { useState } from "react";
+import "./ContactUs.css";
 
 const ContactUs = () => {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    message: ''
+    name: "",
+    country: "Philippines",
+    phone: "",
+    reason: "",
+    agree: false
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: type === "checkbox" ? checked : value
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!formData.agree) {
+      alert("You must acknowledge the Code of Conduct to submit.");
+      return;
+    }
 
-    emailjs.send(
-      'service_qjtctpm',
-      'template_cdfktrr',
-      {
-        from_name: formData.fullName,
-        from_email: formData.email,
-        message: formData.message,
-        to_email: 'myridehub.team@gmail.com'
-      },
-      'amfqsOzG5FitWxMF_'
-    ).then((result) => {
-      alert('Message sent successfully!');
-      setFormData({ fullName: '', email: '', message: '' });
-    }).catch((error) => {
-      console.error('Failed to send message:', error);
-      alert('Failed to send message. Please try again later.');
+    alert("Appeal submitted successfully!");
+    setFormData({
+      name: "",
+      country: "Philippines",
+      phone: "",
+      reason: "",
+      agree: false
     });
   };
 
-  const handleBackButtonClick = () => {
-    navigate('/dashboard');
-  };
-
   return (
-    <div className="contact-container">
-      <div className="contact-header">
-        <button className="back-button" onClick={handleBackButtonClick}>Back to Home</button>
-        <h1>CONTACT US</h1>
-        <p>
-          Have questions, concerns, or need assistance with our services? Our team is here to help!
-          Whether you have inquiries about bookings, ride options, or technical support, feel free to reach out to us anytime.
-        </p>
+    <div className="contact-page">
+      <div className="logo-top-center">
+        <img src="/Ride Hub Logo (Dark).png" alt="Ride Hub" className="dashboard-logo" />
       </div>
 
-      <div className="contact-content">
-        <div className="contact-info">
-          <div className="info-block">
-            <span className="icon">🏠</span>
-            <div>
-              <h3>Address</h3>
-              <p>Natalio B. Bacalso Ave.<br />Cebu</p>
-            </div>
-          </div>
-          <div className="info-block">
-            <span className="icon">📞</span>
-            <div>
-              <h3>Phone</h3>
-              <p>0912-345-6789</p>
-            </div>
-          </div>
-          <div className="info-block">
-            <span className="icon">✉️</span>
-            <div>
-              <h3>Email</h3>
-              <p>myridehub.team@gmail.com</p>
-            </div>
+      <nav className="main-nav">
+        <div className="nav-wrapper">
+          <ul className="nav-menu">
+            <li><a href="/dashboard">HOME</a></li>
+            <li className="dropdown">
+              <span>OUR SERVICES ▾</span>
+              <ul className="dropdown-menu">
+                <li><a href="/booking">Book a Vehicle</a></li>
+                <li><a href="/rent">Rent a Vehicle</a></li>
+                <li><a href="/fare-calculator">Fare Calculator</a></li>
+                <li><a href="/terms">Terms and Conditions</a></li>
+              </ul>
+            </li>
+            <li className="dropdown">
+              <span>JOIN US ▾</span>
+              <ul className="dropdown-menu">
+                <li><a href="/be-a-driver">Be a Driver</a></li>
+              </ul>
+            </li>
+            <li className="dropdown">
+              <span>CONTACT US ▾</span>
+              <ul className="dropdown-menu">
+                <li><a href="/passenger-appeal">Passenger Appeal Form</a></li>
+              </ul>
+            </li>
+          </ul>
+          <div className="search-bar">
+            <input type="text" placeholder="Search..." />
           </div>
         </div>
+      </nav>
 
-        <div className="contact-form">
-          <h2>SEND MESSAGE</h2>
+      <div className="appeal-form-container">
+        <div className="appeal-form">
+          <h1>Passenger Appeal Form</h1>
+          <p>
+            We review our bookings on a regular basis to ensure a good experience for both our drivers and passengers.
+            Our review shows that you may not have used our app in accordance with Ride Hub’s Terms of Service and hence
+            we have deactivated your access.
+          </p>
+          <p>
+            Appeal forms submitted will be evaluated based on the merits of the information provided and we will only respond
+            to applicants with a strong case for appeal. Our decision is final and no further correspondence will be entertained.
+          </p>
+          <p className="note">
+            *Please note that we reserve the right to pursue legal action if you submit an appeal application and,
+            upon further investigation, we collect further evidence of fraudulent activity.
+          </p>
+
           <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="fullName"
-              placeholder="Full Name"
-              value={formData.fullName}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <textarea
-              name="message"
-              placeholder="Type your Message..."
-              rows="5"
-              value={formData.message}
-              onChange={handleChange}
-              required
-            ></textarea>
-            <button type="submit">Send</button>
+            <label>
+              Name
+              <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+            </label>
+
+            <label>
+              Country Registered
+              <input type="text" name="country" value={formData.country} disabled />
+            </label>
+
+            <label>
+              Country Code
+              <input type="text" value="Philippines (+63)" disabled />
+            </label>
+
+            <label>
+              Phone Number
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+            </label>
+
+            <label>
+              Reason
+              <select name="reason" value={formData.reason} onChange={handleChange} required>
+                <option value="">-- Select a reason --</option>
+                <option>I may have cancelled too many bookings</option>
+                <option>I have more than one passenger account</option>
+                <option>I may have outstanding payment for previous ride</option>
+                <option>I am not sure why I am being suspended</option>
+                <option>Others</option>
+              </select>
+            </label>
+
+            <label className="checkbox-label">
+              <input type="checkbox" name="agree" checked={formData.agree} onChange={handleChange} />
+              I hereby acknowledge that I have read, understood, and agree to comply with the Code of Conduct.
+            </label>
+
+            <button type="submit">Submit</button>
           </form>
         </div>
       </div>

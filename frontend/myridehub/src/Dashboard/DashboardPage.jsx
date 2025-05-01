@@ -19,7 +19,7 @@ export default function DashboardPage() {
       try {
         const decoded = jwtDecode(token);
         setUserName(name || decoded.name);
-        setUserPicture(picture || decoded.picture);
+        setUserPicture(picture || decoded.picture); 
         const currentTime = Date.now() / 1000;
         if (decoded.exp && decoded.exp < currentTime) handleAutoLogout();
         else setTimeout(() => handleAutoLogout(), (decoded.exp - currentTime) * 1000);

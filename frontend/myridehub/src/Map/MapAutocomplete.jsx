@@ -1,44 +1,45 @@
-import React, { useRef } from "react";
-import { Autocomplete } from "@react-google-maps/api";
+import { useEffect, useRef } from "react";
 
-const MapAutocomplete = ({ onPlaceSelected, placeholder, inputRef }) => {
-  const autocompleteRef = useRef(null);
+const MapAutocomplete = ({ placeholder, onPlaceSelected, value = "", inputRef }) => {
+  const containerRef = useRef(null);
 
-  const handleLoad = (autocomplete) => {
-    autocompleteRef.current = autocomplete;
-  };
-
-  const handlePlaceChanged = () => {
-    if (autocompleteRef.current !== null) {
-      const place = autocompleteRef.current.getPlace();
-      if (place && place.formatted_address) {
-        onPlaceSelected(place);
-      }
+  useEffect(() => {
+    if (!window.google?.maps?.places?.PlaceAutocompleteElement) {
+      console.error("PlaceAutocompleteElement is not available. Make sure Places API is enabled.");
+      return;
     }
-  };
 
-  return (
-    <div className="input-group">
-      <Autocomplete onLoad={handleLoad} onPlaceChanged={handlePlaceChanged}>
-        <input
-          ref={inputRef}
-          type="text"
-          placeholder={placeholder}
-          className="form-input"
-          style={{
-            backgroundColor: "#444",
-            color: "white",
-            border: "1px solid #555",
-            padding: "12px 36px",
-            width: "100%",
-            borderRadius: "4px",
-            fontSize: "14px",
-          }}
-        />
-      </Autocomplete>
-      <span className="input-icon search-icon"></span>
-    </div>
-  );
+    const autocomplete = new window.google.maps.places.PlaceAutocompleteElement();
+    autocomplete.id = "place-autocomplete";
+    autocomplete.placeholder = placeholder;
+    autocomplete.setAttribute("autocomplete", "off");
+
+    // Optional: style tweaks
+    autocomplete.classList.add("autocomplete-box");
+
+    autocomplete.addEventListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (place && place.geometry) {
+        onPlaceSelected(place);
+      } else {
+        alert("Please select a valid location from the suggestions.");
+      }
+    });
+
+    // Clear old and append new autocomplete input
+    const container = containerRef.current;
+    container.innerHTML = "";
+    container.appendChild(autocomplete);
+
+    // Set initial value (if any)
+    if (value) autocomplete.value = value;
+
+    return () => {
+      autocomplete.remove();
+    };
+  }, [placeholder, onPlaceSelected, value]);
+
+  return <div ref={containerRef} />;
 };
 
 export default MapAutocomplete;
