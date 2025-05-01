@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sia.myridehub.config.JwtTokenProvider;
 import com.sia.myridehub.model.User;
 import com.sia.myridehub.model.dto.LoginResponse;
 import com.sia.myridehub.service.UserService;
@@ -32,6 +33,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping
     public ResponseEntity<User> registerUser(@RequestBody User user) {
@@ -53,7 +57,8 @@ public class UserController {
             User user = userOpt.get();
 
             if (user.getPassword() != null && user.getPassword().equals(password)) {
-                return ResponseEntity.ok(new LoginResponse("mock-jwt-token-12345", user));
+                String token = jwtTokenProvider.generateToken(email);
+                return ResponseEntity.ok(new LoginResponse(token, user));
             } else {
                 return ResponseEntity.status(401).body("Invalid password");
             }

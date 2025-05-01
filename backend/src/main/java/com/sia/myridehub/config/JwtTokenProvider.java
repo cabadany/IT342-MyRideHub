@@ -1,76 +1,44 @@
 package com.sia.myridehub.config;
 
+import java.security.Key;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtTokenProvider {
 
-    @Value("${app.jwtSecret}")
-    private String jwtSecret;
+    private final Key jwtSecret = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final long jwtExpirationInMs = 86400000; // 1 day
 
-    @Value("${app.jwtExpirationInMs}")
-    private long jwtExpirationInMs;
-
-    /**
-     * Generate JWT token from authenticated user details
-     */
-    public String generateToken(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
+    public String generateToken(String email) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .setSubject(email)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(jwtSecret)
                 .compact();
     }
 
-    /**
-     * Extract username from a valid JWT token
-     */
-    public String getUsernameFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody();
-
-        return claims.getSubject();
+    public String getEmailFromToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(jwtSecret).build()
+                .parseClaimsJws(token).getBody().getSubject();
     }
 
-    /**
-     * Validate token integrity, signature, expiration, and structure
-     */
-    public boolean validateToken(String authToken) {
+    public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(token);
             return true;
-        } catch (SignatureException ex) {
-            System.err.println("❌ Invalid JWT signature");
-        } catch (MalformedJwtException ex) {
-            System.err.println("❌ Invalid JWT token format");
-        } catch (ExpiredJwtException ex) {
-            System.err.println("❌ Expired JWT token");
-        } catch (UnsupportedJwtException ex) {
-            System.err.println("❌ Unsupported JWT token");
-        } catch (IllegalArgumentException ex) {
-            System.err.println("❌ JWT claims string is empty");
+        } catch (JwtException ex) {
+            return false;
         }
-        return false;
     }
 }
