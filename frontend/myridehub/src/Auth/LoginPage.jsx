@@ -10,20 +10,12 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://it342-myrideh
 
 export default function LoginPage() {
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    identifier: "",
-    password: ""
-  });
-
+  const [formData, setFormData] = useState({ identifier: "", password: "" });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -36,31 +28,35 @@ export default function LoginPage() {
         password: formData.password
       };
 
-      const response = await fetch(`${API_BASE_URL}/api/users`, {
+      const response = await fetch(`${API_BASE_URL}/api/users/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(loginPayload)
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
-        const jwtToken = data.jwt;
+        const { token, email, fullName, username } = data;
 
-        localStorage.setItem('token', jwtToken);
-        localStorage.setItem('userEmail', formData.identifier);
+        if (!token) {
+          toast.error("Login failed: No token received.");
+          return;
+        }
 
-        toast.success('Login successful!');
+        // Store token and user info
+        localStorage.setItem('token', token);
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userName', fullName || username);
+
+        toast.success("Login successful!");
         setTimeout(() => navigate("/dashboard"), 1500);
       } else {
-        const errorMessage = await response.text();
-        toast.error(errorMessage || 'Login failed.');
+        toast.error(data.message || "Invalid credentials.");
       }
-
-    } catch (error) {
-      console.error('Login error:', error);
-      toast.error('Something went wrong. Please try again.');
+    } catch (err) {
+      console.error("Login error:", err);
+      toast.error("Something went wrong. Try again.");
     } finally {
       setLoading(false);
     }
@@ -70,10 +66,8 @@ export default function LoginPage() {
     const { credential } = credentialResponse;
     const decoded = jwtDecode(credential);
 
-    console.log("Google Decoded:", decoded);
-
     localStorage.setItem('token', credential);
-    localStorage.setItem('userEmail', decoded.email); // ✅ critical for profile fetch
+    localStorage.setItem('userEmail', decoded.email);
     localStorage.setItem('userName', decoded.name);
     localStorage.setItem('userPicture', decoded.picture);
 
@@ -83,7 +77,7 @@ export default function LoginPage() {
 
   const handleGoogleLoginFailure = (error) => {
     console.error("Google Login Failed:", error);
-    toast.error("Google login failed. Please try again.");
+    toast.error("Google login failed.");
   };
 
   return (
@@ -96,7 +90,7 @@ export default function LoginPage() {
       <div className="login-form-container">
         <div className="login-form">
           <h2>Log In</h2>
-          <p className="login-subtext">Welcome back! Please enter your details to continue.</p>
+          <p className="login-subtext">Welcome back! Please enter your details.</p>
 
           <form onSubmit={handleSubmit}>
             <input
@@ -118,11 +112,7 @@ export default function LoginPage() {
 
             <div className="form-options">
               <label className="remember-me">
-                <input
-                  type="checkbox"
-                  name="rememberMe"
-                  onChange={handleChange}
-                />
+                <input type="checkbox" name="rememberMe" onChange={handleChange} />
                 Remember Me
               </label>
               <Link to="/reset-password" className="forgot-password">Forgot Password?</Link>
@@ -135,7 +125,6 @@ export default function LoginPage() {
 
           <div className="social-login">
             <p>Or log in with:</p>
-
             <GoogleLogin
               onSuccess={handleGoogleLoginSuccess}
               onError={handleGoogleLoginFailure}

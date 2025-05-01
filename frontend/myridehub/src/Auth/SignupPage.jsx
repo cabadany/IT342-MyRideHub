@@ -1,12 +1,13 @@
-// SignupPage.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './SignupPage.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-// ✅ Connect to backend using environment variable
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://it342-myridehub.onrender.com';
 
 export default function SignupPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -28,61 +29,67 @@ export default function SignupPage() {
   };
 
   const validatePassword = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
     return regex.test(password);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.agreed) {
+      toast.error("You must agree to the terms and conditions.");
+      return;
+    }
+
     if (!validatePassword(formData.password)) {
-      alert("Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.");
+      toast.error("Password must be at least 8 characters long, include an uppercase, lowercase, number, and special character.");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
+      toast.error("Passwords do not match.");
       return;
     }
 
     const fullContactNumber = formData.countryCode + formData.contactNumber;
+
     const submissionData = {
-      ...formData,
-      contactNumber: fullContactNumber
+      fullName: formData.fullName,
+      username: formData.username,
+      email: formData.email,
+      contactNumber: fullContactNumber,
+      address: formData.address,
+      password: formData.password
     };
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/users`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(submissionData)
       });
 
       if (response.ok) {
         const result = await response.json();
-        console.log(result);
-        alert("Account created successfully!");
+        toast.success("Account created successfully!");
+        localStorage.setItem("userEmail", result.email);
+        localStorage.setItem("userName", result.fullName || result.username);
+        setTimeout(() => navigate("/dashboard"), 1500);
       } else {
         const error = await response.text();
-        console.error("Signup failed:", error);
-        alert(error || "Signup failed. Please try again.");
+        toast.error(error || "Signup failed.");
       }
-    } catch (error) {
-      console.error("Signup error:", error);
-      alert("Something went wrong. Please try again later.");
+    } catch (err) {
+      console.error("Signup error:", err);
+      toast.error("Something went wrong. Try again.");
     }
   };
 
   return (
     <div className="signup-container">
+      <ToastContainer />
       <div className="signup-image">
-        <img
-          src="/car and motor.png"
-          alt="Background"
-          className="image-content"
-        />
+        <img src="/car and motor.png" alt="Background" className="image-content" />
       </div>
 
       <div className="signup-form-container">
@@ -99,11 +106,11 @@ export default function SignupPage() {
 
             <div className="phone-group">
               <select name="countryCode" value={formData.countryCode} onChange={handleChange} className="country-code-select">
-                <option value="+63">PH +63 (Philippines)</option>
-                <option value="+1">US +1 (USA)</option>
-                <option value="+44">UK +44 (United Kingdom)</option>
-                <option value="+61">AU +61 (Australia)</option>
-                <option value="+91">IN +91 (India)</option>
+                <option value="+63">PH +63</option>
+                <option value="+1">US +1</option>
+                <option value="+44">UK +44</option>
+                <option value="+61">AU +61</option>
+                <option value="+91">IN +91</option>
               </select>
               <input
                 type="tel"

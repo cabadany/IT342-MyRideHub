@@ -4,6 +4,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Settings.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://it342-myridehub.onrender.com';
+
 const Settings = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
@@ -23,12 +25,13 @@ const Settings = () => {
 
     if (!email) {
       console.warn('User email not found in localStorage');
-      toast.error('User not logged in.');
+      toast.error('User not logged in. Redirecting to login page...');
+      setTimeout(() => navigate('/login'), 2000);
       setLoading(false);
       return;
     }
 
-    fetch('https://it342-myridehub.onrender.com/api/users/current', {
+    fetch(`${API_BASE_URL}/api/users/current`, {
       headers: {
         'X-User-Email': email
       }
@@ -54,7 +57,7 @@ const Settings = () => {
         toast.error('Unable to load user profile.');
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,7 +69,7 @@ const Settings = () => {
     if (!profile?.id) return;
 
     try {
-      const response = await fetch(`https://it342-myridehub.onrender.com/api/users/${profile.id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/users/${profile.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sia.myridehub.model.User;
+import com.sia.myridehub.model.dto.LoginResponse;
 import com.sia.myridehub.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +35,31 @@ public class UserController {
     @PostMapping
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         return ResponseEntity.ok(userService.registerUser(user));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+
+        if (email == null || password == null) {
+            return ResponseEntity.badRequest().body("Email and password required");
+        }
+
+        Optional<User> userOpt = userService.findByEmail(email);
+
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+
+            if (user.getPassword() != null && user.getPassword().equals(password)) {
+                // Return user info + mock JWT token
+                return ResponseEntity.ok(new LoginResponse("mock-jwt-token-12345", user));
+            } else {
+                return ResponseEntity.status(401).body("Invalid password");
+            }
+        } else {
+            return ResponseEntity.status(404).body("User not found");
+        }
     }
 
     @GetMapping
@@ -60,24 +86,16 @@ public class UserController {
     @GetMapping("/current")
     public ResponseEntity<?> getCurrentUser(HttpServletRequest request) {
         String email = request.getHeader("X-User-Email");
-        System.out.println("[DEBUG] Received X-User-Email header: " + email);
 
         if (email == null || email.isEmpty()) {
             return ResponseEntity.badRequest().body("Missing X-User-Email header");
         }
 
-        try {
-            Optional<User> user = userService.findByEmail(email);
-            if (user.isPresent()) {
-                return ResponseEntity.ok(user.get());
-            } else {
-                System.err.println("[WARN] User not found for email: " + email);
-                return ResponseEntity.status(404).body("User not found for email: " + email);
-            }
-        } catch (Exception e) {
-            System.err.println("[ERROR] Exception during getCurrentUser: " + e.getMessage());
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Internal server error: " + e.getMessage());
+        Optional<User> user = userService.findByEmail(email);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(404).body("User not found for email: " + email);
         }
     }
 }
