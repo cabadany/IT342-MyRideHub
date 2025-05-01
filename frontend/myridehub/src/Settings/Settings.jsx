@@ -1,100 +1,164 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Settings.css';
 
 const Settings = () => {
   const navigate = useNavigate();
-
+  const [profile, setProfile] = useState(null);
+  const [editing, setEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    phone: '',
+    contactNumber: '',
     address: '',
-    emergencyContact: '',
-    username: '',
-    password: '',
+    username: ''
   });
+
+  useEffect(() => {
+    const email = localStorage.getItem('userEmail');
+    const picture = localStorage.getItem('userPicture');
+
+    if (!email) {
+      console.warn('User email not found in localStorage');
+      toast.error('User not logged in.');
+      setLoading(false);
+      return;
+    }
+
+    fetch('https://it342-myridehub.onrender.com/api/users/current', {
+      headers: {
+        'X-User-Email': email
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setProfile({ ...data, picture });
+        setFormData({
+          fullName: data.fullName || '',
+          email: data.email || '',
+          contactNumber: data.contactNumber || '',
+          address: data.address || '',
+          username: data.username || ''
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching profile:', error);
+        toast.error('Unable to load user profile.');
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!profile?.id) return;
 
     try {
-      const response = await fetch('http://localhost:8080/api/user/profile', {
-        method: 'POST',
+      const response = await fetch(`https://it342-myridehub.onrender.com/api/users/${profile.id}`, {
+        method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData)
       });
 
-      if (response.ok) {
-        const result = await response.text();
-        alert(result || "Profile saved successfully!");
-      } else {
-        const errorMessage = await response.text();
-        throw new Error(errorMessage);
+      if (!response.ok) {
+        throw new Error('Update failed');
       }
+
+      toast.success('Profile updated successfully!');
+      setEditing(false);
     } catch (error) {
-      console.error('Error saving profile:', error);
-      alert('Something went wrong saving the profile!');
+      console.error('Error updating profile:', error);
+      toast.error('Failed to update profile.');
     }
   };
 
-  return (
-    <>
-      <button onClick={() => navigate('/')} className="back-btn">
-        ← Back to Dashboard
-      </button>
+  const handleLogout = () => {
+    localStorage.clear();
+    toast.info('You have been logged out.');
+    setTimeout(() => navigate('/login'), 1000);
+  };
+
+  if (loading) {
+    return (
       <div className="settings-container">
-        <h2>Settings</h2>
+        <ToastContainer />
+        <p>Loading profile...</p>
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="settings-container">
+        <ToastContainer />
+        <p>User profile not found.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="settings-container">
+      <ToastContainer />
+      <h2>My Profile</h2>
+
+      <div className="settings-profile-header">
+        {profile.picture && <img src={profile.picture} alt="Profile" className="profile-picture circle-picture" />}
+        <h3>{profile.fullName}</h3>
+      </div>
+
+      {!editing ? (
+        <div className="profile-view">
+          <p><strong>Full Name:</strong> {profile.fullName}</p>
+          <p><strong>Email:</strong> {profile.email}</p>
+          <p><strong>Contact:</strong> {profile.contactNumber}</p>
+          <p><strong>Address:</strong> {profile.address}</p>
+          <p><strong>Username:</strong> {profile.username}</p>
+          <button onClick={() => setEditing(true)} className="submit-btn">Edit Profile</button>
+        </div>
+      ) : (
         <form onSubmit={handleSubmit} className="settings-form">
           <div className="form-group">
             <label>Full Name</label>
-            <input name="fullName" type="text" value={formData.fullName} onChange={handleChange} />
+            <input name="fullName" value={formData.fullName} onChange={handleChange} />
           </div>
-
           <div className="form-group">
             <label>Email</label>
-            <input name="email" type="email" value={formData.email} onChange={handleChange} />
+            <input name="email" value={formData.email} onChange={handleChange} disabled />
           </div>
-
           <div className="form-group">
             <label>Phone</label>
-            <input name="phone" type="tel" value={formData.phone} onChange={handleChange} />
+            <input name="contactNumber" value={formData.contactNumber} onChange={handleChange} />
           </div>
-
           <div className="form-group">
             <label>Address</label>
-            <input name="address" type="text" value={formData.address} onChange={handleChange} />
+            <input name="address" value={formData.address} onChange={handleChange} />
           </div>
-
-          <div className="form-group">
-            <label>Emergency Contact</label>
-            <input name="emergencyContact" type="tel" value={formData.emergencyContact} onChange={handleChange} />
-          </div>
-
           <div className="form-group">
             <label>Username</label>
-            <input name="username" type="text" value={formData.username} onChange={handleChange} />
+            <input name="username" value={formData.username} onChange={handleChange} />
           </div>
 
-          <div className="form-group">
-            <label>Password</label>
-            <input name="password" type="password" value={formData.password} onChange={handleChange} />
-          </div>
-
-          <button type="submit" className="submit-btn">Update Profile</button>
+          <button type="submit" className="submit-btn">Save</button>
         </form>
-      </div>
-    </>
+      )}
+
+      <button onClick={() => navigate('/')} className="back-btn">← Back to Dashboard</button>
+      <button onClick={handleLogout} className="logout-btn">Logout</button>
+    </div>
   );
 };
 

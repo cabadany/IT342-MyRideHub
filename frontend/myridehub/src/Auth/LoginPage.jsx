@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google"; 
-import { jwtDecode } from "jwt-decode"; 
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './LoginPage.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://it342-myridehub.onrender.com';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -46,9 +46,10 @@ export default function LoginPage() {
 
       if (response.ok) {
         const data = await response.json();
-        const jwtToken = data.jwt; // Assuming backend returns jwt field
+        const jwtToken = data.jwt;
 
         localStorage.setItem('token', jwtToken);
+        localStorage.setItem('userEmail', formData.identifier);
 
         toast.success('Login successful!');
         setTimeout(() => navigate("/dashboard"), 1500);
@@ -72,6 +73,7 @@ export default function LoginPage() {
     console.log("Google Decoded:", decoded);
 
     localStorage.setItem('token', credential);
+    localStorage.setItem('userEmail', decoded.email); // ✅ critical for profile fetch
     localStorage.setItem('userName', decoded.name);
     localStorage.setItem('userPicture', decoded.picture);
 
@@ -137,9 +139,10 @@ export default function LoginPage() {
             <GoogleLogin
               onSuccess={handleGoogleLoginSuccess}
               onError={handleGoogleLoginFailure}
-              width="100%"
-              theme="outline"
               size="large"
+              shape="pill"
+              theme="outline"
+              text="signin_with"
             />
           </div>
 
