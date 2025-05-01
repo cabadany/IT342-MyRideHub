@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Settings.css';
@@ -24,24 +24,15 @@ const Settings = () => {
     const picture = localStorage.getItem('userPicture');
 
     if (!email) {
-      console.warn('User email not found in localStorage');
-      toast.error('User not logged in. Redirecting to login page...');
+      toast.error('User not logged in. Redirecting to login...');
       setTimeout(() => navigate('/login'), 2000);
-      setLoading(false);
       return;
     }
 
     fetch(`${API_BASE_URL}/api/users/current`, {
-      headers: {
-        'X-User-Email': email
-      }
+      headers: { 'X-User-Email': email }
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch profile');
-        }
-        return response.json();
-      })
+      .then(res => res.json())
       .then(data => {
         setProfile({ ...data, picture });
         setFormData({
@@ -52,10 +43,7 @@ const Settings = () => {
           username: data.username || ''
         });
       })
-      .catch(error => {
-        console.error('Error fetching profile:', error);
-        toast.error('Unable to load user profile.');
-      })
+      .catch(() => toast.error('Failed to load profile.'))
       .finally(() => setLoading(false));
   }, [navigate]);
 
@@ -66,101 +54,139 @@ const Settings = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!profile?.id) return;
-
     try {
-      const response = await fetch(`${API_BASE_URL}/api/users/${profile.id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/users/${profile.id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
-
-      if (!response.ok) {
-        throw new Error('Update failed');
-      }
-
-      toast.success('Profile updated successfully!');
+      if (!res.ok) throw new Error();
+      toast.success('Profile updated.');
       setEditing(false);
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      toast.error('Failed to update profile.');
+    } catch {
+      toast.error('Update failed.');
     }
   };
 
   const handleLogout = () => {
     localStorage.clear();
-    toast.info('You have been logged out.');
+    toast.info('Logged out.');
     setTimeout(() => navigate('/login'), 1000);
   };
 
-  if (loading) {
-    return (
-      <div className="settings-container">
-        <ToastContainer />
-        <p>Loading profile...</p>
-      </div>
-    );
-  }
-
-  if (!profile) {
-    return (
-      <div className="settings-container">
-        <ToastContainer />
-        <p>User profile not found.</p>
-      </div>
-    );
-  }
+  if (loading) return <div className="p-4 text-center">Loading...</div>;
+  if (!profile) return <div className="p-4 text-center">Profile not found.</div>;
 
   return (
-    <div className="settings-container">
+    <div className="dashboard-page">
       <ToastContainer />
-      <h2>My Profile</h2>
 
-      <div className="settings-profile-header">
-        {profile.picture && <img src={profile.picture} alt="Profile" className="profile-picture circle-picture" />}
-        <h3>{profile.fullName}</h3>
+      <div className="logo-top-center">
+        <img src="/Ride Hub Logo (Dark).png" alt="Ride Hub Logo" className="dashboard-logo" />
       </div>
 
-      {!editing ? (
-        <div className="profile-view">
-          <p><strong>Full Name:</strong> {profile.fullName}</p>
-          <p><strong>Email:</strong> {profile.email}</p>
-          <p><strong>Contact:</strong> {profile.contactNumber}</p>
-          <p><strong>Address:</strong> {profile.address}</p>
-          <p><strong>Username:</strong> {profile.username}</p>
-          <button onClick={() => setEditing(true)} className="submit-btn">Edit Profile</button>
+      <nav className="main-nav">
+        <div className="nav-wrapper">
+          <ul className="nav-menu">
+            <li><Link to="/dashboard">HOME</Link></li>
+
+            <li className="dropdown-container">
+              <span className="dropdown-toggle">OUR SERVICES ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/booking">Book a Vehicle</Link></li>
+                <li><Link to="/rent">Rent a Vehicle</Link></li>
+                <li><Link to="/fare-calculator">Fare Calculator</Link></li>
+                <li><Link to="/terms">Terms & Conditions</Link></li>
+              </ul>
+            </li>
+
+            <li className="dropdown-container">
+              <span className="dropdown-toggle">HISTORY ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/rent-history">Rent History</Link></li>
+                <li><Link to="/book-history">Book History</Link></li>
+              </ul>
+            </li>
+
+            <li className="dropdown-container">
+              <span className="dropdown-toggle">JOIN US ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/be-a-driver">Be a Driver</Link></li>
+              </ul>
+            </li>
+
+            <li className="dropdown-container">
+              <span className="dropdown-toggle">CONTACT US ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/contact-us">Passenger Appeal Form</Link></li>
+              </ul>
+            </li>
+
+            <li><Link to="/settings" className="active">SETTINGS</Link></li>
+
+            <li>
+              <div className="search-bar">
+                <input type="text" placeholder="Search..." />
+              </div>
+            </li>
+
+            <li>
+              <button onClick={handleLogout} className="text-sm text-red-600">Logout</button>
+            </li>
+          </ul>
         </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="settings-form">
-          <div className="form-group">
-            <label>Full Name</label>
-            <input name="fullName" value={formData.fullName} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Email</label>
-            <input name="email" value={formData.email} onChange={handleChange} disabled />
-          </div>
-          <div className="form-group">
-            <label>Phone</label>
-            <input name="contactNumber" value={formData.contactNumber} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Address</label>
-            <input name="address" value={formData.address} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Username</label>
-            <input name="username" value={formData.username} onChange={handleChange} />
-          </div>
+      </nav>
 
-          <button type="submit" className="submit-btn">Save</button>
-        </form>
-      )}
+      <div className="divider-line"></div>
 
-      <button onClick={() => navigate('/')} className="back-btn">← Back to Dashboard</button>
-      <button onClick={handleLogout} className="logout-btn">Logout</button>
+      <main className="max-w-2xl mx-auto mt-10 bg-white rounded-xl shadow-md p-6">
+        <div className="flex items-center space-x-4">
+          {profile.picture && <img src={profile.picture} alt="Profile" className="w-16 h-16 rounded-full" />}
+          <div>
+            <h2 className="text-xl font-semibold">{profile.fullName}</h2>
+            <p className="text-sm text-gray-500">{profile.email}</p>
+          </div>
+        </div>
+
+        {!editing ? (
+          <div className="mt-6 space-y-2">
+            <p><strong>Full Name:</strong> {profile.fullName}</p>
+            <p><strong>Contact:</strong> {profile.contactNumber}</p>
+            <p><strong>Address:</strong> {profile.address}</p>
+            <p><strong>Username:</strong> {profile.username}</p>
+            <button onClick={() => setEditing(true)} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Edit Profile</button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <div>
+              <label className="block text-sm font-medium">Full Name</label>
+              <input name="fullName" value={formData.fullName} onChange={handleChange} className="w-full p-2 border rounded" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Email</label>
+              <input name="email" value={formData.email} disabled className="w-full p-2 bg-gray-100 border rounded" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Phone</label>
+              <input name="contactNumber" value={formData.contactNumber} onChange={handleChange} className="w-full p-2 border rounded" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Address</label>
+              <input name="address" value={formData.address} onChange={handleChange} className="w-full p-2 border rounded" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Username</label>
+              <input name="username" value={formData.username} onChange={handleChange} className="w-full p-2 border rounded" />
+            </div>
+            <div className="flex justify-end gap-2">
+              <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save</button>
+              <button type="button" onClick={() => setEditing(false)} className="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+            </div>
+          </form>
+        )}
+
+        <button onClick={() => navigate('/dashboard')} className="mt-6 text-blue-500 hover:underline">← Back to Dashboard</button>
+      </main>
     </div>
   );
 };

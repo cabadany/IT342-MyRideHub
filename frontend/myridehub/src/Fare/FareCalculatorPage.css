@@ -1,4 +1,5 @@
-/* Contact Us page styled like Dashboard */
+/* Shared Dashboard Navigation Styling */
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap');
 
 * {
   box-sizing: border-box;
@@ -6,34 +7,28 @@
   padding: 0;
 }
 
-html, body {
+body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #fff;
   color: #111;
-  height: 100%;
   overflow-x: hidden;
 }
 
 .dashboard-page {
   min-height: 100vh;
-  background-color: #fff;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo-top-center {
-  position: relative;
-  z-index: 1002;
-  background-color: #fff;
-  padding: 20px 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px 0;
 }
 
 .dashboard-logo {
   height: 90px;
-  max-width: 100%;
-  object-fit: contain;
-  z-index: 1003;
 }
 
 .main-nav {
@@ -149,64 +144,106 @@ html, body {
   margin: 0;
 }
 
-main {
-  padding: 40px 20px;
+.fare-calc-wrapper {
+  max-width: 600px;
+  margin: 60px auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  text-align: center;
 }
 
-main h1 {
+.fare-calc-wrapper h1 {
   font-size: 28px;
   font-weight: bold;
+  margin-bottom: 24px;
   color: #111;
-  margin-bottom: 20px;
 }
 
-main p {
-  font-size: 15px;
-  line-height: 1.6;
-  color: #333;
-  margin-bottom: 16px;
-}
-
-main .text-red-600 {
-  color: #b30000;
-}
-
-form label {
-  font-weight: 600;
-  margin-bottom: 8px;
+.fare-form label {
   display: block;
+  text-align: left;
+  margin-bottom: 16px;
+  font-weight: 600;
 }
 
-form input,
-form select {
-  padding: 10px 12px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.fare-form input {
   width: 100%;
+  padding: 10px 14px;
   margin-top: 6px;
+  border: 1px solid #000;
+  border-radius: 6px;
+  font-size: 16px;
 }
 
-form button {
-  margin-top: 20px;
-  padding: 12px 20px;
-  font-size: 16px;
+.fare-form button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px;
   background-color: #100f0f;
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 6px;
   font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-form button:hover {
+.fare-form button:hover {
   background-color: #333;
 }
 
-form .flex {
+.fare-result {
+  margin-top: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #22c55e;
+}
+
+.dashboard-footer {
+  background-color: #000;
+  color: white;
+  padding: 40px 60px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  margin-top: 80px;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-left: 300px;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  transition: opacity 0.3s;
+}
+
+.footer-links a:hover {
+  opacity: 0.7;
+}
+
+.footer-logo img {
+  height: 80px;
+  margin-right: 300px;
+}
+
+.dashboard-copyright {
+  background-color: #000;
+  color: #aaa;
+  text-align: center;
+  padding: 16px 0;
   font-size: 14px;
+}
+
+.black-input {
+    color: #000;
 }

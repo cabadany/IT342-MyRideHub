@@ -34,6 +34,8 @@ import LandingPage from './LandingPage/LandingPage';
 import ResetPassword from './ResetPassword/ResetPassword';  
 import ConfirmationPage from './Rent/ConfirmationPage';
 import TermsAndConditionsPage from './TermsAndConditions/TermsAndConditionsPage';
+import FareCalculatorPage from './Fare/FareCalculatorPage';
+
 import ProtectedRoute from './ProtectedRoute';
 
 export default function App() {
@@ -145,6 +147,11 @@ export default function App() {
           <Route path="/usersdashboard" element={
             <ProtectedRoute>
               <UsersDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/fare-calculator" element={
+            <ProtectedRoute>
+              <FareCalculatorPage />
             </ProtectedRoute>
           } />
 
