@@ -7,11 +7,13 @@
 
 html, body {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   font-family: 'Arial', sans-serif;
   background-color: #fff;
   color: #111;
+  overflow-x: hidden;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .dashboard-page {
@@ -24,11 +26,14 @@ html, body {
 
 /* Logo */
 .logo-top-center {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px 0;
   background-color: #fff;
+  position: relative;
+  z-index: 999;
 }
 
 .dashboard-logo {
@@ -52,12 +57,10 @@ html, body {
   transition: box-shadow 0.3s ease;
 }
 
-/* Shadow on Scroll */
 .main-nav.scrolled {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Nav Menu */
 .nav-menu {
   list-style: none;
   display: flex;
@@ -80,7 +83,6 @@ html, body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Hover & Active States */
 .nav-menu li a:hover,
 .nav-menu li span:hover,
 .nav-menu li a.active,
@@ -89,18 +91,15 @@ html, body {
   color: #fff;
 }
 
-/* Dropdown Container */
 .dropdown-container {
   position: relative;
 }
 
-/* Dropdown Visibility */
 .dropdown-container:hover .dropdown-menu,
 .dropdown-menu:hover {
   display: block;
 }
 
-/* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -132,7 +131,6 @@ html, body {
   background-color: #f2f2f2;
 }
 
-/* Search Bar */
 .search-bar {
   display: flex;
   align-items: center;
@@ -152,7 +150,6 @@ html, body {
   color: #333;
 }
 
-/* Divider Line */
 .divider-line {
   width: 100vw;
   height: 1px;
@@ -160,7 +157,6 @@ html, body {
   margin: 0;
 }
 
-/* Hero Image Section */
 .hero-image-section {
   position: relative;
   width: 100%;
@@ -211,7 +207,6 @@ html, body {
   margin-bottom: 10px;
 }
 
-/* Articles Section */
 .dashboard-articles {
   display: flex;
   flex-direction: column;
@@ -253,7 +248,6 @@ html, body {
   text-align: left;
 }
 
-/* Footer */
 .dashboard-footer {
   background-color: #000;
   color: white;
