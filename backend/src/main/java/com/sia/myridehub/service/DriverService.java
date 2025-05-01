@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +29,7 @@ public class DriverService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // Register a new driver using a DTO
     public Driver registerDriver(DriverRegistrationDto registrationDto) {
         if (driverRepository.existsByMobileNumber(registrationDto.getMobileNumber())) {
             throw new IllegalArgumentException("Mobile number already registered");
@@ -42,30 +44,47 @@ public class DriverService {
         driver.setMobileNumber(registrationDto.getMobileNumber());
         driver.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         driver.setCity(registrationDto.getCity());
+        driver.setActive(true);
+        driver.setAvailable(true);
 
         return driverRepository.save(driver);
     }
 
+    // Save driver entity directly (used in controller POST)
+    public Driver saveDriver(Driver driver) {
+        return driverRepository.save(driver);
+    }
+
+    // Get the first available driver
+    public Optional<Driver> findAvailableDriver() {
+        return driverRepository.findFirstByAvailableTrue();
+    }
+
+    // Find by ID
     public Driver getDriverById(Long id) {
         return driverRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Driver not found with id: " + id));
     }
 
+    // Find by mobile number
     public Driver getDriverByMobileNumber(String mobileNumber) {
         return driverRepository.findByMobileNumber(mobileNumber)
                 .orElseThrow(() -> new ResourceNotFoundException("Driver not found with mobile number: " + mobileNumber));
     }
 
+    // Find by email
     public Driver getDriverByEmail(String email) {
         return driverRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Driver not found with email: " + email));
     }
 
+    // Get full driver profile DTO
     public DriverProfileDto getDriverProfile(Long id) {
         Driver driver = getDriverById(id);
         return new DriverProfileDto(driver);
     }
 
+    // Update license number
     public Driver updateDriverLicense(Long id, String licenseNumber) {
         Driver driver = getDriverById(id);
         driver.setLicenseNumber(licenseNumber);
@@ -73,6 +92,7 @@ public class DriverService {
         return driverRepository.save(driver);
     }
 
+    // Update profile picture
     public String updateProfilePicture(Long id, MultipartFile file) throws IOException {
         Driver driver = getDriverById(id);
         String uploadDir = System.getProperty("user.dir") + "/uploads/driver-profiles/";

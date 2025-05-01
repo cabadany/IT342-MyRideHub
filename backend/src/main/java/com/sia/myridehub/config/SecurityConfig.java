@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/users/**").permitAll()
                 .requestMatchers("/api/vehicles/**").permitAll()
                 .requestMatchers("/api/bookings/**").permitAll()
+                .requestMatchers("/api/drivers/**").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();

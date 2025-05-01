@@ -6,21 +6,9 @@ import { useNavigate } from "react-router-dom";
 import "./BookingPage.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 const GOOGLE_MAPS_API_KEY = "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo";
 const BASE_FARE = 20;
 const RATE_PER_KM = 10;
-
-const VEHICLES = {
-  motorcycles: [
-    { id: 1, name: "Honda CRF250", description: "Agility and adventure" },
-    { id: 2, name: "Yamaha R1", description: "Sporty and quick" },
-  ],
-  cars: [
-    { id: 1, name: "Toyota Camry", description: "Comfort and convenience" },
-    { id: 2, name: "Honda Civic", description: "Reliable and efficient" },
-  ],
-};
 
 export default function BookingPage() {
   const [bookingStep, setBookingStep] = useState(1);
@@ -36,7 +24,6 @@ export default function BookingPage() {
   const [selectedCoords, setSelectedCoords] = useState(null);
   const [loading, setLoading] = useState(false);
   const [rideStatus, setRideStatus] = useState("");
-  const [driverInfo, setDriverInfo] = useState(null);
 
   const dropoffRef = useRef(null);
   const navigate = useNavigate();
@@ -47,15 +34,25 @@ export default function BookingPage() {
     }
   }, [bookingStep]);
 
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/vehicles`);
+        setAvailableVehicles(response.data || []);
+      } catch (error) {
+        console.error("Failed to fetch vehicles:", error);
+      }
+    };
+    fetchVehicles();
+  }, []);
+
   const handleNextStep = () => setBookingStep((prev) => prev + 1);
+
   const handleLocationSelect = (coords) => {
     const formatted_address = `Lat: ${coords.lat.toFixed(5)}, Lng: ${coords.lng.toFixed(5)}`;
     const location = { lat: coords.lat, lng: coords.lng, formatted_address };
-    if (selectingField === "pickup") {
-      setPickupLocation(location);
-    } else if (selectingField === "dropoff") {
-      setDropOffLocation(location);
-    }
+    if (selectingField === "pickup") setPickupLocation(location);
+    else if (selectingField === "dropoff") setDropOffLocation(location);
     setShowMapPicker(false);
     setSelectingField(null);
     setSelectedCoords(null);
@@ -63,7 +60,6 @@ export default function BookingPage() {
 
   const calculateFare = () => {
     if (!pickupLocation || !dropOffLocation) return;
-
     const service = new window.google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
       {
@@ -74,14 +70,12 @@ export default function BookingPage() {
       },
       (response, status) => {
         if (status === "OK") {
-          const distanceInMeters = response.rows[0].elements[0].distance.value;
+          const element = response.rows[0].elements[0];
+          const distanceInMeters = element.distance.value;
           const distanceKm = distanceInMeters / 1000;
-          const distanceText = response.rows[0].elements[0].distance.text;
-          const durationText = response.rows[0].elements[0].duration.text;
+          setDistanceText(element.distance.text);
+          setDurationText(element.duration.text);
           const total = BASE_FARE + RATE_PER_KM * distanceKm;
-
-          setDistanceText(distanceText);
-          setDurationText(durationText);
           setTotalPrice(total.toFixed(2));
           handleNextStep();
         } else {
@@ -93,22 +87,25 @@ export default function BookingPage() {
 
   const handleVehicleSelection = (type) => {
     setSelectedType(type);
-    setAvailableVehicles(VEHICLES[type.toLowerCase()]);
     handleNextStep();
   };
 
   const saveBookingToBackend = async () => {
     try {
       const bookingData = {
-        customerName: "Juan Dela Cruz",
-        contactNumber: "09123456789",
-        vehicle: { id: 1 },
+        vehicleType: selectedType,
         pickupLocation: pickupLocation?.formatted_address || "Unknown Pickup",
         dropOffLocation: dropOffLocation?.formatted_address || "Unknown Dropoff",
+        pickupLat: pickupLocation?.lat,
+        pickupLng: pickupLocation?.lng,
+        dropOffLat: dropOffLocation?.lat,
+        dropOffLng: dropOffLocation?.lng,
         pickupDate: new Date().toISOString(),
         returnDate: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
+        distance: distanceText,
+        duration: durationText,
         totalPrice: parseFloat(totalPrice),
-        status: "Pending",
+        status: "Pending"
       };
       await axios.post(`${API_BASE_URL}/api/bookings`, bookingData);
     } catch (error) {
@@ -120,20 +117,17 @@ export default function BookingPage() {
   const handleConfirmBooking = async () => {
     setLoading(true);
     setRideStatus("");
-    setDriverInfo(null);
     try {
       await saveBookingToBackend();
       setTimeout(() => {
         const driverFound = Math.random() > 0.3;
         setLoading(false);
-        if (driverFound) {
-          setRideStatus("Driver found! Please wait at your pickup location.");
-          setTimeout(() => navigate("/dashboard"), 3000);
-        } else {
-          setRideStatus("No drivers available. Try again later.");
-        }
+        setRideStatus(driverFound
+          ? "Driver found! Please wait at your pickup location."
+          : "No drivers available. Try again later.");
+        if (driverFound) setTimeout(() => navigate("/dashboard"), 3000);
       }, 3000);
-    } catch (error) {
+    } catch {
       setLoading(false);
       alert("Booking failed. Please try again.");
     }
@@ -142,6 +136,39 @@ export default function BookingPage() {
   return (
     <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={["places"]}>
       <div className="booking-page">
+        <div className="logo-top-center">
+          <img src="/Ride Hub Logo (Dark).png" alt="Ride Hub" className="dashboard-logo" />
+        </div>
+
+        <nav className="main-nav">
+          <div className="nav-wrapper">
+            <ul className="nav-menu">
+              <li><a href="/dashboard">HOME</a></li>
+              <li className="dropdown">
+                <span>OUR SERVICES ▾</span>
+                <ul className="dropdown-menu">
+                  <li><a href="/booking">Book a Vehicle</a></li>
+                  <li><a href="/rent">Rent a Vehicle</a></li>
+                  <li><a href="/fare-calculator">Fare Calculator</a></li>
+                  <li><a href="/terms">Terms and Conditions</a></li>
+                </ul>
+              </li>
+              <li className="dropdown">
+                <span>JOIN US ▾</span>
+                <ul className="dropdown-menu">
+                  <li><a href="/be-a-driver">Be a Driver</a></li>
+                </ul>
+              </li>
+              <li className="dropdown">
+                <span>CONTACT US ▾</span>
+                <ul className="dropdown-menu">
+                  <li><a href="/passenger-appeal">Passenger Appeal Form</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
         <div className="booking-stepper">
           <div className={`step ${bookingStep >= 1 ? "active" : ""}`}>Pickup</div>
           <div className={`step ${bookingStep >= 2 ? "active" : ""}`}>Drop-off</div>
@@ -154,11 +181,13 @@ export default function BookingPage() {
             <h2>Select Pickup Location</h2>
             <MapAutocomplete
               placeholder="Pickup Location"
-              onPlaceSelected={(place) => setPickupLocation({
-                lat: place.geometry.location.lat(),
-                lng: place.geometry.location.lng(),
-                formatted_address: place.formatted_address
-              })}
+              onPlaceSelected={(place) =>
+                setPickupLocation({
+                  lat: place.geometry.location.lat(),
+                  lng: place.geometry.location.lng(),
+                  formatted_address: place.formatted_address,
+                })
+              }
               value={pickupLocation?.formatted_address || ""}
             />
             <button onClick={() => { setSelectingField("pickup"); setShowMapPicker(true); }}>Pick from Map</button>
@@ -171,11 +200,13 @@ export default function BookingPage() {
             <h2>Select Drop-off Location</h2>
             <MapAutocomplete
               placeholder="Drop-off Location"
-              onPlaceSelected={(place) => setDropOffLocation({
-                lat: place.geometry.location.lat(),
-                lng: place.geometry.location.lng(),
-                formatted_address: place.formatted_address
-              })}
+              onPlaceSelected={(place) =>
+                setDropOffLocation({
+                  lat: place.geometry.location.lat(),
+                  lng: place.geometry.location.lng(),
+                  formatted_address: place.formatted_address,
+                })
+              }
               value={dropOffLocation?.formatted_address || ""}
               inputRef={dropoffRef}
             />
@@ -187,19 +218,17 @@ export default function BookingPage() {
         {bookingStep === 3 && (
           <div className="booking-form">
             <h2>Choose Vehicle Type</h2>
-            <button onClick={() => handleVehicleSelection("motorcycles")}>Motorcycle</button>
-            <button onClick={() => handleVehicleSelection("cars")}>Car</button>
-
-            {availableVehicles.length > 0 && (
+            {availableVehicles.length > 0 ? (
               <ul>
-                {availableVehicles.map(vehicle => (
+                {availableVehicles.map((vehicle) => (
                   <li key={vehicle.id}>
                     <h4>{vehicle.name}</h4>
                     <p>{vehicle.description}</p>
                   </li>
                 ))}
               </ul>
-            )}
+            ) : <p>Loading vehicles...</p>}
+            <button onClick={() => handleVehicleSelection("cars")}>Next</button>
           </div>
         )}
 

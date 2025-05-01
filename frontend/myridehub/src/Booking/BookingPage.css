@@ -7,200 +7,108 @@
 
 .booking-page {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #0f0f0f;
-  color: #fff;
-  overflow-x: hidden;
+  background-color: #fff;
+  color: #111;
   min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
-.booking-page .booking-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 60px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background-color: transparent;
-}
-
-.booking-page .logo-container img {
-  height: 60px;
-}
-
-.booking-page .nav-links {
-  list-style: none;
-  display: flex;
-  gap: 32px;
-  align-items: center;
-}
-
-.booking-page .nav-links a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.booking-page .booking-content {
-  margin-top: 120px;
-  width: 100%;
-  flex: 1;
+.logo-top-center {
   display: flex;
   justify-content: center;
-  align-items: start;
-}
-
-.booking-page .booking-container {
-  width: 100%;
-  max-width: 800px;
-  background-color: #181818;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-}
-
-.booking-page .booking-form {
-  width: 100%;
-}
-
-.booking-page .booking-title {
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 30px;
-  color: #d3d3d3;
-}
-
-.booking-page .form-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.booking-page .continue-btn,
-.booking-page .confirm-btn {
-  width: 100%;
-  padding: 14px;
+  align-items: center;
+  padding: 20px 0;
   background-color: #fff;
-  color: #100f0f;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 10px;
 }
 
-.booking-page .continue-btn:hover,
-.booking-page .confirm-btn:hover {
+.dashboard-logo {
+  height: 90px;
+}
+
+.main-nav {
+  width: 100%;
+  background-color: #fff;
+  padding: 10px 40px;
+  border-bottom: 3px solid #ced4da;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.nav-menu li {
+  position: relative;
+}
+
+.nav-menu li a,
+.nav-menu li span {
+  text-decoration: none;
+  color: #111;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.nav-menu li:hover > span,
+.nav-menu li a:hover {
   background-color: #100f0f;
   color: #fff;
 }
 
-.booking-page .map-select-link {
-  text-align: center;
-  color: #ffb3b3;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.booking-page .map-select-link:hover {
-  color: #ff6666;
-}
-
-.booking-page .vehicle-options {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.booking-page .vehicle-option {
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  background-color: #444;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.booking-page .vehicle-option:hover {
-  background-color: #555;
-}
-
-.booking-page .vehicle-icon {
-  width: 64px;
-  height: 64px;
-  background-color: #333;
-  border-radius: 8px;
-  margin-right: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-}
-
-.booking-page .vehicle-name {
-  font-weight: 500;
-}
-
-.booking-page .vehicle-description {
-  font-size: 14px;
-  color: #ccc;
-}
-
-.booking-page .confirmation-details {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 24px;
-}
-
-.booking-page .confirmation-item {
-  background-color: #373737;
-  padding: 16px;
-  border-radius: 8px;
-}
-
-.booking-page .confirmation-label {
-  font-size: 14px;
-  color: #ccc;
-}
-
-.booking-page .confirmation-value {
-  font-weight: 500;
-  color: #fff;
-}
-
-.booking-page .map-picker-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-}
-
-.booking-page .map-confirm-footer {
+.dropdown-menu {
   position: absolute;
-  bottom: 20px;
-  width: 100%;
-  text-align: center;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  padding: 10px 0;
+  display: none;
+  min-width: 180px;
+  z-index: 10;
 }
 
-/* Stepper Progress Bar */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f2f2f2;
+}
+
+.dropdown-menu li a {
+  color: #111;
+  text-decoration: none;
+}
+
 .booking-stepper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  padding: 0 20px;
+  margin: 30px auto;
+  padding: 0 40px;
+  max-width: 800px;
 }
 
 .booking-stepper .step {
@@ -220,7 +128,7 @@
   right: -50%;
   width: 100%;
   height: 3px;
-  background-color: #555;
+  background-color: #ccc;
   z-index: -1;
 }
 
@@ -229,9 +137,83 @@
 }
 
 .booking-stepper .step.active {
-  color: #ff6666;
+  color: #100f0f;
 }
 
 .booking-stepper .step.active::after {
-  background-color: #ff6666;
+  background-color: #100f0f;
+}
+
+.booking-form {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 600px;
+  margin: 0 auto 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.booking-form h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #000;
+}
+
+.booking-form ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.booking-form li {
+  margin-bottom: 16px;
+  background: #fff;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  text-align: left;
+}
+
+.booking-form button {
+  padding: 12px 24px;
+  font-weight: bold;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 10px;
+  transition: 0.3s;
+}
+
+.booking-form button:hover {
+  background-color: #333;
+}
+
+.map-picker-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-picker-modal button {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  font-weight: bold;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 10000;
 }

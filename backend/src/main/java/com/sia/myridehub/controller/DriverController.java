@@ -7,15 +7,18 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sia.myridehub.model.Driver;
 import com.sia.myridehub.model.dto.DriverProfileDto;
 import com.sia.myridehub.service.DriverService;
 
@@ -23,13 +26,30 @@ import com.sia.myridehub.service.DriverService;
 @RequestMapping("/api/drivers")
 @CrossOrigin(origins = "*")
 public class DriverController {
-    
+
     private final DriverService driverService;
-    
-    public DriverController(DriverService driverService) {
+    private final PasswordEncoder passwordEncoder;
+
+    public DriverController(DriverService driverService, PasswordEncoder passwordEncoder) {
         this.driverService = driverService;
+        this.passwordEncoder = passwordEncoder;
     }
-    
+
+    @PostMapping
+    public ResponseEntity<?> registerDriver(@RequestBody Driver driver) {
+        driver.setAvailable(true);
+        driver.setActive(true);
+        driver.setPassword(passwordEncoder.encode(driver.getPassword()));
+        Driver saved = driverService.saveDriver(driver);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "Driver registered successfully");
+        response.put("driverId", saved.getId());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
     @GetMapping("/profile")
     public ResponseEntity<DriverProfileDto> getDriverProfile(Authentication authentication) {
         String mobileNumber = authentication.getName();
@@ -37,7 +57,7 @@ public class DriverController {
         DriverProfileDto profile = driverService.getDriverProfile(driverId);
         return ResponseEntity.ok(profile);
     }
-    
+
     @PutMapping("/profile/license")
     public ResponseEntity<?> updateDriverLicense(
             Authentication authentication,
@@ -46,11 +66,11 @@ public class DriverController {
             String mobileNumber = authentication.getName();
             Long driverId = driverService.getDriverByMobileNumber(mobileNumber).getId();
             driverService.updateDriverLicense(driverId, licenseNumber);
-            
+
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("message", "License number updated successfully");
-            
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, String> response = new HashMap<>();
@@ -58,7 +78,7 @@ public class DriverController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
-    
+
     @PostMapping("/profile/picture")
     public ResponseEntity<?> updateProfilePicture(
             Authentication authentication,
@@ -67,12 +87,12 @@ public class DriverController {
             String mobileNumber = authentication.getName();
             Long driverId = driverService.getDriverByMobileNumber(mobileNumber).getId();
             String profilePicturePath = driverService.updateProfilePicture(driverId, file);
-            
+
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("message", "Profile picture updated successfully");
             response.put("profilePicture", profilePicturePath);
-            
+
             return ResponseEntity.ok(response);
         } catch (IOException e) {
             Map<String, String> response = new HashMap<>();

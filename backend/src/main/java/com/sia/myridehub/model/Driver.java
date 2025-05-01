@@ -31,7 +31,7 @@ public class Driver {
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
     @Column(unique = true)
-    private String email;   // 🛠️ Added Email field here
+    private String email;
 
     @NotBlank(message = "Mobile number is required")
     @Pattern(regexp = "^[0-9]{11}$", message = "Mobile number must be exactly 11 digits")
@@ -60,7 +60,7 @@ public class Driver {
 
     private boolean active = true;
 
-    // ===== Getters and Setters =====
+    private boolean available = true;
 
     public Long getId() {
         return id;
@@ -86,11 +86,11 @@ public class Driver {
         this.lastName = lastName;
     }
 
-    public String getEmail() {  // 🛠️ Added getter
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {  // 🛠️ Added setter
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -180,6 +180,14 @@ public class Driver {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public String getFullName() {
