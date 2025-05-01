@@ -1,0 +1,227 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    min-height: 100%;
+    height: auto;
+    overflow-y: auto;
+  }  
+  
+  .terms-page {
+    min-height: 100vh;
+    overflow: visible;
+  }  
+  
+  /* Logo Section */
+  .logo-top-center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    background-color: #fff;
+  }
+  
+  .dashboard-logo {
+    height: 90px;
+  }
+  
+  /* Navigation Bar */
+  .main-nav {
+    width: 100%;
+    background-color: #fff;
+    padding: 10px 40px;
+    border-bottom: 3px solid #ced4da;
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .nav-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1200px;
+    width: 100%;
+  }
+  
+  .nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+  
+  .nav-menu li {
+    position: relative;
+  }
+  
+  .nav-menu li a,
+  .nav-menu li span {
+    text-decoration: none;
+    color: #111;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .nav-menu li a:hover,
+  .nav-menu li span:hover {
+    background-color: #100f0f;
+    color: #fff;
+  }
+  
+  .dropdown-container {
+    position: relative;
+  }
+  
+  .dropdown-container:hover .dropdown-menu,
+  .dropdown-menu:hover {
+    display: block;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    list-style: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 10px 0;
+    display: none;
+    z-index: 10;
+    min-width: 180px;
+  }
+  
+  .dropdown-menu li {
+    padding: 10px 20px;
+    white-space: nowrap;
+  }
+  
+  .dropdown-menu li:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .dropdown-menu li a {
+    color: #111;
+    text-decoration: none;
+    font-weight: normal;
+  }
+  
+  /* Search Bar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 5px;
+    width: 220px;
+    background-color: transparent;
+  }
+  
+  .search-bar input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* Divider Line */
+  .divider-line {
+    width: 100vw;
+    height: 1px;
+    background-color: #ccc;
+    margin: 0;
+  }
+  
+  /* Terms Content */
+  .terms-content {
+    max-width: 900px;
+    margin: 60px auto 40px;
+    padding: 0 24px;
+    line-height: 1.8;
+    text-align: left;
+  }
+  
+  .terms-content h1 {
+    font-size: 36px;
+    margin-bottom: 24px;
+    text-align: left;
+    color: #000;
+  }
+  
+  .terms-content h2 {
+    font-size: 22px;
+    margin-top: 32px;
+    color: #000;
+    text-align: left;
+  }
+  
+  .terms-content p,
+  .terms-content ul {
+    font-size: 16px;
+    color: #000;
+    margin-top: 12px;
+    text-align: left;
+  }
+  
+  .terms-content ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    padding-left: 10px;
+  }
+  
+  /* Footer Section */
+  .dashboard-footer {
+    background-color: #000;
+    color: white;
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+  }
+  
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-left: 300px;
+  }
+  
+  .footer-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;  
+    transition: opacity 0.3s;
+  }
+  
+  .footer-links a:hover {
+    opacity: 0.7;
+  }
+  
+  .footer-logo img {
+    height: 80px;
+    margin-right: 300px;
+  }
+  
+  .dashboard-copyright {
+    background-color: #000;
+    color: #aaa;
+    text-align: center;
+    padding: 16px 0;
+    font-size: 14px;
+  }  

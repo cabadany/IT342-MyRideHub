@@ -75,7 +75,7 @@ export default function DashboardPage() {
                 <li><Link to="/booking">Book a Vehicle</Link></li>
                 <li><Link to="/rent">Rent a Vehicle</Link></li>
                 <li><Link to="/fare-calculator">Fare Calculator</Link></li>
-                <li><Link to="/terms">Terms and Conditions</Link></li>
+                <li><Link to="/terms">Terms & Conditions</Link></li>
               </ul>
             </li>
 
@@ -97,7 +97,7 @@ export default function DashboardPage() {
             <li className="dropdown-container">
               <span className="dropdown-toggle">CONTACT US ▾</span>
               <ul className="dropdown-menu">
-                <li><Link to="/passenger-appeal">Passenger Appeal Form</Link></li>
+                <li><Link to="/contact-us">Passenger Appeal Form</Link></li>
               </ul>
             </li>
 
@@ -157,8 +157,8 @@ export default function DashboardPage() {
       <div className="dashboard-footer">
         <div className="footer-links">
           <Link to="/fare-calculator">Fare Calculator</Link>
-          <Link to="/passenger-appeal">Passenger Appeal Form</Link>
-          <Link to="/terms">Terms and Conditions</Link>
+          <Link to="/contact-us">Passenger Appeal Form</Link>
+          <Link to="/terms">Terms & Conditions</Link>
         </div>
         <div className="footer-logo">
           <img src="/Ride Hub Logo (White).png" alt="Ride Hub" />

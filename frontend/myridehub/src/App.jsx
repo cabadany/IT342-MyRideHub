@@ -1,8 +1,7 @@
-// App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { GoogleOAuthProvider } from '@react-oauth/google'; // ✅ Import GoogleOAuthProvider
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
@@ -34,6 +33,7 @@ import BookingHistory from './History/BookingHistory';
 import LandingPage from './LandingPage/LandingPage';  
 import ResetPassword from './ResetPassword/ResetPassword';  
 import ConfirmationPage from './Rent/ConfirmationPage';
+import TermsAndConditionsPage from './TermsAndConditions/TermsAndConditionsPage';
 import ProtectedRoute from './ProtectedRoute';
 
 export default function App() {
@@ -55,6 +55,7 @@ export default function App() {
           <Route path="/driver-registration" element={<DriverRegistrationPage />} />
           <Route path="/driver-login" element={<DriverLoginPage />} />
           <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/terms" element={<TermsAndConditionsPage />} /> {/* ✅ Added */}
 
           {/* Protected User Routes */}
           <Route path="/dashboard" element={
@@ -147,7 +148,7 @@ export default function App() {
             </ProtectedRoute>
           } />
 
-          {/* Fallback Route */}
+          {/* Fallback Route (optional) */}
           {/* <Route path="*" element={<NotFoundPage />} /> */}
 
         </Routes>
