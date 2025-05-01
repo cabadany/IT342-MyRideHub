@@ -9,37 +9,51 @@ const TermsAndConditionsPage = () => {
         <img src="/Ride Hub Logo (Dark).png" alt="Ride Hub" className="dashboard-logo" />
       </div>
 
-      {/* Navigation */}
       <nav className="main-nav">
         <div className="nav-wrapper">
           <ul className="nav-menu">
-            <li><a href="/dashboard">HOME</a></li>
+            <li><Link to="/dashboard">HOME</Link></li>
+
             <li className="dropdown-container">
-              <span>OUR SERVICES ▾</span>
+              <span className="dropdown-toggle">OUR SERVICES ▾</span>
               <ul className="dropdown-menu">
-                <li><a href="/booking">Book a Vehicle</a></li>
-                <li><a href="/rent">Rent a Vehicle</a></li>
-                <li><a href="/fare-calculator">Fare Calculator</a></li>
-                <li><a href="/terms">Terms and Conditions</a></li>
+                <li><Link to="/booking">Book a Vehicle</Link></li>
+                <li><Link to="/rent">Rent a Vehicle</Link></li>
+                <li><Link to="/fare-calculator">Fare Calculator</Link></li>
+                <li><Link to="/terms">Terms & Conditions</Link></li>
               </ul>
             </li>
+
             <li className="dropdown-container">
-              <span>JOIN US ▾</span>
+              <span className="dropdown-toggle">HISTORY ▾</span>
               <ul className="dropdown-menu">
-                <li><a href="/be-a-driver">Be a Driver</a></li>
+                <li><Link to="/rent-history">Rent History</Link></li>
+                <li><Link to="/book-history">Book History</Link></li>
               </ul>
             </li>
+
             <li className="dropdown-container">
-              <span>CONTACT US ▾</span>
+              <span className="dropdown-toggle">JOIN US ▾</span>
               <ul className="dropdown-menu">
-                <li><a href="/passenger-appeal">Passenger Appeal Form</a></li>
+                <li><Link to="/be-a-driver">Be a Driver</Link></li>
               </ul>
             </li>
-            <li><a href="/settings">SETTINGS</a></li>
+
+            <li className="dropdown-container">
+              <span className="dropdown-toggle">CONTACT US ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/contact-us">Passenger Appeal Form</Link></li>
+              </ul>
+            </li>
+
+            <li><Link to="/settings">SETTINGS</Link></li>
+
+            <li>
+              <div className="search-bar">
+                <input type="text" placeholder="Search..." />
+              </div>
+            </li>
           </ul>
-          <div className="search-bar">
-            <input type="text" placeholder="Search..." />
-          </div>
         </div>
       </nav>
 
