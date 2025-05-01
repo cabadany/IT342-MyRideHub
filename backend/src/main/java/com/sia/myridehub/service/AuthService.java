@@ -13,17 +13,17 @@ import com.sia.myridehub.model.dto.LoginResponseDto;
 
 @Service
 public class AuthService {
-    
+
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final DriverService driverService;
-    
+
     public AuthService(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, DriverService driverService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.driverService = driverService;
     }
-    
+
     public LoginResponseDto login(LoginRequestDto loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -31,12 +31,12 @@ public class AuthService {
                         loginRequest.getPassword()
                 )
         );
-        
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtTokenProvider.generateToken(authentication);
-        
+        String jwt = jwtTokenProvider.generateToken(authentication.getName());
+
         Driver driver = driverService.getDriverByMobileNumber(loginRequest.getUsername());
-        
+
         return new LoginResponseDto(jwt, driver.getId(), driver.getFirstName(), driver.getLastName());
     }
 }
