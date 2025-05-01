@@ -35,7 +35,7 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
 
-            String token = jwtTokenProvider.generateToken(authentication);
+            String token = jwtTokenProvider.generateToken(authentication.getName());
             return ResponseEntity.ok(Map.of("token", token));
 
         } catch (Exception e) {
