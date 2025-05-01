@@ -25,7 +25,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/api/users")
 @CrossOrigin(origins = {
     "http://localhost:5173",
-    "https://it342-myridehub.onrender.com"
+    "https://it342-myridehub.onrender.com",
+    "https://my-ride-hubapp.vercel.app"
 })
 public class UserController {
 
@@ -52,7 +53,6 @@ public class UserController {
             User user = userOpt.get();
 
             if (user.getPassword() != null && user.getPassword().equals(password)) {
-                // Return user info + mock JWT token
                 return ResponseEntity.ok(new LoginResponse("mock-jwt-token-12345", user));
             } else {
                 return ResponseEntity.status(401).body("Invalid password");

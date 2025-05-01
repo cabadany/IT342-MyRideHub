@@ -15,7 +15,6 @@ public class LoginResponse {
         this.username = user.getUsername();
     }
 
-    // Getters
     public String getToken() {
         return token;
     }
