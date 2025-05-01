@@ -11,8 +11,8 @@ public class LoginResponse {
     public LoginResponse(String token, User user) {
         this.token = token;
         this.email = user.getEmail();
-        this.fullName = user.getFullName();
-        this.username = user.getUsername();
+        this.fullName = user.getFullName() != null ? user.getFullName() : "Unknown";
+        this.username = user.getUsername() != null ? user.getUsername() : "unknown";
     }
 
     public String getToken() {
