@@ -3,6 +3,8 @@ import { LoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import { Link, useNavigate } from "react-router-dom";
 import MapAutocomplete from "../Map/MapAutocomplete";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./BookingPage.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -55,8 +57,13 @@ export default function BookingPage() {
       lng: place.geometry.location.lng(),
       formatted_address: place.formatted_address || place.description || place.name || `Lat: ${place.geometry.location.lat().toFixed(5)}, Lng: ${place.geometry.location.lng().toFixed(5)}`
     };
-    if (selectingField === "pickup") setPickupLocation(location);
-    else if (selectingField === "dropoff") setDropOffLocation(location);
+    if (selectingField === "pickup") {
+      setPickupLocation(location);
+      toast.success("Pickup location selected from map!");
+    } else if (selectingField === "dropoff") {
+      setDropOffLocation(location);
+      toast.success("Drop-off location selected from map!");
+    }
     setShowMapPicker(false);
     setSelectingField(null);
     setSelectedCoords(null);
@@ -75,8 +82,7 @@ export default function BookingPage() {
       (response, status) => {
         if (status === "OK") {
           const element = response.rows[0].elements[0];
-          const distanceInMeters = element.distance.value;
-          const distanceKm = distanceInMeters / 1000;
+          const distanceKm = element.distance.value / 1000;
           setDistanceText(element.distance.text);
           setDurationText(element.duration.text);
           const total = BASE_FARE + RATE_PER_KM * distanceKm;
@@ -140,6 +146,8 @@ export default function BookingPage() {
   return (
     <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={libraries}>
       <div className="booking-page">
+        <ToastContainer />
+
         <div className="logo-top-center">
           <img src="/Ride Hub Logo (Dark).png" alt="Ride Hub" className="dashboard-logo" />
         </div>
@@ -269,7 +277,9 @@ export default function BookingPage() {
                 }
               },
               formatted_address: `Lat: ${selectedCoords.lat.toFixed(5)}, Lng: ${selectedCoords.lng.toFixed(5)}`
-            })}>Confirm Location</button>
+            })}>
+              Confirm Location
+            </button>
           </div>
         )}
       </div>

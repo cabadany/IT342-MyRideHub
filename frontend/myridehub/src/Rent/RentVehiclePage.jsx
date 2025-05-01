@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './RentVehiclePage.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./RentVehiclePage.css";
 
 const RentVehiclePage = () => {
   const [category, setCategory] = useState("4wheels");
@@ -12,7 +12,6 @@ const RentVehiclePage = () => {
     axios
       .get("https://it342-myridehub.onrender.com/api/vehicles")
       .then((res) => {
-        console.log("Fetched vehicles:", res.data);
         setVehicles(res.data);
       })
       .catch((err) => console.error("Failed to fetch vehicles:", err));
@@ -32,15 +31,18 @@ const RentVehiclePage = () => {
 
   return (
     <div className="rent-vehicle-page">
+      {/* Logo */}
       <div className="logo-top-center">
         <img src="/Ride Hub Logo (Dark).png" alt="Ride Hub" className="dashboard-logo" />
       </div>
 
+      {/* Nav copied from DashboardPage */}
       <nav className="main-nav">
         <div className="nav-wrapper">
           <ul className="nav-menu">
             <li><a href="/dashboard">HOME</a></li>
-            <li className="dropdown">
+
+            <li className="dropdown-container">
               <span>OUR SERVICES ▾</span>
               <ul className="dropdown-menu">
                 <li><a href="/booking">Book a Vehicle</a></li>
@@ -49,19 +51,32 @@ const RentVehiclePage = () => {
                 <li><a href="/terms">Terms and Conditions</a></li>
               </ul>
             </li>
-            <li className="dropdown">
+
+            <li className="dropdown-container">
+              <span>HISTORY ▾</span>
+              <ul className="dropdown-menu">
+                <li><a href="/rent-history">Rent History</a></li>
+                <li><a href="/book-history">Book History</a></li>
+              </ul>
+            </li>
+
+            <li className="dropdown-container">
               <span>JOIN US ▾</span>
               <ul className="dropdown-menu">
                 <li><a href="/be-a-driver">Be a Driver</a></li>
               </ul>
             </li>
-            <li className="dropdown">
+
+            <li className="dropdown-container">
               <span>CONTACT US ▾</span>
               <ul className="dropdown-menu">
                 <li><a href="/passenger-appeal">Passenger Appeal Form</a></li>
               </ul>
             </li>
+
+            <li><a href="/settings">SETTINGS</a></li>
           </ul>
+
           <div className="search-bar">
             <input type="text" placeholder="Search..." />
           </div>

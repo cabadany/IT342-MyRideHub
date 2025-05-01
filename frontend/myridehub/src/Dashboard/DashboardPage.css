@@ -31,7 +31,6 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #ddd;
 }
 
 .dashboard-logo {
@@ -50,16 +49,15 @@ html, body {
   width: 100%;
   background-color: #fff;
   padding: 10px 40px;
-  border-bottom: 3px solid #ced4da;
-  z-index: 1000;
+  border-top: none;         /* ✅ Remove top border */
+  margin-top: 0;            /* ✅ No space above */
+  box-shadow: none;         /* ✅ Remove any shadow */
+  border-bottom: 3px solid #ced4da; /* keep only the bottom divider if needed */
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 40px;
-  flex-wrap: wrap;
   position: sticky;
   top: 0;
-  transition: box-shadow 0.3s ease;
+  z-index: 1000;
 }
 
 .main-nav.scrolled {

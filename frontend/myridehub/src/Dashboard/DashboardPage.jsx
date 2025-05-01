@@ -59,6 +59,7 @@ export default function DashboardPage() {
     <div className="dashboard-page">
       <ToastContainer />
 
+      {/* Logo */}
       <div className="logo-top-center">
         <img src="/Ride Hub Logo (Dark).png" alt="Ride Hub" className="dashboard-logo" />
       </div>
