@@ -1,23 +1,20 @@
 import { useEffect, useRef } from "react";
 
 const MapAutocomplete = ({ placeholder, onPlaceSelected, value = "", inputRef }) => {
-  const containerRef = useRef(null);
+  const inputEl = useRef(null);
 
   useEffect(() => {
-    if (!window.google?.maps?.places?.PlaceAutocompleteElement) {
-      console.error("PlaceAutocompleteElement is not available. Make sure Places API is enabled.");
+    if (!window.google?.maps?.places?.Autocomplete) {
+      console.error("Google Maps Autocomplete is not available.");
       return;
     }
 
-    const autocomplete = new window.google.maps.places.PlaceAutocompleteElement();
-    autocomplete.id = "place-autocomplete";
-    autocomplete.placeholder = placeholder;
-    autocomplete.setAttribute("autocomplete", "off");
+    const autocomplete = new window.google.maps.places.Autocomplete(inputEl.current, {
+      types: ["geocode"],
+      componentRestrictions: { country: "ph" },
+    });
 
-    // Optional: style tweaks
-    autocomplete.classList.add("autocomplete-box");
-
-    autocomplete.addEventListener("place_changed", () => {
+    autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
       if (place && place.geometry) {
         onPlaceSelected(place);
@@ -26,20 +23,28 @@ const MapAutocomplete = ({ placeholder, onPlaceSelected, value = "", inputRef })
       }
     });
 
-    // Clear old and append new autocomplete input
-    const container = containerRef.current;
-    container.innerHTML = "";
-    container.appendChild(autocomplete);
+    return () => window.google.maps.event.clearInstanceListeners(autocomplete);
+  }, [onPlaceSelected]);
 
-    // Set initial value (if any)
-    if (value) autocomplete.value = value;
-
-    return () => {
-      autocomplete.remove();
-    };
-  }, [placeholder, onPlaceSelected, value]);
-
-  return <div ref={containerRef} />;
+  return (
+    <input
+      ref={(el) => {
+        inputEl.current = el;
+        if (inputRef) inputRef.current = el;
+      }}
+      type="text"
+      placeholder={placeholder}
+      defaultValue={value}
+      className="autocomplete-box"
+      style={{
+        padding: "10px",
+        width: "100%",
+        borderRadius: "6px",
+        border: "1px solid #ccc",
+        color: "black",
+      }}
+    />
+  );
 };
 
 export default MapAutocomplete;
