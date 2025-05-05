@@ -153,7 +153,7 @@ export default function App() {
             <ProtectedRoute>
               <FareCalculatorPage />
             </ProtectedRoute>
-          } />
+        } />
 
           {/* Fallback Route (optional) */}
           {/* <Route path="*" element={<NotFoundPage />} /> */}
