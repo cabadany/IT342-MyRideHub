@@ -35,7 +35,6 @@ const RentNow = () => {
   };
 
   const handleProceed = async () => {
-    // Basic validation
     if (!vehicle?.id || !pickUpDate || !pickUpTime || !returnDate || !returnTime) {
       alert("Please complete all fields before confirming.");
       return;
@@ -48,18 +47,23 @@ const RentNow = () => {
 
     const rentalDetails = {
       vehicleId: vehicle.id,
-      pickUpDate,
-      pickUpTime,
-      returnDate,
-      returnTime,
-      total,
+      vehicleBrand: vehicle.brand,
+      vehicleModel: vehicle.model,
+      pickUpDate: pickUpDate,
+      pickUpTime: pickUpTime,
+      returnDate: returnDate,
+      returnTime: returnTime,
+      totalAmount: total,
       withDriver: isDriverSelected
     };
 
-    console.log("Submitting rental info:", rentalDetails);
+    console.log("Sending data to backend:", rentalDetails);
 
     try {
-      const response = await axios.post("https://it342-myridehub.onrender.com/api/rentals", rentalDetails);
+      const response = await axios.post(
+        "https://it342-myridehub.onrender.com/api/rent-history",
+        rentalDetails
+      );
 
       if (response.status === 200 || response.status === 201) {
         navigate("/rent/reservation", {
@@ -75,8 +79,8 @@ const RentNow = () => {
         });
       }
     } catch (error) {
-      console.error("Error response:", error.response?.data || error.message);
-      alert("An error occurred while submitting your reservation. Please double-check the form or try again later.");
+      console.error("Error submitting rental:", error.response?.data || error.message);
+      alert("An error occurred while submitting your reservation. Please try again later.");
     }
   };
 
