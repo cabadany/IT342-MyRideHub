@@ -9,50 +9,47 @@ html, body {
 
 .reservation-container {
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
 }
 
-/* Layout container fills full screen width */
 .reservation-main {
   flex: 1;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 2rem 2rem;
+  padding: 2rem 3rem;
+  gap: 2rem;
   box-sizing: border-box;
   width: 100%;
 }
 
-/* Equal-width, flexible columns */
+/* Remove all cards or boxes — pure full layout */
 .left-section,
 .center-section,
 .right-section {
   flex: 1;
-  padding: 1.5rem;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  box-sizing: border-box;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0 1rem;
 }
 
-/* Boxes inside each section */
+/* Headings and group labels */
 .box {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .box h3 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  color: #111;
   margin-bottom: 0.5rem;
-  border-bottom: 2px solid #e0e0e0;
-  padding-bottom: 6px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 4px;
 }
 
-/* Vehicle image */
+/* Image area */
 .center-section {
   text-align: center;
 }
@@ -60,8 +57,18 @@ html, body {
 .center-section img {
   width: 100%;
   max-width: 280px;
-  border-radius: 12px;
+  border-radius: 8px;
   margin-bottom: 1rem;
+}
+
+.center-section h2 {
+  font-size: 1.8rem;
+  margin: 0.5rem 0;
+}
+
+.center-section p {
+  font-size: 1rem;
+  color: #333;
 }
 
 /* Input fields */
@@ -85,17 +92,17 @@ html, body {
   font-size: 0.85rem;
   display: block;
   margin: 0.5rem 0;
+  color: #111;
 }
 
-/* Total and reserve button */
+/* Total + Reserve button */
 .summary-box {
   margin-top: 2rem;
-  background-color: #ffffff;
+  background-color: transparent;
   color: #111;
-  padding: 1.2rem;
-  border-radius: 10px;
   text-align: center;
-  border: 1px solid #eee;
+  padding: 0;
+  border: none;
 }
 
 .summary-box h2 {
@@ -104,6 +111,7 @@ html, body {
   font-weight: bold;
 }
 
+/* Reserve Button */
 .reserve-button {
   background-color: #1f1f1f;
   color: #ffffff;
@@ -122,7 +130,7 @@ html, body {
   background-color: #333;
 }
 
-/* Back button */
+/* Back Button */
 .back-button {
   position: absolute;
   top: 1rem;
@@ -140,16 +148,16 @@ html, body {
   color: #666;
 }
 
-/* Full responsiveness */
+/* Responsive */
 @media (max-width: 1024px) {
   .reservation-main {
     flex-direction: column;
-    gap: 2rem;
+    padding: 2rem;
   }
 
   .left-section,
   .center-section,
   .right-section {
-    width: 100%;
+    padding: 0;
   }
 }
