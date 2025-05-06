@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./PaymentPage.css";
+import "./Payment.css";
 
-const PaymentPage = () => {
+const Payment = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -103,4 +103,4 @@ const PaymentPage = () => {
   );
 };
 
-export default PaymentPage;
+export default Payment;
