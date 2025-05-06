@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +18,6 @@ import com.sia.myridehub.service.RentHistoryService;
 
 @RestController
 @RequestMapping("/api/rent-history")
-@CrossOrigin(origins = {
-    "http://localhost:5173",
-    "https://my-ride-hubapp.vercel.app"
-})
 public class RentHistoryController {
 
     private final RentHistoryService rentHistoryService;
