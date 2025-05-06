@@ -26,12 +26,13 @@ html, body {
 /* Layout */
 .reservation-main {
   width: 100vw;
-  padding: 2rem 4vw;
+  padding: 2rem;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1.5rem;
   box-sizing: border-box;
+  align-items: flex-start;
 }
 
 /* Shared Section Styling */
