@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/bookings/**").permitAll()
                 .requestMatchers("/api/drivers/**").permitAll()
                 .requestMatchers("/api/rent-history/**").permitAll()
+                .requestMatchers("/api/reservations/**").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();
