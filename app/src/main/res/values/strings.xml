@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">MyRideHub</string>
 
+    <!-- Drawer toggle strings -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <!-- Spinner Items for My Order -->
     <string-array name="history_types">
         <item>Booking History</item>

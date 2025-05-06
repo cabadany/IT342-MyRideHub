@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/nav_services"
+        android:title="Our Services">
+        <menu>
+            <item android:id="@+id/nav_booking" android:title="Book a Vehicle" />
+            <item android:id="@+id/nav_rent" android:title="Rent a Vehicle" />
+            <item android:id="@+id/nav_fare_calculator" android:title="Fare Calculator" />
+            <item android:id="@+id/nav_terms" android:title="Terms and Conditions" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/nav_history"
+        android:title="History">
+        <menu>
+            <item android:id="@+id/nav_rent_history" android:title="Rent History" />
+            <item android:id="@+id/nav_book_history" android:title="Book History" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/nav_join"
+        android:title="Join Us">
+        <menu>
+            <item android:id="@+id/nav_be_driver" android:title="Be a Driver" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/nav_contact"
+        android:title="Contact Us">
+        <menu>
+            <item android:id="@+id/nav_appeal_form" android:title="Passenger Appeal Form" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Settings" />
+</menu>
