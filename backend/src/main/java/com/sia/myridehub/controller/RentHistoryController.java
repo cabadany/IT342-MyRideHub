@@ -19,7 +19,10 @@ import com.sia.myridehub.service.RentHistoryService;
 
 @RestController
 @RequestMapping("/api/rent-history")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "https://my-ride-hubapp.vercel.app"
+})
 public class RentHistoryController {
 
     private final RentHistoryService rentHistoryService;
