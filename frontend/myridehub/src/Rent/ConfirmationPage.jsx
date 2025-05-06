@@ -23,7 +23,9 @@ const ConfirmationPage = () => {
     return (
       <div className="confirmation-container">
         <h2>No reservation found.</h2>
-        <button onClick={() => navigate("/rent")}>Back to Rent Page</button>
+        <button onClick={() => navigate("/rent")} className="back-home-button">
+          Back to Rent Page
+        </button>
       </div>
     );
   }
@@ -32,7 +34,7 @@ const ConfirmationPage = () => {
     <div className="confirmation-container">
       <h1 className="confirmation-title">🎉 Reservation Successful!</h1>
 
-      <div className="confirmation-row">
+      <div className="confirmation-grid">
         <div className="confirmation-section">
           <h2>Customer Details</h2>
           <p><strong>Name:</strong> {customerInfo?.firstName} {customerInfo?.lastName}</p>
@@ -41,7 +43,7 @@ const ConfirmationPage = () => {
         </div>
 
         <div className="confirmation-section">
-          <h2>Rental Information</h2>
+          <h2>Rental Info</h2>
           <p><strong>Pick-up:</strong> {pickUpDate} at {pickUpTime}</p>
           <p><strong>Return:</strong> {returnDate} at {returnTime}</p>
           <p><strong>With Driver:</strong> {isDriverSelected ? "Yes" : "No"}</p>
@@ -49,19 +51,19 @@ const ConfirmationPage = () => {
         </div>
 
         <div className="confirmation-section">
-          <h2>Vehicle Information</h2>
+          <h2>Vehicle Info</h2>
           <p><strong>Model:</strong> {vehicle?.brand} {vehicle?.model}</p>
           <p><strong>Engine:</strong> {vehicle?.engine}</p>
           <p><strong>Seats:</strong> {vehicle?.seats}</p>
         </div>
 
         <div className="confirmation-section">
-          <h2>Payment Details</h2>
-          <p><strong>Payment Method:</strong> {paymentMethod}</p>
+          <h2>Payment</h2>
+          <p><strong>Method:</strong> {paymentMethod}</p>
           {paymentMethod === "gcash" && (
             <>
-              <p><strong>GCash Mobile Number:</strong> {gcashNumber}</p>
-              <p><strong>Account Holder Name:</strong> {gcashName}</p>
+              <p><strong>GCash No.:</strong> {gcashNumber}</p>
+              <p><strong>GCash Name:</strong> {gcashName}</p>
             </>
           )}
         </div>
