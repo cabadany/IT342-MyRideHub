@@ -25,7 +25,7 @@ html, body {
 
 /* Layout */
 .reservation-main {
-  width: 100%;
+  width: 100vw;
   padding: 2rem 4vw;
   display: flex;
   flex-wrap: wrap;
