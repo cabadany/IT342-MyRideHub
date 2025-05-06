@@ -1,32 +1,40 @@
-/* Page Container */
-.reservation-container {
+/* Ensure full white page and remove browser padding */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   background-color: #ffffff;
-  color: #1a1a1a;
   font-family: 'Arial', sans-serif;
-  min-height: 100vh;
-  padding-top: 4rem;
 }
 
-/* Optional Title */
+/* Page Wrapper */
+.reservation-container {
+  background-color: #ffffff;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Optional Page Title */
 .reservation-title {
   text-align: center;
   font-size: 28px;
   font-weight: bold;
-  margin-bottom: 2rem;
+  margin: 2rem 0 1rem;
 }
 
 /* Layout */
 .reservation-main {
+  width: 100%;
+  padding: 2rem 4vw;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: 2rem;
-  justify-content: center;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-/* Section Cards */
+/* Shared Section Styling */
 .left-section,
 .center-section,
 .right-section {
@@ -34,13 +42,11 @@
   color: #222;
   padding: 1.5rem;
   border-radius: 16px;
-  flex: 1;
-  min-width: 280px;
-  max-width: 350px;
+  flex: 1 1 30%;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
-/* Card Headers */
+/* Card Sections */
 .box {
   margin-bottom: 1.5rem;
 }
@@ -52,9 +58,8 @@
   padding-bottom: 6px;
 }
 
-/* Vehicle Preview */
+/* Center Image Preview */
 .center-section {
-  align-items: center;
   text-align: center;
 }
 
@@ -75,6 +80,7 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   margin-bottom: 0.75rem;
+  box-sizing: border-box;
 }
 
 .right-section input::placeholder {
@@ -141,11 +147,18 @@
   color: #666;
 }
 
-/* Responsive */
+/* Responsive Layout */
 @media (max-width: 768px) {
   .reservation-main {
     flex-direction: column;
     align-items: center;
+    padding: 2rem;
+  }
+
+  .left-section,
+  .center-section,
+  .right-section {
+    width: 100%;
   }
 
   .back-button {
