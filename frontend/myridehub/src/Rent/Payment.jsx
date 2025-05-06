@@ -1,11 +1,31 @@
-import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { saveRental } from "../../api";
-import "./Payment.css";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./PaymentPage.css";
 
-const Payment = () => {
-  const navigate = useNavigate();
+const PaymentPage = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
+
+  const [reservationData, setReservationData] = useState(() => {
+    // Try to load from location.state first, then localStorage
+    return state || JSON.parse(localStorage.getItem("reservationData")) || null;
+  });
+
+  useEffect(() => {
+    if (state) {
+      localStorage.setItem("reservationData", JSON.stringify(state));
+    }
+  }, [state]);
+
+  if (!reservationData) {
+    return (
+      <div className="payment-page">
+        <h2>No reservation data found.</h2>
+        <button onClick={() => navigate("/rent")}>← Back to Rent</button>
+      </div>
+    );
+  }
+
   const {
     vehicle,
     pickUpDate,
@@ -14,116 +34,73 @@ const Payment = () => {
     returnTime,
     total,
     isDriverSelected,
-    customerInfo
-  } = state || {};
+    customerInfo,
+  } = reservationData;
 
-  const [paymentMethod, setPaymentMethod] = useState("card");
-  const [gcashInfo, setGcashInfo] = useState({ number: "", name: "" });
+  const [paymentMethod, setPaymentMethod] = useState("gcash");
+  const [gcashNumber, setGcashNumber] = useState("");
+  const [gcashName, setGcashName] = useState("");
 
-  const handlePayment = async () => {
-    if (paymentMethod === "gcash" && (!gcashInfo.number || !gcashInfo.name)) {
-      alert("Please enter your GCash information.");
-      return;
-    }
-
-    const rentalData = {
-      vehicleId: vehicle?.id,
-      customerName: `${customerInfo.firstName} ${customerInfo.lastName}`,
-      email: customerInfo.email,
-      phone: customerInfo.phone,
-      pickUpDate,
-      pickUpTime,
-      returnDate,
-      returnTime,
-      paymentMethod,
-      gcashNumber: gcashInfo.number,
-      gcashName: gcashInfo.name,
-      withDriver: isDriverSelected,
-      totalFare: total,
-    };
-
-    try {
-      await saveRental(rentalData);
-      alert("Payment Successful! Reservation Saved.");
-      navigate("/rent/confirmation", {
-        state: {
-          vehicle,
-          pickUpDate,
-          pickUpTime,
-          returnDate,
-          returnTime,
-          total,
-          isDriverSelected,
-          customerInfo,
-          paymentMethod,
-          gcashNumber: gcashInfo.number,
-          gcashName: gcashInfo.name,
-        }
-      });
-    } catch (error) {
-      console.error("Error saving rental:", error);
-      alert("Something went wrong while saving reservation.");
-    }
+  const handleConfirmPayment = () => {
+    navigate("/rent/confirmation", {
+      state: {
+        ...reservationData,
+        paymentMethod,
+        gcashNumber,
+        gcashName,
+      },
+    });
   };
 
   return (
-    <div className="payment-container">
-      <h1 className="payment-title">Choose Payment Method</h1>
+    <div className="payment-page">
+      <h1>Payment Details</h1>
 
-      <div className="payment-methods">
-        <button
-          className={`method-button ${paymentMethod === "card" ? "active" : ""}`}
-          onClick={() => setPaymentMethod("card")}
-        >
-          Credit/Debit Card
-        </button>
-        <button
-          className={`method-button ${paymentMethod === "gcash" ? "active" : ""}`}
-          onClick={() => setPaymentMethod("gcash")}
-        >
-          GCash
-        </button>
+      <div className="payment-section">
+        <h3>Selected Vehicle</h3>
+        <p>{vehicle?.brand} {vehicle?.model}</p>
+        <p>Pick-up: {pickUpDate} at {pickUpTime}</p>
+        <p>Return: {returnDate} at {returnTime}</p>
+        <p>Total: ₱{total?.toLocaleString()}</p>
       </div>
 
-      {paymentMethod === "card" ? (
-        <div className="payment-form">
-          <label>Cardholder Name</label>
-          <input type="text" placeholder="John Doe" />
+      <div className="payment-section">
+        <h3>Customer Information</h3>
+        <p>{customerInfo?.firstName} {customerInfo?.lastName}</p>
+        <p>{customerInfo?.email}</p>
+        <p>{customerInfo?.phone}</p>
+      </div>
 
-          <label>Card Number</label>
-          <input type="text" placeholder="1234 5678 9012 3456" />
+      <div className="payment-section">
+        <h3>Payment Method</h3>
+        <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
+          <option value="gcash">GCash</option>
+          <option value="cod">Cash on Delivery</option>
+        </select>
 
-          <label>Expiration Date</label>
-          <input type="text" placeholder="MM/YY" />
+        {paymentMethod === "gcash" && (
+          <div className="gcash-fields">
+            <input
+              type="text"
+              placeholder="GCash Mobile Number"
+              value={gcashNumber}
+              onChange={(e) => setGcashNumber(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Account Holder Name"
+              value={gcashName}
+              onChange={(e) => setGcashName(e.target.value)}
+            />
+          </div>
+        )}
+      </div>
 
-          <label>CVV</label>
-          <input type="text" placeholder="123" />
-        </div>
-      ) : (
-        <div className="gcash-form">
-          <label>GCash Mobile Number</label>
-          <input
-            type="text"
-            placeholder="09XXXXXXXXX"
-            value={gcashInfo.number}
-            onChange={(e) => setGcashInfo({ ...gcashInfo, number: e.target.value })}
-          />
-
-          <label>Account Holder Name</label>
-          <input
-            type="text"
-            placeholder="Juan Dela Cruz"
-            value={gcashInfo.name}
-            onChange={(e) => setGcashInfo({ ...gcashInfo, name: e.target.value })}
-          />
-        </div>
-      )}
-
-      <button className="pay-button" onClick={handlePayment}>
-        {paymentMethod === "gcash" ? "Pay via GCash" : "Pay Now"}
+      <button className="confirm-button" onClick={handleConfirmPayment}>
+        Confirm Payment
       </button>
     </div>
   );
 };
 
-export default Payment;
+export default PaymentPage;
