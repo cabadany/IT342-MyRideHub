@@ -19,6 +19,8 @@ export default function BookingPage() {
   const [pickupLocation, setPickupLocation] = useState(null);
   const [dropOffLocation, setDropOffLocation] = useState(null);
   const [selectedType, setSelectedType] = useState("");
+  const [customerName, setCustomerName] = useState(""); // ✅ new
+  const [contactNumber, setContactNumber] = useState(""); // ✅ new
   const [distanceText, setDistanceText] = useState("");
   const [durationText, setDurationText] = useState("");
   const [totalPrice, setTotalPrice] = useState(null);
@@ -120,7 +122,9 @@ export default function BookingPage() {
         duration: durationText,
         totalPrice,
         status: "Pending",
-        driverId: driver.id
+        driverId: driver.id,
+        customerName,           // ✅ added
+        contactNumber           // ✅ added
       };
 
       await axios.post(`${API_BASE_URL}/api/bookings`, bookingData);
@@ -280,18 +284,38 @@ export default function BookingPage() {
 
         {/* Step 4: Confirm */}
         {bookingStep === 4 && (
-          <div className="booking-form">
-            <h2>Confirm</h2>
-            <p><strong>Pickup:</strong> {pickupLocation?.formatted_address}</p>
-            <p><strong>Drop-off:</strong> {dropOffLocation?.formatted_address}</p>
-            <p><strong>Distance:</strong> {distanceText}</p>
-            <p><strong>Duration:</strong> {durationText}</p>
-            <p><strong>Fare:</strong> ₱{totalPrice}</p>
-            <button onClick={confirmBooking}>Confirm Booking</button>
-            {loading && <p>Finding driver...</p>}
-            {rideStatus && <p>{rideStatus}</p>}
-          </div>
-        )}
+    <div className="booking-form">
+      <h2>Confirm</h2>
+      <p><strong>Pickup:</strong> {pickupLocation?.formatted_address}</p>
+      <p><strong>Drop-off:</strong> {dropOffLocation?.formatted_address}</p>
+      <p><strong>Distance:</strong> {distanceText}</p>
+      <p><strong>Duration:</strong> {durationText}</p>
+      <p><strong>Fare:</strong> ₱{totalPrice}</p>
+
+      <input
+        type="text"
+        placeholder="Your Full Name"
+        value={customerName}
+        onChange={(e) => setCustomerName(e.target.value)}
+        className="location-input"
+        style={{ marginTop: "10px", color: "#000" }}
+      />
+      <input
+        type="text"
+        placeholder="Your Contact Number"
+        value={contactNumber}
+        onChange={(e) => setContactNumber(e.target.value)}
+        className="location-input"
+        style={{ marginTop: "10px", color: "#000" }}
+      />
+
+      <button onClick={confirmBooking} disabled={!customerName || !contactNumber}>
+        Confirm Booking
+      </button>
+      {loading && <p>Finding driver...</p>}
+      {rideStatus && <p>{rideStatus}</p>}
+    </div>
+  )}
 
         {/* Google Maps Picker */}
         {showMapPicker && (
