@@ -10,14 +10,15 @@ html, body {
   height: auto;
   overflow-y: auto;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #303030;
-
+  background-color: #e5e7eb;
+  color: #1f2937;
 }
 
 /* Dashboard Layout */
 .dashboard-page {
   min-height: 100vh;
   overflow: visible;
+  background-color: #e5e7eb;
 }
 
 /* Header and Logo */
@@ -36,16 +37,16 @@ html, body {
   max-width: 100%;
   object-fit: contain;
   z-index: 1003;
-  background-color: #3b3b3b;
+  background-color: transparent;
 }
 
 /* Navigation */
 .main-nav {
   width: 100%;
-  background-color: #f3f4f6;
+  background-color: #d1d5db;
   padding: 10px 40px;
   margin-top: 0;
-  border-bottom: 1px solid #d1d5db;
+  border-bottom: 1px solid #cbd5e1;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: center;
@@ -84,7 +85,7 @@ html, body {
 .nav-menu li span:hover,
 .nav-menu li a.active,
 .nav-menu li span.active {
-  background-color: #d1d5db;
+  background-color: #cbd5e1;
   color: #000;
 }
 
@@ -102,8 +103,8 @@ html, body {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #f3f4f6;
-  color: #1F2937;
+  background-color: #d1d5db;
+  color: #1f2937;
   list-style: none;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
   border-radius: 6px;
@@ -125,18 +126,18 @@ html, body {
 }
 
 .dropdown-menu li:hover {
-  background-color: #e5e7eb;
+  background-color: #cbd5e1;
 }
 
 /* Search Bar */
 .search-bar {
   display: flex;
   align-items: center;
-  border: 1px solid #d1d5db;
+  border: 1px solid #cbd5e1;
   padding: 6px 12px;
   border-radius: 5px;
   width: 220px;
-  background-color: #f3f4f6;
+  background-color: #d1d5db;
 }
 
 .search-bar input {
@@ -145,7 +146,7 @@ html, body {
   background: transparent;
   width: 100%;
   font-size: 14px;
-  color: #333;
+  color: #1f2937;
 }
 
 /* Hero Section */
@@ -183,7 +184,7 @@ html, body {
 }
 
 .hero-btn {
-  background-color: #d1d5db;
+  background-color: #cbd5e1;
   color: #1f2937;
   padding: 14px 28px;
   font-weight: bold;
@@ -205,7 +206,7 @@ html, body {
   flex-direction: column;
   gap: 60px;
   padding: 60px 40px;
-  background-color: #f1f3f5;
+  background-color: #e5e7eb;
   margin-top: 10px;
 }
 
@@ -231,20 +232,20 @@ html, body {
 .article-text h3 {
   font-size: 24px;
   margin-bottom: 10px;
-  color: #1F2937;
+  color: #1f2937;
 }
 
 .article-text p {
   font-size: 16px;
   line-height: 1.8;
-  color: #4B5563;
+  color: #374151;
   text-align: left;
 }
 
 /* Footer Section */
 .dashboard-footer {
-  background-color: #374151;
-  color: white;
+  background-color: #d1d5db;
+  color: #1f2937;
   padding: 40px 60px;
   display: flex;
   justify-content: space-between;
@@ -259,7 +260,7 @@ html, body {
 }
 
 .footer-links a {
-  color: #e5e7eb;
+  color: #1f2937;
   text-decoration: none;
   font-weight: bold;
   font-size: 16px;
@@ -267,7 +268,7 @@ html, body {
 }
 
 .footer-links a:hover {
-  opacity: 0.85;
+  opacity: 0.75;
 }
 
 .footer-logo img {
@@ -276,8 +277,8 @@ html, body {
 }
 
 .dashboard-copyright {
-  background-color: #4b5563;
-  color: #e5e7eb;
+  background-color: #cbd5e1;
+  color: #1f2937;
   text-align: center;
   padding: 16px 0;
   font-size: 14px;
