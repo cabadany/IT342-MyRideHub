@@ -36,6 +36,7 @@ html, body {
   max-width: 100%;
   object-fit: contain;
   z-index: 1003;
+  background-color: #3b3b3b;
 }
 
 /* Navigation */
