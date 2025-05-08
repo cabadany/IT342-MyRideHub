@@ -115,7 +115,7 @@ export default function DashboardPage() {
       <div className="divider-line"></div>
 
       <div className="hero-image-section">
-        <img src="/for dashboard.png" alt="Hero" className="hero-img" />
+        <img src="/dashboard.jpg" alt="Hero" className="hero-img" />
         <div className="hero-overlay">
           <h1 className="hero-title">RIDE HUB</h1>
           <Link to="/booking" className="hero-btn">Book a Ride</Link>
