@@ -51,7 +51,7 @@
 
 /* Table Styling */
 .history-table table {
-  width: 100%;
+  width: auto;
   min-width: 1200px;
   border-collapse: collapse;
 }
@@ -88,9 +88,15 @@
       font-size: 40px;
   }
 
-  .history-table {
-      font-size: 20px;
-  }
+  /* Table Container */
+.history-table {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 20px auto 50px auto; /* center horizontally */
+  display: flex;
+  justify-content: center;     /* center inner content */
+}
 
   .history-table th,
   .history-table td {
