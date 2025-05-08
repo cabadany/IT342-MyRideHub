@@ -29,10 +29,10 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
                 .requestMatchers("/api/users/**").permitAll()
                 .requestMatchers("/api/vehicles/**").permitAll()
-                .requestMatchers("/api/bookings/**").permitAll()
                 .requestMatchers("/api/drivers/**").permitAll()
                 .requestMatchers("/api/rent-history/**").permitAll()
                 .requestMatchers("/api/reservations/**").permitAll()
+                .requestMatchers("/api/bookings/**").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();
