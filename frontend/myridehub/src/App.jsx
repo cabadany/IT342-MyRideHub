@@ -13,7 +13,7 @@ import BookingPage from './Booking/BookingPage';
 import CarDetail from './Rent/CarDetail';
 import RentNow from './Rent/RentNow';
 import ReservationPage from './Rent/ReservationPage';
-import PaymentPage from './Payment/PaymentPage';
+import Payment from './Rent/Payment';
 import SettingsPage from './Settings/Settings';
 import AdminLogin from './Admin/AdminLogin';  
 import AdminPanel from './Admin/AdminPanel';
@@ -57,7 +57,7 @@ export default function App() {
           <Route path="/driver-registration" element={<DriverRegistrationPage />} />
           <Route path="/driver-login" element={<DriverLoginPage />} />
           <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/terms" element={<TermsAndConditionsPage />} /> {/* ✅ Added */}
+          <Route path="/terms" element={<TermsAndConditionsPage />} />
 
           {/* Protected User Routes */}
           <Route path="/dashboard" element={
@@ -97,7 +97,7 @@ export default function App() {
           } />
           <Route path="/rent/payment" element={
             <ProtectedRoute>
-              <PaymentPage />
+              <Payment />
             </ProtectedRoute>
           } />
           <Route path="/rent/confirmation" element={

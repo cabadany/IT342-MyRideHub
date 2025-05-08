@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Payment.css";
 
-const Payment = () => {
+const PaymentPage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
   const [reservationData, setReservationData] = useState(() => {
-    // Try to load from location.state first, then localStorage
     return state || JSON.parse(localStorage.getItem("reservationData")) || null;
   });
 
@@ -103,4 +102,4 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+export default PaymentPage;

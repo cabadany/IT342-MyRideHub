@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { LoadScript, GoogleMap, Marker } from "@react-google-maps/api";
+import { LoadScript, GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./BookingPage.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const GOOGLE_MAPS_API_KEY = "YOUR_API_KEY_HERE"; // replace with a secure key
+const GOOGLE_MAPS_API_KEY = "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo";
 const BASE_FARE = 20;
 const RATE_PER_KM = 10;
 const libraries = ["places"];
@@ -26,6 +26,8 @@ export default function BookingPage() {
   const [showMapPicker, setShowMapPicker] = useState(false);
   const [selectingField, setSelectingField] = useState(null);
   const [selectedCoords, setSelectedCoords] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState("");
+  const [mapCenter, setMapCenter] = useState({ lat: 14.5995, lng: 120.9842 });
   const [loading, setLoading] = useState(false);
   const [rideStatus, setRideStatus] = useState("");
 
@@ -71,6 +73,15 @@ export default function BookingPage() {
     initAutocomplete(pickupRef.current, setPickupLocation, "pickup");
     initAutocomplete(dropoffRef.current, setDropOffLocation, "dropoff");
   }, []);
+
+  useEffect(() => {
+    if (showMapPicker && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => setMapCenter({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        () => console.warn("Geolocation not allowed or failed")
+      );
+    }
+  }, [showMapPicker]);
 
   const calculateFare = () => {
     if (!pickupLocation || !dropOffLocation) return;
@@ -147,7 +158,6 @@ export default function BookingPage() {
           <img src="/Ride Hub Logo (Dark).png" alt="Ride Hub" className="dashboard-logo" />
         </div>
 
-        {/* Navbar */}
         <nav className="main-nav">
           <div className="nav-wrapper">
             <ul className="nav-menu">
@@ -191,68 +201,128 @@ export default function BookingPage() {
         <div className="divider-line" />
 
         <div className="booking-stepper">
-          <div className={`step ${bookingStep >= 1 ? "active" : ""}`}>Pickup</div>
-          <div className={`step ${bookingStep >= 2 ? "active" : ""}`}>Drop-off</div>
-          <div className={`step ${bookingStep >= 3 ? "active" : ""}`}>Vehicle</div>
-          <div className={`step ${bookingStep >= 4 ? "active" : ""}`}>Confirm</div>
-        </div>
+  <div className={`step ${bookingStep >= 1 ? "active" : ""}`}>Pickup</div>
+  <div className={`step ${bookingStep >= 2 ? "active" : ""}`}>Drop-off</div>
+  <div className={`step ${bookingStep >= 3 ? "active" : ""}`}>Vehicle</div>
+  <div className={`step ${bookingStep >= 4 ? "active" : ""}`}>Confirm</div>
+</div>
 
-        {bookingStep === 1 && (
-          <div className="booking-form">
-            <h2>Select Pickup Location</h2>
-            <input
-              ref={pickupRef}
-              value={pickupInput}
-              onChange={(e) => setPickupInput(e.target.value)}
-              placeholder="Type or select pickup location"
-              className="location-input"
-              style={{ color: "#000" }}
-            />
-            <button onClick={() => setBookingStep(2)} disabled={!pickupLocation}>Next</button>
-          </div>
-        )}
+{bookingStep === 1 && (
+  <div className="booking-form">
+    <h2>Select Pickup Location</h2>
+    <input
+      ref={pickupRef}
+      value={pickupInput}
+      onChange={(e) => setPickupInput(e.target.value)}
+      placeholder="Type or select pickup location"
+      className="location-input"
+      style={{ color: "#000" }}
+    />
+    <button onClick={() => setBookingStep(2)} disabled={!pickupLocation}>Next</button>
+  </div>
+)}
 
-        {bookingStep === 2 && (
-          <div className="booking-form">
-            <h2>Select Drop-off Location</h2>
-            <input
-              ref={dropoffRef}
-              value={dropoffInput}
-              onChange={(e) => setDropoffInput(e.target.value)}
-              placeholder="Type or select drop-off location"
-              className="location-input"
-              style={{ color: "#000" }}
-            />
-            <button onClick={calculateFare} disabled={!dropOffLocation}>Next</button>
-          </div>
-        )}
+{bookingStep === 2 && (
+  <div className="booking-form">
+    <h2>Select Drop-off Location</h2>
+    <input
+      ref={dropoffRef}
+      value={dropoffInput}
+      onChange={(e) => setDropoffInput(e.target.value)}
+      placeholder="Type or select drop-off location"
+      className="location-input"
+      style={{ color: "#000" }}
+    />
+    <button onClick={calculateFare} disabled={!dropOffLocation}>Next</button>
+  </div>
+)}
 
-        {bookingStep === 3 && (
-          <div className="booking-form">
-            <h2>Choose Vehicle</h2>
-            <ul>
-              {availableVehicles.map((vehicle) => (
-                <li key={vehicle.id}>
-                  <h4>{vehicle.name}</h4>
-                  <p>{vehicle.description}</p>
-                </li>
-              ))}
-            </ul>
-            <button onClick={() => setBookingStep(4)}>Next</button>
-          </div>
-        )}
+{bookingStep === 3 && (
+  <div className="booking-form">
+    <h2>Choose Vehicle</h2>
+    <ul>
+      {availableVehicles.map((vehicle) => (
+        <li key={vehicle.id}>
+          <h4>{vehicle.name}</h4>
+          <p>{vehicle.description}</p>
+        </li>
+      ))}
+    </ul>
+    <button onClick={() => setBookingStep(4)}>Next</button>
+  </div>
+)}
 
-        {bookingStep === 4 && (
-          <div className="booking-form">
-            <h2>Confirm</h2>
-            <p><strong>Pickup:</strong> {pickupLocation?.formatted_address}</p>
-            <p><strong>Drop-off:</strong> {dropOffLocation?.formatted_address}</p>
-            <p><strong>Distance:</strong> {distanceText}</p>
-            <p><strong>Duration:</strong> {durationText}</p>
-            <p><strong>Fare:</strong> ₱{totalPrice}</p>
-            <button onClick={confirmBooking}>Confirm Booking</button>
-            {loading && <p>Finding driver...</p>}
-            {rideStatus && <p>{rideStatus}</p>}
+{bookingStep === 4 && (
+  <div className="booking-form">
+    <h2>Confirm</h2>
+    <p><strong>Pickup:</strong> {pickupLocation?.formatted_address}</p>
+    <p><strong>Drop-off:</strong> {dropOffLocation?.formatted_address}</p>
+    <p><strong>Distance:</strong> {distanceText}</p>
+    <p><strong>Duration:</strong> {durationText}</p>
+    <p><strong>Fare:</strong> ₱{totalPrice}</p>
+    <button onClick={confirmBooking}>Confirm Booking</button>
+    {loading && <p>Finding driver...</p>}
+    {rideStatus && <p>{rideStatus}</p>}
+  </div>
+)}
+
+        {showMapPicker && (
+          <div className="map-picker-overlay">
+            <div className="map-picker-modal">
+              <h3>Select {selectingField === "pickup" ? "Pickup" : "Drop-off"} Location</h3>
+              <GoogleMap
+                mapContainerStyle={{ width: "100%", height: "300px" }}
+                center={selectedCoords || mapCenter}
+                zoom={14}
+                onClick={(e) => {
+                  const coords = {
+                    lat: e.latLng.lat(),
+                    lng: e.latLng.lng(),
+                  };
+                  setSelectedCoords(coords);
+                  const geocoder = new window.google.maps.Geocoder();
+                  geocoder.geocode({ location: coords }, (results, status) => {
+                    if (status === "OK" && results[0]) {
+                      setSelectedAddress(results[0].formatted_address);
+                    }
+                  });
+                }}
+              >
+                {selectedCoords && (
+                  <Marker position={selectedCoords}>
+                    <InfoWindow position={selectedCoords}>
+                      <div style={{ fontSize: "14px" }}>{selectedAddress || "Selected Location"}</div>
+                    </InfoWindow>
+                  </Marker>
+                )}
+              </GoogleMap>
+              <div className="map-picker-actions">
+                <p style={{ marginTop: "10px" }}><strong>Selected Address:</strong> {selectedAddress}</p>
+                <button
+                  onClick={() => {
+                    if (!selectedCoords || !selectedAddress) return toast.error("Please choose a location.");
+                    const finalLocation = {
+                      lat: selectedCoords.lat,
+                      lng: selectedCoords.lng,
+                      formatted_address: selectedAddress,
+                    };
+                    if (selectingField === "pickup") {
+                      setPickupLocation(finalLocation);
+                      setPickupInput(finalLocation.formatted_address);
+                    } else {
+                      setDropOffLocation(finalLocation);
+                      setDropoffInput(finalLocation.formatted_address);
+                    }
+                    setShowMapPicker(false);
+                    setSelectedCoords(null);
+                    toast.success("Location selected from map!");
+                  }}
+                >
+                  Confirm
+                </button>
+                <button onClick={() => setShowMapPicker(false)}>Cancel</button>
+              </div>
+            </div>
           </div>
         )}
       </div>

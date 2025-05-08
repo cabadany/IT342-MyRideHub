@@ -1,46 +1,57 @@
-html, body {
+/* Base styles */
+body, html {
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
+  font-family: "Segoe UI", sans-serif;
   background-color: #ffffff;
-  font-family: Arial, sans-serif;
+  color: #1a1a1a;
 }
 
 .reservation-container {
   min-height: 100vh;
-  width: 100vw;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-/* Layout container fills full screen width */
-.reservation-main {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 2rem 2rem;
+  padding: 2rem 5%;
   box-sizing: border-box;
-  width: 100%;
+  background-color: #ffffff;
 }
 
-/* Equal-width, flexible columns */
+/* Back button */
+.back-button {
+  background: none;
+  border: none;
+  color: #1a1a1a;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s ease;
+}
+
+.back-button:hover {
+  color: #555;
+}
+
+/* Layout */
+.reservation-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+/* Section containers */
 .left-section,
 .center-section,
 .right-section {
-  flex: 1;
-  padding: 1.5rem;
+  flex: 1 1 30%;
+  min-width: 280px;
   background-color: #f9f9f9;
+  padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
 }
 
-/* Boxes inside each section */
+/* Box content */
 .box {
   margin-bottom: 1.5rem;
 }
@@ -52,28 +63,28 @@ html, body {
   padding-bottom: 6px;
 }
 
-/* Vehicle image */
+/* Image center */
 .center-section {
   text-align: center;
 }
 
 .center-section img {
   width: 100%;
-  max-width: 280px;
+  max-width: 300px;
   border-radius: 12px;
   margin-bottom: 1rem;
 }
 
-/* Input fields */
+/* Inputs */
 .right-section input[type="text"],
 .right-section input[type="email"] {
   width: 100%;
-  background-color: #ffffff;
-  color: #333;
-  padding: 0.7rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 0.75rem;
   margin-bottom: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 1rem;
   box-sizing: border-box;
 }
 
@@ -82,38 +93,38 @@ html, body {
 }
 
 .right-section label {
-  font-size: 0.85rem;
   display: block;
   margin: 0.5rem 0;
+  font-size: 0.9rem;
 }
 
-/* Total and reserve button */
+/* Summary Box */
 .summary-box {
-  margin-top: 2rem;
-  background-color: #ffffff;
-  color: #111;
-  padding: 1.2rem;
+  background-color: #fff;
+  padding: 1rem;
   border-radius: 10px;
+  border: 1px solid #e0e0e0;
   text-align: center;
-  border: 1px solid #eee;
+  margin-top: 2rem;
 }
 
 .summary-box h2 {
   margin-top: 0.5rem;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
+/* Reserve button */
 .reserve-button {
-  background-color: #1f1f1f;
-  color: #ffffff;
-  font-weight: bold;
-  border: none;
-  width: 100%;
+  background-color: #111;
+  color: white;
   padding: 0.9rem;
   font-size: 1rem;
-  border-radius: 6px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
+  width: 100%;
   margin-top: 1rem;
   transition: background-color 0.2s ease;
 }
@@ -122,29 +133,10 @@ html, body {
   background-color: #333;
 }
 
-/* Back button */
-.back-button {
-  position: absolute;
-  top: 1rem;
-  left: 2rem;
-  background-color: transparent;
-  color: #1a1a1a;
-  font-weight: bold;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.back-button:hover {
-  color: #666;
-}
-
-/* Full responsiveness */
+/* Responsive Design */
 @media (max-width: 1024px) {
   .reservation-main {
     flex-direction: column;
-    gap: 2rem;
   }
 
   .left-section,

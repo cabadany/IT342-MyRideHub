@@ -118,7 +118,9 @@ const ReservationPage = () => {
           <h2>
             {vehicle?.brand} {vehicle?.model}
           </h2>
-          <p>Rental Price: ₱ {vehicle?.pricePerDay?.toLocaleString()}/ Day</p>
+          <p>
+            Rental Price: ₱ {vehicle?.pricePerDay?.toLocaleString()}/ Day
+          </p>
         </div>
 
         <div className="right-section">
