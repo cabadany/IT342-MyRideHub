@@ -45,6 +45,9 @@ public class Booking {
     @JoinColumn(name = "driver_id")
     private Driver driver;
 
+    @Column(name = "customer_id")
+    private String customerId;
+
     public Booking() {}
 
     // Getters and setters...

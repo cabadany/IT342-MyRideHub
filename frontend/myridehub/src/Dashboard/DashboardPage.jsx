@@ -83,7 +83,7 @@ export default function DashboardPage() {
               <span className="dropdown-toggle">HISTORY ▾</span>
               <ul className="dropdown-menu">
                 <li><Link to="/rent-history">Rent History</Link></li>
-                <li><Link to="/book-history">Book History</Link></li>
+                <li><Link to="/booking-history">Book History</Link></li>
               </ul>
             </li>
 

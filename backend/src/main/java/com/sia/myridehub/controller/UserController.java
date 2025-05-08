@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,10 +61,10 @@ public class UserController {
                 String token = jwtTokenProvider.generateToken(email);
                 return ResponseEntity.ok(new LoginResponse(token, user));
             } else {
-                return ResponseEntity.status(401).body("Invalid password");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid password");
             }
         } else {
-            return ResponseEntity.status(404).body("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }
 
@@ -100,7 +101,7 @@ public class UserController {
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());
         } else {
-            return ResponseEntity.status(404).body("User not found for email: " + email);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found for email: " + email);
         }
     }
 }

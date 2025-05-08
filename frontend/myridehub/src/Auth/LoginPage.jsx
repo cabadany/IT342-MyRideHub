@@ -10,7 +10,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://it342-myrideh
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ identifier: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" }); // ✅ changed `identifier` to `email`
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -24,7 +24,7 @@ export default function LoginPage() {
 
     try {
       const loginPayload = {
-        email: formData.identifier,
+        email: formData.email,
         password: formData.password
       };
 
@@ -37,15 +37,15 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
-        const { token, email, fullName, username } = data;
+        const { token, id, email, fullName, username } = data;
 
         if (!token) {
           toast.error("Login failed: No token received.");
           return;
         }
 
-        // Store token and user info
         localStorage.setItem('token', token);
+        localStorage.setItem('userId', id); // ✅ stores userId
         localStorage.setItem('userEmail', email);
         localStorage.setItem('userName', fullName || username);
 
@@ -95,9 +95,9 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit}>
             <input
               type="text"
-              name="identifier"
+              name="email"
               placeholder="Email Address"
-              value={formData.identifier}
+              value={formData.email}
               onChange={handleChange}
               required
             />

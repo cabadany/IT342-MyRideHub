@@ -130,7 +130,6 @@ export default function BookingPage() {
   
       await axios.post(`${API_BASE_URL}/api/bookings`, bookingData);
   
-      // Simulate driver starting ~200m away from pickup
       const getNearbyPoint = (lat, lng, offset = 0.002) => {
         const randomOffset = () => (Math.random() - 0.5) * offset;
         return {
@@ -145,9 +144,8 @@ export default function BookingPage() {
       setDriverPosition(startCoords);
       setShowDriverEnRoute(true);
       setRideStatus("Driver is nearby and on the way...");
-      setBookingStep(5); // Move to Step 5
+      setBookingStep(5);
   
-      // Animate driver moving toward pickup
       const steps = 30;
       const interval = 300;
       let step = 0;
@@ -226,12 +224,12 @@ export default function BookingPage() {
 
         {/* Stepper */}
         <div className="booking-stepper">
-  <div className={`step ${bookingStep >= 1 ? "active" : ""}`}>Pickup</div>
-  <div className={`step ${bookingStep >= 2 ? "active" : ""}`}>Drop-off</div>
-  <div className={`step ${bookingStep >= 3 ? "active" : ""}`}>Vehicle</div>
-  <div className={`step ${bookingStep >= 4 ? "active" : ""}`}>Confirm</div>
-  <div className={`step ${bookingStep >= 5 ? "active" : ""}`}>Tracking</div>
-</div>
+          <div className={`step ${bookingStep >= 1 ? "active" : ""}`}>Pickup</div>
+          <div className={`step ${bookingStep >= 2 ? "active" : ""}`}>Drop-off</div>
+          <div className={`step ${bookingStep >= 3 ? "active" : ""}`}>Vehicle</div>
+          <div className={`step ${bookingStep >= 4 ? "active" : ""}`}>Confirm</div>
+          <div className={`step ${bookingStep >= 5 ? "active" : ""}`}>Tracking</div>
+        </div>
 
         {/* Step 1: Pickup */}
         {bookingStep === 1 && (
@@ -321,38 +319,38 @@ export default function BookingPage() {
 
         {/* Step 4: Confirm */}
         {bookingStep === 4 && (
-  <div className="booking-form">
-    <h2>Confirm</h2>
-    <p><strong>Pickup:</strong> {pickupLocation?.formatted_address}</p>
-    <p><strong>Drop-off:</strong> {dropOffLocation?.formatted_address}</p>
-    <p><strong>Distance:</strong> {distanceText}</p>
-    <p><strong>Duration:</strong> {durationText}</p>
-    <p><strong>Fare:</strong> ₱{totalPrice}</p>
-
-    <input
-      type="text"
-      placeholder="Your Full Name"
-      value={customerName}
-      onChange={(e) => setCustomerName(e.target.value)}
-      className="location-input"
-      style={{ marginTop: "10px", color: "#000" }}
-    />
-    <input
-      type="text"
-      placeholder="Your Contact Number"
-      value={contactNumber}
-      onChange={(e) => setContactNumber(e.target.value)}
-      className="location-input"
-      style={{ marginTop: "10px", color: "#000" }}
-    />
-
-    <button onClick={confirmBooking} disabled={!customerName || !contactNumber}>
-      Confirm Booking
-    </button>
-    {loading && <p>Finding driver...</p>}
-    {rideStatus && <p>{rideStatus}</p>}
-  </div>
-)}
+          <div className="booking-form">
+            <h2>Confirm</h2>
+              <p><strong>Pickup:</strong> {pickupLocation?.formatted_address}</p>
+              <p><strong>Drop-off:</strong> {dropOffLocation?.formatted_address}</p>
+              <p><strong>Distance:</strong> {distanceText}</p>
+              <p><strong>Duration:</strong> {durationText}</p>
+              <p><strong>Fare:</strong> ₱{totalPrice}</p>
+              
+            <input
+              type="text"
+              placeholder="Your Full Name"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+              className="location-input"
+              style={{ marginTop: "10px", color: "#000" }}
+            />
+            <input
+              type="text"
+              placeholder="Your Contact Number"
+              value={contactNumber}
+              onChange={(e) => setContactNumber(e.target.value)}
+              className="location-input"
+              style={{ marginTop: "10px", color: "#000" }}
+            />
+            
+            <button onClick={confirmBooking} disabled={!customerName || !contactNumber}>
+              Confirm Booking
+            </button>
+            {loading && <p>Finding driver...</p>}
+            {rideStatus && <p>{rideStatus}</p>}
+            </div>
+          )}
 
 {bookingStep === 5 && driverPosition && pickupLocation && (
   <div className="booking-form">

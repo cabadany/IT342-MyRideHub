@@ -11,4 +11,5 @@ import com.sia.myridehub.model.Booking;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByCustomerNameContainingIgnoreCase(String customerName);
     List<Booking> findByStatus(String status);
+    List<Booking> findByCustomerId(String customerId);
 }

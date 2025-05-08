@@ -43,6 +43,16 @@ public class BookingController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/customer/{customerId}")
+public ResponseEntity<List<Booking>> getBookingsByCustomerId(@PathVariable String customerId) {
+    try {
+        List<Booking> bookings = bookingService.getBookingsByCustomerId(customerId);
+        return ResponseEntity.ok(bookings);
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body(null);
+    }
+}
+
     @PostMapping
     public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
         try {
