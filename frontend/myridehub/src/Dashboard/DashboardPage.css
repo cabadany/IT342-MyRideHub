@@ -9,17 +9,21 @@ html, body {
   min-height: 100%;
   height: auto;
   overflow-y: auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f1f3f5; /* light gray background */
+  color: #1f2937; /* dark gray text */
 }
 
+/* Dashboard Container */
 .dashboard-page {
   min-height: 100vh;
   overflow: visible;
+  background-color: #f1f3f5;
 }
 
+/* Header Logo Area */
 .logo-top-center {
-  position: relative;
-  z-index: 1002;
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 20px 0;
   display: flex;
   justify-content: center;
@@ -28,33 +32,19 @@ html, body {
 
 .dashboard-logo {
   height: 90px;
-  max-width: 100%;
   object-fit: contain;
-  z-index: 1003;
 }
 
-.hero-image-section {
-  position: relative;
-  z-index: 1;
-}
-
+/* Navigation */
 .main-nav {
-  width: 100%;
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 10px 40px;
-  border-top: none;         /* ✅ Remove top border */
-  margin-top: 0;            /* ✅ No space above */
-  box-shadow: none;         /* ✅ Remove any shadow */
-  border-bottom: 3px solid #ced4da; /* keep only the bottom divider if needed */
+  border-bottom: 1px solid #e0e0e0;
   display: flex;
   justify-content: center;
   position: sticky;
   top: 0;
   z-index: 1000;
-}
-
-.main-nav.scrolled {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .nav-menu {
@@ -64,211 +54,95 @@ html, body {
   align-items: center;
 }
 
-.nav-menu li {
-  position: relative;
-}
-
 .nav-menu li a,
 .nav-menu li span {
   text-decoration: none;
-  color: #111;
-  font-weight: bold;
-  cursor: pointer;
+  color: #333;
+  font-weight: 500;
   padding: 8px 12px;
   border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .nav-menu li a:hover,
-.nav-menu li span:hover,
-.nav-menu li a.active,
-.nav-menu li span.active {
-  background-color: #100f0f;
-  color: #fff;
+.nav-menu li span:hover {
+  background-color: #e0e0e0;
 }
 
-.dropdown-container {
-  position: relative;
-}
-
-.dropdown-container:hover .dropdown-menu,
-.dropdown-menu:hover {
-  display: block;
-}
-
+/* Dropdown */
 .dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #fff;
-  color: #111;
-  list-style: none;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  border-radius: 6px;
-  padding: 10px 0;
-  display: none;
-  z-index: 10;
-  min-width: 180px;
-}
-
-.dropdown-menu li {
-  padding: 10px 20px;
-  white-space: nowrap;
-  color: #111;
-}
-
-.dropdown-menu li a {
-  color: #111;
-  text-decoration: none;
-  font-weight: normal;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .dropdown-menu li:hover {
   background-color: #f2f2f2;
 }
 
+/* Search Bar */
 .search-bar {
-  display: flex;
-  align-items: center;
+  background-color: #f9f9f9;
   border: 1px solid #ccc;
-  padding: 6px 12px;
-  border-radius: 5px;
-  width: 220px;
-  background-color: transparent;
 }
 
 .search-bar input {
-  border: none;
-  outline: none;
-  background: transparent;
-  width: 100%;
-  font-size: 14px;
   color: #333;
 }
 
-.divider-line {
-  width: 100vw;
-  height: 1px;
-  background-color: #ccc;
-  margin: 0;
-}
-
-.hero-image-section {
-  position: relative;
-  width: 100%;
-  height: auto;
-  z-index: 1;
-}
-
-.hero-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-}
-
+/* Hero Section */
 .hero-overlay {
-  position: absolute;
-  top: 25%;
-  left: 5%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  z-index: 2;
   margin-left: 600px;
   margin-top: 60px;
 }
 
 .hero-title {
-  font-size: 40px;
+  font-size: 42px;
   font-weight: 800;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-  margin-bottom: 10px;
+  color: #222;
 }
 
 .hero-btn {
-  background-color: #ffffff;
-  color: #100f0f;
+  background-color: #e2e8f0; /* subtle gray button */
+  color: #333;
   padding: 14px 28px;
-  font-weight: bold;
   border-radius: 30px;
-  text-decoration: none;
+  font-weight: 600;
   font-size: 16px;
-  transition: background-color 0.3s, color 0.3s;
-  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
 .hero-btn:hover {
-  background-color: #100f0f;
-  color: #ffffff;
+  background-color: #cbd5e1;
 }
 
 /* Article Section */
 .dashboard-articles {
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
+  background-color: #f8f9fa;
   padding: 60px 40px;
-  background-color: #fff;
-  margin-top: 10px;
-}
-
-.article {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.article img {
-  width: 300px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-.article-text {
-  flex: 1;
+  gap: 60px;
 }
 
 .article-text h3 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: #000;
+  color: #1e293b;
 }
 
 .article-text p {
-  font-size: 16px;
-  line-height: 1.8;
-  color: #444;
-  text-align: left;
+  color: #4b5563;
 }
 
 /* Footer */
 .dashboard-footer {
-  background-color: #000;
-  color: white;
+  background-color: #e5e7eb;
+  color: #111827;
   padding: 40px 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.footer-links {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-left: 300px;
-}
-
 .footer-links a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;  
-  transition: opacity 0.3s;
+  color: #374151;
 }
 
 .footer-links a:hover {
@@ -277,12 +151,11 @@ html, body {
 
 .footer-logo img {
   height: 80px;
-  margin-right: 300px;
 }
 
 .dashboard-copyright {
-  background-color: #000;
-  color: #aaa;
+  background-color: #d1d5db;
+  color: #6b7280;
   text-align: center;
   padding: 16px 0;
   font-size: 14px;
