@@ -6,7 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./BookingPage.css";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = "https://it342-myridehub.onrender.com";
 const GOOGLE_MAPS_API_KEY = "AIzaSyDUJsdF6iiOOMsqvpSOaP3tbI1q1-m7hgo";
 const BASE_FARE = 20;
 const RATE_PER_KM = 10;
@@ -19,7 +19,6 @@ export default function BookingPage() {
   const [pickupLocation, setPickupLocation] = useState(null);
   const [dropOffLocation, setDropOffLocation] = useState(null);
   const [selectedType, setSelectedType] = useState("");
-  const [availableVehicles, setAvailableVehicles] = useState([]);
   const [distanceText, setDistanceText] = useState("");
   const [durationText, setDurationText] = useState("");
   const [totalPrice, setTotalPrice] = useState(null);
@@ -36,25 +35,12 @@ export default function BookingPage() {
   const dropoffRef = useRef(null);
 
   useEffect(() => {
-    const fetchVehicles = async () => {
-      try {
-        const res = await axios.get(`${VITE_API_BASE_URL}/api/vehicles`);
-        setAvailableVehicles(res.data || []);
-      } catch (err) {
-        console.error("Vehicle fetch failed:", err);
-      }
-    };
-    fetchVehicles();
-  }, []);
-
-  useEffect(() => {
     if (bookingStep === 2 && dropoffRef.current) dropoffRef.current.focus();
   }, [bookingStep]);
 
   useEffect(() => {
     const initAutocomplete = (inputEl, setLocation, field) => {
       if (!inputEl || !window.google) return;
-
       const autocomplete = new window.google.maps.places.Autocomplete(inputEl);
       autocomplete.addListener("place_changed", () => {
         const place = autocomplete.getPlace();
@@ -109,8 +95,17 @@ export default function BookingPage() {
     );
   };
 
-  const saveBooking = async () => {
+  const confirmBooking = async () => {
+    setLoading(true);
     try {
+      const driverRes = await axios.get(`${API_BASE_URL}/api/drivers/available`);
+      const driver = driverRes.data;
+      if (!driver) {
+        toast.error("No available drivers at the moment.");
+        setLoading(false);
+        return;
+      }
+
       const bookingData = {
         vehicleType: selectedType,
         pickupLocation: pickupLocation?.formatted_address || "Unknown",
@@ -124,28 +119,16 @@ export default function BookingPage() {
         distance: distanceText,
         duration: durationText,
         totalPrice,
-        status: "Pending"
+        status: "Pending",
+        driverId: driver.id
       };
+
       await axios.post(`${API_BASE_URL}/api/bookings`, bookingData);
+      setRideStatus("Driver found! Please wait at your pickup location.");
+      setTimeout(() => navigate("/dashboard"), 3000);
     } catch (e) {
       toast.error("Booking failed.");
-      throw e;
-    }
-  };
-
-  const confirmBooking = async () => {
-    setLoading(true);
-    try {
-      await saveBooking();
-      setTimeout(() => {
-        const driverFound = Math.random() > 0.3;
-        setLoading(false);
-        setRideStatus(driverFound
-          ? "Driver found! Please wait at your pickup location."
-          : "No drivers available at the moment.");
-        if (driverFound) setTimeout(() => navigate("/dashboard"), 3000);
-      }, 2500);
-    } catch {
+    } finally {
       setLoading(false);
     }
   };
@@ -265,34 +248,35 @@ export default function BookingPage() {
           </div>
         )}
 
-{bookingStep === 3 && (
-  <div className="booking-form">
-    <h2>Choose Vehicle Type</h2>
-    <div className="vehicle-type-selector">
-      <label>
-        <input
-          type="radio"
-          name="vehicleType"
-          value="Motorcycle"
-          checked={selectedType === "Motorcycle"}
-          onChange={(e) => setSelectedType(e.target.value)}
-        />
-        Motorcycle
-      </label>
-      <label style={{ marginLeft: '20px' }}>
-        <input
-          type="radio"
-          name="vehicleType"
-          value="Car"
-          checked={selectedType === "Car"}
-          onChange={(e) => setSelectedType(e.target.value)}
-        />
-        Car
-      </label>
-    </div>
-    <button onClick={() => setBookingStep(4)} disabled={!selectedType}>Next</button>
-  </div>
-)}
+        {/* Step 3: Vehicle */}
+        {bookingStep === 3 && (
+          <div className="booking-form">
+            <h2>Choose Vehicle Type</h2>
+            <div className="vehicle-type-selector">
+              <label>
+                <input
+                  type="radio"
+                  name="vehicleType"
+                  value="Motorcycle"
+                  checked={selectedType === "Motorcycle"}
+                  onChange={(e) => setSelectedType(e.target.value)}
+                />
+                Motorcycle
+              </label>
+              <label style={{ marginLeft: '20px' }}>
+                <input
+                  type="radio"
+                  name="vehicleType"
+                  value="Car"
+                  checked={selectedType === "Car"}
+                  onChange={(e) => setSelectedType(e.target.value)}
+                />
+                Car
+              </label>
+            </div>
+            <button onClick={() => setBookingStep(4)} disabled={!selectedType}>Next</button>
+          </div>
+        )}
 
         {/* Step 4: Confirm */}
         {bookingStep === 4 && (
