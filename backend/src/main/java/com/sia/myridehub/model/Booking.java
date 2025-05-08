@@ -4,14 +4,10 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "bookings")
@@ -21,9 +17,8 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "vehicle_id")
-    private Vehicle vehicle;
+    @Column(nullable = false)
+    private String vehicleType; // "Car" or "Motorcycle"
 
     @Column(nullable = false)
     private String customerName;
@@ -42,29 +37,18 @@ public class Booking {
     @Column(nullable = false)
     private String status; // "PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"
 
-    // ✅ Link to Driver
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "driver_id")
-    private Driver driver;
-
-    // ✅ Transient field to receive driverId from frontend
-    @Transient
-    private Long driverId;
-
     public Booking() {}
 
-    public Booking(Long id, Vehicle vehicle, String customerName, String contactNumber,
-                   LocalDate pickupDate, LocalDate returnDate, double totalPrice, String status,
-                   Driver driver) {
+    public Booking(Long id, String vehicleType, String customerName, String contactNumber,
+                   LocalDate pickupDate, LocalDate returnDate, double totalPrice, String status) {
         this.id = id;
-        this.vehicle = vehicle;
+        this.vehicleType = vehicleType;
         this.customerName = customerName;
         this.contactNumber = contactNumber;
         this.pickupDate = pickupDate;
         this.returnDate = returnDate;
         this.totalPrice = totalPrice;
         this.status = status;
-        this.driver = driver;
     }
 
     // Getters and setters
@@ -76,12 +60,12 @@ public class Booking {
         this.id = id;
     }
 
-    public Vehicle getVehicle() {
-        return vehicle;
+    public String getVehicleType() {
+        return vehicleType;
     }
 
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public String getCustomerName() {
@@ -130,21 +114,5 @@ public class Booking {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Driver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(Driver driver) {
-        this.driver = driver;
-    }
-
-    public Long getDriverId() {
-        return driverId;
-    }
-
-    public void setDriverId(Long driverId) {
-        this.driverId = driverId;
     }
 }

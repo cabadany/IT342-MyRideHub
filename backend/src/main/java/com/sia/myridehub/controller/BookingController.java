@@ -15,27 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sia.myridehub.model.Booking;
-import com.sia.myridehub.model.Driver;
 import com.sia.myridehub.service.BookingService;
-import com.sia.myridehub.service.DriverService;
 
 @RestController
 @RequestMapping("/api/bookings")
 public class BookingController {
 
     private final BookingService bookingService;
-    private final DriverService driverService;
 
-    public BookingController(BookingService bookingService, DriverService driverService) {
+    public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
-        this.driverService = driverService;
     }
 
+    // GET /api/bookings - List all bookings
     @GetMapping
     public ResponseEntity<List<Booking>> getAllBookings() {
         return ResponseEntity.ok(bookingService.getAllBookings());
     }
 
+    // GET /api/bookings/{id} - Get a booking by ID
     @GetMapping("/{id}")
     public ResponseEntity<Booking> getBookingById(@PathVariable Long id) {
         Optional<Booking> booking = bookingService.getBookingById(id);
@@ -43,23 +41,24 @@ public class BookingController {
                       .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // POST /api/bookings - Create a booking
     @PostMapping
     public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
         try {
-            if (booking.getDriverId() != null) {
-                Optional<Driver> driverOpt = Optional.ofNullable(driverService.getDriverById(booking.getDriverId()));
-                if (driverOpt.isPresent()) {
-                    booking.setDriver(driverOpt.get());
-                } else {
-                    return ResponseEntity.badRequest().body("Invalid driverId");
-                }
+            // Only save if vehicleType is valid
+            if (!"Car".equalsIgnoreCase(booking.getVehicleType()) &&
+                !"Motorcycle".equalsIgnoreCase(booking.getVehicleType())) {
+                return ResponseEntity.badRequest().body("Invalid vehicle type. Must be 'Car' or 'Motorcycle'.");
             }
-            return ResponseEntity.ok(bookingService.createBooking(booking));
+
+            Booking saved = bookingService.createBooking(booking);
+            return ResponseEntity.ok(saved);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error creating booking: " + e.getMessage());
         }
     }
 
+    // PUT /api/bookings/{id}/status - Update booking status
     @PutMapping("/{id}/status")
     public ResponseEntity<?> updateBookingStatus(@PathVariable Long id, @RequestBody Map<String, String> statusMap) {
         String status = statusMap.getOrDefault("status", "").trim();
@@ -68,10 +67,11 @@ public class BookingController {
         }
 
         return bookingService.getBookingById(id)
-                .map(existingBooking -> ResponseEntity.ok(bookingService.updateBookingStatus(id, status)))
+                .map(existing -> ResponseEntity.ok(bookingService.updateBookingStatus(id, status)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // PUT /api/bookings/{id} - Update full booking
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBooking(@PathVariable Long id, @RequestBody Booking updatedBooking) {
         return bookingService.getBookingById(id)
@@ -79,6 +79,7 @@ public class BookingController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // DELETE /api/bookings/{id} - Delete booking
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBooking(@PathVariable Long id) {
         Optional<Booking> booking = bookingService.getBookingById(id);
