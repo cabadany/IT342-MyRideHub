@@ -25,8 +25,8 @@ public class BookingService {
         return bookingRepository.findById(id);
     }
 
-    public List<Booking> getBookingsByCustomerName(String customerName) {
-        return bookingRepository.findByCustomerName(customerName);
+    public List<Booking> getBookingsByCustomerName(String name) {
+        return bookingRepository.findByCustomerNameContainingIgnoreCase(name);
     }
 
     public List<Booking> getBookingsByStatus(String status) {
@@ -51,7 +51,7 @@ public class BookingService {
         booking.setPickupDate(updatedBooking.getPickupDate());
         booking.setReturnDate(updatedBooking.getReturnDate());
         booking.setStatus(updatedBooking.getStatus());
-        booking.setVehicleType(updatedBooking.getVehicleType()); // ✅ Fixed this line
+        booking.setVehicleType(updatedBooking.getVehicleType());
 
         return bookingRepository.save(booking);
     }
