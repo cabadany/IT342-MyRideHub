@@ -38,7 +38,7 @@ export default function BookingPage() {
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/vehicles`);
+        const res = await axios.get(`${VITE_API_BASE_URL}/api/vehicles`);
         setAvailableVehicles(res.data || []);
       } catch (err) {
         console.error("Vehicle fetch failed:", err);
@@ -158,6 +158,7 @@ export default function BookingPage() {
           <img src="/Ride Hub Logo (Dark).png" alt="Ride Hub" className="dashboard-logo" />
         </div>
 
+        {/* Navbar */}
         <nav className="main-nav">
           <div className="nav-wrapper">
             <ul className="nav-menu">
@@ -200,72 +201,115 @@ export default function BookingPage() {
 
         <div className="divider-line" />
 
+        {/* Stepper */}
         <div className="booking-stepper">
-  <div className={`step ${bookingStep >= 1 ? "active" : ""}`}>Pickup</div>
-  <div className={`step ${bookingStep >= 2 ? "active" : ""}`}>Drop-off</div>
-  <div className={`step ${bookingStep >= 3 ? "active" : ""}`}>Vehicle</div>
-  <div className={`step ${bookingStep >= 4 ? "active" : ""}`}>Confirm</div>
-</div>
+          <div className={`step ${bookingStep >= 1 ? "active" : ""}`}>Pickup</div>
+          <div className={`step ${bookingStep >= 2 ? "active" : ""}`}>Drop-off</div>
+          <div className={`step ${bookingStep >= 3 ? "active" : ""}`}>Vehicle</div>
+          <div className={`step ${bookingStep >= 4 ? "active" : ""}`}>Confirm</div>
+        </div>
 
-{bookingStep === 1 && (
-  <div className="booking-form">
-    <h2>Select Pickup Location</h2>
-    <input
-      ref={pickupRef}
-      value={pickupInput}
-      onChange={(e) => setPickupInput(e.target.value)}
-      placeholder="Type or select pickup location"
-      className="location-input"
-      style={{ color: "#000" }}
-    />
-    <button onClick={() => setBookingStep(2)} disabled={!pickupLocation}>Next</button>
-  </div>
-)}
+        {/* Step 1: Pickup */}
+        {bookingStep === 1 && (
+          <div className="booking-form">
+            <h2>Select Pickup Location</h2>
+            <div className="input-with-map">
+              <input
+                ref={pickupRef}
+                value={pickupInput}
+                onChange={(e) => setPickupInput(e.target.value)}
+                placeholder="Type or select pickup location"
+                className="location-input"
+                style={{ color: "#000" }}
+              />
+              <button
+                type="button"
+                className="map-select-btn"
+                onClick={() => {
+                  setShowMapPicker(true);
+                  setSelectingField("pickup");
+                }}
+              >
+                Choose from Map
+              </button>
+            </div>
+            <button onClick={() => setBookingStep(2)} disabled={!pickupLocation}>Next</button>
+          </div>
+        )}
 
-{bookingStep === 2 && (
-  <div className="booking-form">
-    <h2>Select Drop-off Location</h2>
-    <input
-      ref={dropoffRef}
-      value={dropoffInput}
-      onChange={(e) => setDropoffInput(e.target.value)}
-      placeholder="Type or select drop-off location"
-      className="location-input"
-      style={{ color: "#000" }}
-    />
-    <button onClick={calculateFare} disabled={!dropOffLocation}>Next</button>
-  </div>
-)}
+        {/* Step 2: Drop-off */}
+        {bookingStep === 2 && (
+          <div className="booking-form">
+            <h2>Select Drop-off Location</h2>
+            <div className="input-with-map">
+              <input
+                ref={dropoffRef}
+                value={dropoffInput}
+                onChange={(e) => setDropoffInput(e.target.value)}
+                placeholder="Type or select drop-off location"
+                className="location-input"
+                style={{ color: "#000" }}
+              />
+              <button
+                type="button"
+                className="map-select-btn"
+                onClick={() => {
+                  setShowMapPicker(true);
+                  setSelectingField("dropoff");
+                }}
+              >
+                Choose from Map
+              </button>
+            </div>
+            <button onClick={calculateFare} disabled={!dropOffLocation}>Next</button>
+          </div>
+        )}
 
 {bookingStep === 3 && (
   <div className="booking-form">
-    <h2>Choose Vehicle</h2>
-    <ul>
-      {availableVehicles.map((vehicle) => (
-        <li key={vehicle.id}>
-          <h4>{vehicle.name}</h4>
-          <p>{vehicle.description}</p>
-        </li>
-      ))}
-    </ul>
-    <button onClick={() => setBookingStep(4)}>Next</button>
+    <h2>Choose Vehicle Type</h2>
+    <div className="vehicle-type-selector">
+      <label>
+        <input
+          type="radio"
+          name="vehicleType"
+          value="Motorcycle"
+          checked={selectedType === "Motorcycle"}
+          onChange={(e) => setSelectedType(e.target.value)}
+        />
+        Motorcycle
+      </label>
+      <label style={{ marginLeft: '20px' }}>
+        <input
+          type="radio"
+          name="vehicleType"
+          value="Car"
+          checked={selectedType === "Car"}
+          onChange={(e) => setSelectedType(e.target.value)}
+        />
+        Car
+      </label>
+    </div>
+    <button onClick={() => setBookingStep(4)} disabled={!selectedType}>Next</button>
   </div>
 )}
 
-{bookingStep === 4 && (
-  <div className="booking-form">
-    <h2>Confirm</h2>
-    <p><strong>Pickup:</strong> {pickupLocation?.formatted_address}</p>
-    <p><strong>Drop-off:</strong> {dropOffLocation?.formatted_address}</p>
-    <p><strong>Distance:</strong> {distanceText}</p>
-    <p><strong>Duration:</strong> {durationText}</p>
-    <p><strong>Fare:</strong> ₱{totalPrice}</p>
-    <button onClick={confirmBooking}>Confirm Booking</button>
-    {loading && <p>Finding driver...</p>}
-    {rideStatus && <p>{rideStatus}</p>}
-  </div>
-)}
+        {/* Step 4: Confirm */}
+        {bookingStep === 4 && (
+          <div className="booking-form">
+            <h2>Confirm</h2>
+            <p><strong>Pickup:</strong> {pickupLocation?.formatted_address}</p>
+            <p><strong>Drop-off:</strong> {dropOffLocation?.formatted_address}</p>
+            <p><strong>Distance:</strong> {distanceText}</p>
+            <p><strong>Duration:</strong> {durationText}</p>
+            <p><strong>Fare:</strong> ₱{totalPrice}</p>
+            <button onClick={confirmBooking}>Confirm Booking</button>
+            {loading && <p>Finding driver...</p>}
+            {rideStatus && <p>{rideStatus}</p>}
+          </div>
+        )}
 
+        {/* Google Maps Picker */}
         {showMapPicker && (
           <div className="map-picker-overlay">
             <div className="map-picker-modal">

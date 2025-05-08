@@ -261,35 +261,96 @@ html, body {
   background-color: #333;
 }
 
-/* Map Modal */
-.map-picker-modal {
+/* Vehicle Type Radio Buttons */
+.vehicle-type-selector {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.vehicle-type-selector label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+}
+
+/* Input with Map Button */
+.input-with-map {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.map-select-btn {
+  padding: 10px 14px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.map-select-btn:hover {
+  background-color: #333;
+}
+
+/* Map Picker */
+.map-picker-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.95);
   z-index: 9999;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
 }
 
-.map-picker-modal button {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 24px;
+.map-picker-modal {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.map-picker-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.map-picker-actions button {
+  padding: 10px 24px;
   font-weight: bold;
   background-color: #000;
   color: #fff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  z-index: 10000;
+  transition: background-color 0.3s;
 }
 
-/* Google Autocomplete Box */
+.map-picker-actions button:hover {
+  background-color: #333;
+}
+
+/* Autocomplete Box */
 .autocomplete-box {
   width: 100%;
   padding: 12px;

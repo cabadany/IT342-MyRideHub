@@ -50,7 +50,7 @@ public class DriverController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/profile")
+    @GetMapping
     public ResponseEntity<DriverProfileDto> getDriverProfile(Authentication authentication) {
         String mobileNumber = authentication.getName();
         Long driverId = driverService.getDriverByMobileNumber(mobileNumber).getId();

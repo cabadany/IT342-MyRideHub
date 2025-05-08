@@ -1,80 +1,119 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './HistoryPage.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./HistoryPage.css";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_URL = "https://it342-myridehub.onrender.com/api/booking-history";
 
-const BookingHistory = () => {
-  const navigate = useNavigate();
-  const [bookingHistory, setBookingHistory] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+export default function BookingHistoryPage() {
+  const [histories, setHistories] = useState([]);
+  const [filterName, setFilterName] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
 
-  const handleBack = () => {
-    navigate('/dashboard');
+  const fetchHistories = async () => {
+    try {
+      const res = await axios.get(API_URL);
+      setHistories(res.data);
+    } catch (err) {
+      console.error("Failed to fetch booking history:", err);
+    }
+  };
+
+  const fetchByCustomer = async (name) => {
+    try {
+      const res = await axios.get(`${API_URL}/customer/${name}`);
+      setHistories(res.data);
+    } catch (err) {
+      console.error("Failed to filter by customer:", err);
+    }
+  };
+
+  const fetchByStatus = async (status) => {
+    try {
+      const res = await axios.get(`${API_URL}/status/${status}`);
+      setHistories(res.data);
+    } catch (err) {
+      console.error("Failed to filter by status:", err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      setHistories(histories.filter((h) => h.id !== id));
+    } catch (err) {
+      console.error("Failed to delete booking history:", err);
+    }
   };
 
   useEffect(() => {
-    const fetchBookingHistory = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/api/bookings`);
-        setBookingHistory(response.data);
-      } catch (err) {
-        console.error('Failed to fetch booking history:', err);
-        setError('Failed to load booking history. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBookingHistory();
+    fetchHistories();
   }, []);
 
-  if (loading) {
-    return <div className="history-container"><p>Loading booking history...</p></div>;
-  }
-
-  if (error) {
-    return <div className="history-container"><p>{error}</p></div>;
-  }
-
   return (
-    <div className="history-container">
-      <h1>Your Booking History</h1>
-      <button onClick={handleBack}>Back to Home</button>
-      <div className="history-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Booking ID</th>
-              <th>Vehicle</th>
-              <th>Pickup Date</th>
-              <th>Return Date</th>
-              <th>Total Price</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookingHistory.length > 0 ? (
-              bookingHistory.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.id || '-'}</td>
-                  <td>{item.vehicle?.brand && item.vehicle?.model ? `${item.vehicle.brand} ${item.vehicle.model}` : '-'}</td>
-                  <td>{item.pickupDate ? new Date(item.pickupDate).toLocaleDateString() : '-'}</td>
-                  <td>{item.returnDate ? new Date(item.returnDate).toLocaleDateString() : '-'}</td>
-                  <td>₱{item.totalPrice?.toLocaleString() || '0.00'}</td>
-                  <td>{item.status || 'Pending'}</td>
-                </tr>
-              ))
-            ) : (
-              <tr><td colSpan="6">No bookings found.</td></tr>
-            )}
-          </tbody>
-        </table>
+    <div className="booking-history-page">
+      <h1>Booking History</h1>
+
+      <div className="filters">
+        <input
+          type="text"
+          placeholder="Filter by customer name"
+          value={filterName}
+          onChange={(e) => setFilterName(e.target.value)}
+        />
+        <button onClick={() => fetchByCustomer(filterName)}>Search</button>
+
+        <select
+          value={filterStatus}
+          onChange={(e) => {
+            setFilterStatus(e.target.value);
+            if (e.target.value) fetchByStatus(e.target.value);
+          }}
+        >
+          <option value="">Filter by status</option>
+          <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+
+        <button onClick={fetchHistories}>Clear Filters</button>
       </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Pickup</th>
+            <th>Drop-off</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Distance</th>
+            <th>Fare</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {histories.length > 0 ? (
+            histories.map((h) => (
+              <tr key={h.id}>
+                <td>{h.customerName}</td>
+                <td>{h.pickupLocation}</td>
+                <td>{h.dropOffLocation}</td>
+                <td>{new Date(h.pickupDate).toLocaleString()}</td>
+                <td>{h.status}</td>
+                <td>{h.distance}</td>
+                <td>₱{h.totalPrice}</td>
+                <td>
+                  <button onClick={() => handleDelete(h.id)}>🗑️</button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="8">No booking history found.</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
-};
-
-export default BookingHistory;
+}
