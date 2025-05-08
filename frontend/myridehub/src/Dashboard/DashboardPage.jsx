@@ -117,7 +117,7 @@ export default function DashboardPage() {
       <div className="hero-image-section">
         <img src="/dashboard.jpg" alt="Hero" className="hero-img" />
         <div className="hero-overlay">
-          <h1 className="hero-title">RIDE HUB</h1>
+          <h1 className="hero-title">MY RIDE HUB</h1>
           <Link to="/booking" className="hero-btn">Book a Ride</Link>
           <Link to="/rent" className="hero-btn">Rent a Vehicle</Link>
         </div>
@@ -125,7 +125,7 @@ export default function DashboardPage() {
 
       <section className="dashboard-articles">
         <div className="article">
-          <img src="/article 1.png" alt="Wide Vehicle Options" />
+        <img src="/article1.png" />
           <div className="article-text">
             <h3>Wide Vehicle Options</h3>
             <p>
@@ -144,7 +144,7 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="article">
-          <img src="/article 3.png" alt="Budget-Friendly Rates" />
+          <img src="/article3.jpeg" alt="Budget-Friendly Rates" />
           <div className="article-text">
             <h3>Budget-Friendly Rates</h3>
             <p>
