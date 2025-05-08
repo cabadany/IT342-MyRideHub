@@ -119,9 +119,7 @@ public class DriverService {
         return driverRepository.findAll();
     }
 
-    // Return the first available driver (optional wrapper)
-public Optional<Driver> getAvailableDriver() {
-    return driverRepository.findFirstByAvailableTrue();
-}
-
+    public Optional<Driver> getAvailableDriver() {
+        return driverRepository.findFirstByAvailableTrue();
+    }    
 }
