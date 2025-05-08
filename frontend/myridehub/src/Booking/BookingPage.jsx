@@ -19,8 +19,8 @@ export default function BookingPage() {
   const [pickupLocation, setPickupLocation] = useState(null);
   const [dropOffLocation, setDropOffLocation] = useState(null);
   const [selectedType, setSelectedType] = useState("");
-  const [customerName, setCustomerName] = useState(""); // ✅ new
-  const [contactNumber, setContactNumber] = useState(""); // ✅ new
+  const [customerName, setCustomerName] = useState(""); 
+  const [contactNumber, setContactNumber] = useState(""); 
   const [distanceText, setDistanceText] = useState("");
   const [durationText, setDurationText] = useState("");
   const [totalPrice, setTotalPrice] = useState(null);
@@ -31,6 +31,8 @@ export default function BookingPage() {
   const [mapCenter, setMapCenter] = useState({ lat: 14.5995, lng: 120.9842 });
   const [loading, setLoading] = useState(false);
   const [rideStatus, setRideStatus] = useState("");
+  const [showDriverEnRoute, setShowDriverEnRoute] = useState(false);
+  const [driverPosition, setDriverPosition] = useState(null);
 
   const navigate = useNavigate();
   const pickupRef = useRef(null);
@@ -104,10 +106,9 @@ export default function BookingPage() {
       const driver = driverRes.data;
       if (!driver) {
         toast.error("No available drivers at the moment.");
-        setLoading(false);
         return;
       }
-
+  
       const bookingData = {
         vehicleType: selectedType,
         pickupLocation: pickupLocation?.formatted_address || "Unknown",
@@ -123,19 +124,54 @@ export default function BookingPage() {
         totalPrice,
         status: "Pending",
         driverId: driver.id,
-        customerName,           // ✅ added
-        contactNumber           // ✅ added
+        customerName,
+        contactNumber
       };
-
+  
       await axios.post(`${API_BASE_URL}/api/bookings`, bookingData);
-      setRideStatus("Driver found! Please wait at your pickup location.");
-      setTimeout(() => navigate("/dashboard"), 3000);
+  
+      // Simulate driver starting ~200m away from pickup
+      const getNearbyPoint = (lat, lng, offset = 0.002) => {
+        const randomOffset = () => (Math.random() - 0.5) * offset;
+        return {
+          lat: lat + randomOffset(),
+          lng: lng + randomOffset()
+        };
+      };
+  
+      const startCoords = getNearbyPoint(pickupLocation.lat, pickupLocation.lng, 0.004);
+      const endCoords = { lat: pickupLocation.lat, lng: pickupLocation.lng };
+  
+      setDriverPosition(startCoords);
+      setShowDriverEnRoute(true);
+      setRideStatus("Driver is nearby and on the way...");
+      setBookingStep(5); // Move to Step 5
+  
+      // Animate driver moving toward pickup
+      const steps = 30;
+      const interval = 300;
+      let step = 0;
+      const moveInterval = setInterval(() => {
+        if (step >= steps) {
+          clearInterval(moveInterval);
+          setRideStatus("Driver has arrived!");
+          toast.success("Driver has arrived at your location!");
+          return;
+        }
+  
+        const lat = startCoords.lat + ((endCoords.lat - startCoords.lat) * step) / steps;
+        const lng = startCoords.lng + ((endCoords.lng - startCoords.lng) * step) / steps;
+        setDriverPosition({ lat, lng });
+        step++;
+      }, interval);
+  
     } catch (e) {
       toast.error("Booking failed.");
+      console.error(e);
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   return (
     <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={libraries}>
@@ -190,11 +226,12 @@ export default function BookingPage() {
 
         {/* Stepper */}
         <div className="booking-stepper">
-          <div className={`step ${bookingStep >= 1 ? "active" : ""}`}>Pickup</div>
-          <div className={`step ${bookingStep >= 2 ? "active" : ""}`}>Drop-off</div>
-          <div className={`step ${bookingStep >= 3 ? "active" : ""}`}>Vehicle</div>
-          <div className={`step ${bookingStep >= 4 ? "active" : ""}`}>Confirm</div>
-        </div>
+  <div className={`step ${bookingStep >= 1 ? "active" : ""}`}>Pickup</div>
+  <div className={`step ${bookingStep >= 2 ? "active" : ""}`}>Drop-off</div>
+  <div className={`step ${bookingStep >= 3 ? "active" : ""}`}>Vehicle</div>
+  <div className={`step ${bookingStep >= 4 ? "active" : ""}`}>Confirm</div>
+  <div className={`step ${bookingStep >= 5 ? "active" : ""}`}>Tracking</div>
+</div>
 
         {/* Step 1: Pickup */}
         {bookingStep === 1 && (
@@ -284,39 +321,65 @@ export default function BookingPage() {
 
         {/* Step 4: Confirm */}
         {bookingStep === 4 && (
-    <div className="booking-form">
-      <h2>Confirm</h2>
-      <p><strong>Pickup:</strong> {pickupLocation?.formatted_address}</p>
-      <p><strong>Drop-off:</strong> {dropOffLocation?.formatted_address}</p>
-      <p><strong>Distance:</strong> {distanceText}</p>
-      <p><strong>Duration:</strong> {durationText}</p>
-      <p><strong>Fare:</strong> ₱{totalPrice}</p>
+  <div className="booking-form">
+    <h2>Confirm</h2>
+    <p><strong>Pickup:</strong> {pickupLocation?.formatted_address}</p>
+    <p><strong>Drop-off:</strong> {dropOffLocation?.formatted_address}</p>
+    <p><strong>Distance:</strong> {distanceText}</p>
+    <p><strong>Duration:</strong> {durationText}</p>
+    <p><strong>Fare:</strong> ₱{totalPrice}</p>
 
-      <input
-        type="text"
-        placeholder="Your Full Name"
-        value={customerName}
-        onChange={(e) => setCustomerName(e.target.value)}
-        className="location-input"
-        style={{ marginTop: "10px", color: "#000" }}
-      />
-      <input
-        type="text"
-        placeholder="Your Contact Number"
-        value={contactNumber}
-        onChange={(e) => setContactNumber(e.target.value)}
-        className="location-input"
-        style={{ marginTop: "10px", color: "#000" }}
-      />
+    <input
+      type="text"
+      placeholder="Your Full Name"
+      value={customerName}
+      onChange={(e) => setCustomerName(e.target.value)}
+      className="location-input"
+      style={{ marginTop: "10px", color: "#000" }}
+    />
+    <input
+      type="text"
+      placeholder="Your Contact Number"
+      value={contactNumber}
+      onChange={(e) => setContactNumber(e.target.value)}
+      className="location-input"
+      style={{ marginTop: "10px", color: "#000" }}
+    />
 
-      <button onClick={confirmBooking} disabled={!customerName || !contactNumber}>
-        Confirm Booking
-      </button>
-      {loading && <p>Finding driver...</p>}
-      {rideStatus && <p>{rideStatus}</p>}
-    </div>
-  )}
+    <button onClick={confirmBooking} disabled={!customerName || !contactNumber}>
+      Confirm Booking
+    </button>
+    {loading && <p>Finding driver...</p>}
+    {rideStatus && <p>{rideStatus}</p>}
+  </div>
+)}
 
+{bookingStep === 5 && driverPosition && pickupLocation && (
+  <div className="booking-form">
+    <h2>Live Driver Tracking</h2>
+    <p>{rideStatus}</p>
+    <GoogleMap
+      mapContainerStyle={{ width: "100%", height: "300px" }}
+      center={driverPosition}
+      zoom={15}
+    >
+      <Marker position={driverPosition}>
+        <InfoWindow position={driverPosition}>
+          <div style={{ fontSize: "14px" }}>Driver is coming</div>
+        </InfoWindow>
+      </Marker>
+      <Marker
+        position={pickupLocation}
+        icon="http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+      >
+        <InfoWindow position={pickupLocation}>
+          <div style={{ fontSize: "14px" }}>Your Pickup Point</div>
+        </InfoWindow>
+      </Marker>
+    </GoogleMap>
+  </div>
+)}
+  
         {/* Google Maps Picker */}
         {showMapPicker && (
           <div className="map-picker-overlay">
