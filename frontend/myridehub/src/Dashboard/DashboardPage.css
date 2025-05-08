@@ -43,7 +43,7 @@ html, body {
 /* Navigation */
 .main-nav {
   width: 100%;
-  background-color: #d1d5db;
+  background-color: #393939;
   padding: 10px 40px;
   margin-top: 0;
   border-bottom: 1px solid #cbd5e1;
@@ -232,13 +232,13 @@ html, body {
 .article-text h3 {
   font-size: 24px;
   margin-bottom: 10px;
-  color: #1f2937;
+  color: #000000;
 }
 
 .article-text p {
   font-size: 16px;
   line-height: 1.8;
-  color: #374151;
+  color: #000000;
   text-align: left;
 }
 
