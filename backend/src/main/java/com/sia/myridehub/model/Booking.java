@@ -4,10 +4,14 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "bookings")
@@ -17,8 +21,9 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String vehicleType; // "Car" or "Motorcycle"
+    // Now a simple string to hold "Car" or "Motorcycle"
+    @Column(name = "vehicle_type", nullable = false)
+    private String vehicleType;
 
     @Column(nullable = false)
     private String customerName;
@@ -36,6 +41,10 @@ public class Booking {
 
     @Column(nullable = false)
     private String status; // "PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "driver_id")
+    private Driver driver;
 
     public Booking() {}
 
@@ -114,5 +123,19 @@ public class Booking {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
+    // Helper for frontend (if needed)
+    @Transient
+    public Long getDriverId() {
+        return driver != null ? driver.getId() : null;
     }
 }

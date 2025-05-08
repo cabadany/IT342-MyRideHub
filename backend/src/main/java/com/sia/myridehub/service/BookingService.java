@@ -29,10 +29,6 @@ public class BookingService {
         return bookingRepository.findByCustomerName(customerName);
     }
 
-    public List<Booking> getBookingsByVehicleId(Long vehicleId) {
-        return bookingRepository.findByVehicleId(vehicleId);
-    }
-
     public List<Booking> getBookingsByStatus(String status) {
         return bookingRepository.findByStatus(status);
     }
@@ -55,8 +51,7 @@ public class BookingService {
         booking.setPickupDate(updatedBooking.getPickupDate());
         booking.setReturnDate(updatedBooking.getReturnDate());
         booking.setStatus(updatedBooking.getStatus());
-        booking.setVehicle(updatedBooking.getVehicle());
-
+        booking.setVehicleType(updatedBooking.getVehicleType());
         return bookingRepository.save(booking);
     }
 
