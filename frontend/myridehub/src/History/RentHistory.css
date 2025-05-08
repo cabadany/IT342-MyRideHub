@@ -43,7 +43,8 @@
 /* Table Container */
 .history-table {
   width: 100%;
-  max-width: 100%;
+  display: flex;
+  justify-content: center;        /* ✅ Center the table */
   overflow-x: auto;
   margin-top: 20px;
   margin-bottom: 50px;
@@ -54,6 +55,7 @@
   width: auto;
   min-width: 1200px;
   border-collapse: collapse;
+  background-color: #2c2929;      /* Optional: dark table background */
 }
 
 .history-table th,
@@ -62,6 +64,7 @@
   text-align: center;
   border: 1px solid #555;
   font-size: 18px;
+  color: #ffffff;
 }
 
 .history-table th {
@@ -81,45 +84,35 @@
 /* Media Queries for Responsiveness */
 @media (orientation: landscape) {
   .history-container {
-      padding: 40px;
+    padding: 40px;
   }
 
   .history-container h1 {
-      font-size: 40px;
+    font-size: 40px;
   }
-
-  /* Table Container */
-.history-table {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-  margin: 20px auto 50px auto; /* center horizontally */
-  display: flex;
-  justify-content: center;     /* center inner content */
-}
 
   .history-table th,
   .history-table td {
-      padding: 20px 50px;
+    padding: 20px 50px;
   }
 }
 
 @media (max-width: 768px) {
   .history-container {
-      width: 100%;
-      padding: 10px;
+    width: 100%;
+    padding: 10px;
   }
 
   .history-container h1 {
-      font-size: 24px;
+    font-size: 24px;
   }
 
   .history-table {
-      font-size: 14px;
+    font-size: 14px;
   }
 
   .history-table th,
   .history-table td {
-      padding: 10px 10px;
+    padding: 10px 10px;
   }
 }
