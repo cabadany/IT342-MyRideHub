@@ -2,20 +2,14 @@ package com.sia.myridehub.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sia.myridehub.model.Driver;
@@ -35,13 +29,14 @@ public class DriverController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // POST /api/drivers - Register a driver
     @PostMapping
     public ResponseEntity<?> registerDriver(@RequestBody Driver driver) {
         driver.setAvailable(true);
         driver.setActive(true);
         driver.setPassword(passwordEncoder.encode(driver.getPassword()));
         Driver saved = driverService.saveDriver(driver);
-        
+
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("message", "Driver registered successfully");
@@ -50,6 +45,7 @@ public class DriverController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    // GET /api/drivers - Get profile of the authenticated driver
     @GetMapping
     public ResponseEntity<DriverProfileDto> getDriverProfile(Authentication authentication) {
         String mobileNumber = authentication.getName();
@@ -58,6 +54,13 @@ public class DriverController {
         return ResponseEntity.ok(profile);
     }
 
+    // GET /api/drivers/all - Get all drivers
+    @GetMapping("/all")
+    public ResponseEntity<List<Driver>> getAllDrivers() {
+        return ResponseEntity.ok(driverService.getAllDrivers());
+    }
+
+    // PUT /api/drivers/profile/license - Update driver license
     @PutMapping("/profile/license")
     public ResponseEntity<?> updateDriverLicense(
             Authentication authentication,
@@ -79,6 +82,7 @@ public class DriverController {
         }
     }
 
+    // POST /api/drivers/profile/picture - Upload profile picture
     @PostMapping("/profile/picture")
     public ResponseEntity<?> updateProfilePicture(
             Authentication authentication,
