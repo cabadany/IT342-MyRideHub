@@ -51,7 +51,8 @@ public class BookingService {
         booking.setPickupDate(updatedBooking.getPickupDate());
         booking.setReturnDate(updatedBooking.getReturnDate());
         booking.setStatus(updatedBooking.getStatus());
-        booking.setVehicleType(updatedBooking.getVehicleType());
+        booking.setVehicleType(updatedBooking.getVehicleType()); // ✅ Fixed this line
+
         return bookingRepository.save(booking);
     }
 
