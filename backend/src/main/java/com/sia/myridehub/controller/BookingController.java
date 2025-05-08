@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,17 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sia.myridehub.model.Booking;
+import com.sia.myridehub.model.Driver;
 import com.sia.myridehub.service.BookingService;
+import com.sia.myridehub.service.DriverService;
 
 @RestController
 @RequestMapping("/api/bookings")
-@CrossOrigin(origins = "*") // Allow frontend to access
 public class BookingController {
 
     private final BookingService bookingService;
+    private final DriverService driverService;
 
-    public BookingController(BookingService bookingService) {
+    public BookingController(BookingService bookingService, DriverService driverService) {
         this.bookingService = bookingService;
+        this.driverService = driverService;
     }
 
     @GetMapping
@@ -44,7 +46,14 @@ public class BookingController {
     @PostMapping
     public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
         try {
-            // Optional validation for now - allow saving even if some fields are missing
+            if (booking.getDriverId() != null) {
+                Optional<Driver> driverOpt = Optional.ofNullable(driverService.getDriverById(booking.getDriverId()));
+                if (driverOpt.isPresent()) {
+                    booking.setDriver(driverOpt.get());
+                } else {
+                    return ResponseEntity.badRequest().body("Invalid driverId");
+                }
+            }
             return ResponseEntity.ok(bookingService.createBooking(booking));
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error creating booking: " + e.getMessage());

@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "bookings")
@@ -41,12 +42,20 @@ public class Booking {
     @Column(nullable = false)
     private String status; // "PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"
 
-    // Default constructor
+    // ✅ Link to Driver
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "driver_id")
+    private Driver driver;
+
+    // ✅ Transient field to receive driverId from frontend
+    @Transient
+    private Long driverId;
+
     public Booking() {}
 
-    // Constructor
     public Booking(Long id, Vehicle vehicle, String customerName, String contactNumber,
-                   LocalDate pickupDate, LocalDate returnDate, double totalPrice, String status) {
+                   LocalDate pickupDate, LocalDate returnDate, double totalPrice, String status,
+                   Driver driver) {
         this.id = id;
         this.vehicle = vehicle;
         this.customerName = customerName;
@@ -55,6 +64,7 @@ public class Booking {
         this.returnDate = returnDate;
         this.totalPrice = totalPrice;
         this.status = status;
+        this.driver = driver;
     }
 
     // Getters and setters
@@ -120,5 +130,21 @@ public class Booking {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
+    public Long getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(Long driverId) {
+        this.driverId = driverId;
     }
 }
