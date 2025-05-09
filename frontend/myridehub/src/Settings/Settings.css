@@ -178,7 +178,7 @@ input {
 }
 
 input:focus {
-  border-color: #2563eb;
+  border-color: #3b3b3b;
   background-color: #fff;
   outline: none;
 }
@@ -205,11 +205,11 @@ button:hover {
 }
 
 .bg-blue-600 {
-  background-color: #2563eb;
+  background-color: #010101;
 }
 
 .bg-blue-700 {
-  background-color: #1d4ed8;
+  background-color: #ffffff;
 }
 
 .bg-green-600 {
@@ -233,7 +233,7 @@ button:hover {
 }
 
 .text-blue-500 {
-  color: #3b82f6;
+  color: #d0d0d0;
 }
 
 .text-blue-500:hover {
