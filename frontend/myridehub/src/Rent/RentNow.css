@@ -48,18 +48,7 @@
 
 /* Vehicle Image */
 .vehicle-image {
-  max-width: 500px;
-  width: 100%;
-  border-radius: 12px;
-  background-color: #f7f7f7;
-  padding: 1rem;
-  object-fit: contain;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-/* Form Container */
-.form-container {
-  background-color: #f5f5f5;
+ background-color: #f5f5f5;
   padding: 2rem;
   border-radius: 12px;
   width: 100%;
@@ -68,6 +57,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* Form Container */
+.form-container {
+  background-color: #eeeeee;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 12px rgba(8, 8, 8, 0.752);
+  text-align: left;
 }
 
 /* Driver Selection */
