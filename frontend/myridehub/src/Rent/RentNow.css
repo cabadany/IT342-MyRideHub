@@ -15,6 +15,7 @@
   width: 100%;
   max-width: 1200px;
   text-align: center;
+  background-color: transparent; /* REMOVE any background-color here */
 }
 
 /* Title */
