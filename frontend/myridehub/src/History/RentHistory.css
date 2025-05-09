@@ -42,18 +42,18 @@
 
 /* Table Container */
 .history-table {
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;  /* Center vertically inside flex container if needed */
-  width: 100%;
-  margin: 0 auto 50px auto; /* center horizontally with margin */
+  margin-top: 10px;
+  margin-bottom: 50px;
   overflow-x: auto;
 }
 
-/* Table Styling */
+/* Actual Table */
 .history-table table {
-  width: auto;
-  min-width: 1200px;
+  width: 100%;
+  max-width: 1200px;       /* Make sure it's not too wide */
   border-collapse: collapse;
   background-color: #2c2929;
   color: white;
