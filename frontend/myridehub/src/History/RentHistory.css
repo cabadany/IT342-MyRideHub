@@ -13,6 +13,45 @@
   overflow-x: hidden;
 }
 
+/* Center and contain the table fully */
+.history-table {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.history-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2c2929;
+  color: white;
+}
+
+/* Table Styling */
+.history-table th,
+.history-table td {
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #555;
+  font-size: 18px;
+}
+
+.history-table th {
+  background-color: #444;
+  font-weight: bold;
+}
+
+.history-table tr:nth-child(even) {
+  background-color: #312d2d;
+}
+
+.history-table tr:hover {
+  background-color: #444;
+  cursor: pointer;
+}
+
 /* Header Styling */
 .history-container h1 {
   text-align: center;
@@ -21,7 +60,7 @@
   font-weight: bold;
 }
 
-/* Back Button Styling */
+/* Back Button */
 .back-button {
   align-self: flex-start;
   margin-bottom: 20px;
@@ -40,67 +79,16 @@
   background-color: #444;
 }
 
-/* Table Container */
-.history-table {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-  margin-bottom: 50px;
-  overflow-x: auto;
-}
-
-/* Actual Table */
-.history-table table {
-  width: 100%;
-  max-width: 1200px;       /* Make sure it's not too wide */
-  border-collapse: collapse;
-  background-color: #2c2929;
-  color: white;
-}
-
-.history-table th,
-.history-table td {
-  padding: 20px 40px;
-  text-align: center;
-  border: 1px solid #555;
-  font-size: 18px;
-  color: #ffffff;
-}
-
-.history-table th {
-  background-color: #444;
-  font-weight: bold;
-}
-
-.history-table tr:nth-child(even) {
-  background-color: #312d2d;
-}
-
-.history-table tr:hover {
-  background-color: #444;
-  cursor: pointer;
-}
-
-/* Media Queries for Responsiveness */
-@media (orientation: landscape) {
+/* Media Queries */
+@media (max-width: 768px) {
   .history-container {
-    padding: 60px;
-  }
-
-  .history-container h1 {
-    font-size: 42px;
+    padding: 20px;
   }
 
   .history-table th,
   .history-table td {
-    padding: 20px 50px;
-  }
-}
-
-@media (max-width: 768px) {
-  .history-container {
-    padding: 20px;
+    padding: 12px;
+    font-size: 14px;
   }
 
   .history-container h1 {
@@ -110,14 +98,5 @@
   .back-button {
     font-size: 14px;
     padding: 6px 12px;
-  }
-
-  .history-table {
-    font-size: 14px;
-  }
-
-  .history-table th,
-  .history-table td {
-    padding: 10px;
   }
 }
