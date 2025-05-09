@@ -68,7 +68,7 @@
 
 /* Form Container */
 .form-container {
-  background-color: #f9f9f9;
+  background-color: #3d3d3d;
   padding: 2rem;
   border-radius: 12px;
   width: 100%;
@@ -140,7 +140,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #383838;
+  background-color: #ffffff;
   padding: 1rem;
   border-radius: 8px;
   margin-top: 1rem;
