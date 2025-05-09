@@ -48,20 +48,23 @@
 
 /* Vehicle Image */
 .vehicle-image {
- background-color: #f5f5f5;
+  background-color: #c4c4c4;
   padding: 2rem;
   border-radius: 12px;
   width: 100%;
   max-width: 500px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.75);
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 /* Form Container */
 .form-container {
-  background-color: #eeeeee;
+  background-color: #c4c4c4;
   padding: 2rem;
   border-radius: 12px;
   width: 100%;
