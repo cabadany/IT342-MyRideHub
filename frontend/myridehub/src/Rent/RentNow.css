@@ -1,6 +1,6 @@
 /* Global Page Style */
 .rent-now-page {
-  background-color: #fff;
+  background-color: #a0a0a0; /* <-- Change this from #fff to gray */
   color: #111;
   font-family: 'Arial', sans-serif;
   min-height: 100vh;
@@ -68,7 +68,7 @@
 
 /* Form Container */
 .form-container {
-  background-color: #767676;
+  background-color: #eeeeee;
   padding: 2rem;
   border-radius: 12px;
   width: 100%;
