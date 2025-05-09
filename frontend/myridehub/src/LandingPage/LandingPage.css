@@ -88,6 +88,7 @@
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 16px;
+    
   }
   
   .hero p {
@@ -135,6 +136,7 @@
     line-height: 1.5;
     max-width: 300px;
     margin-bottom: 120px;
+    color: white; 
   }
   
   .service a {
