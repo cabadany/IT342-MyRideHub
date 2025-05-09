@@ -20,19 +20,23 @@ const Settings = () => {
   });
 
   useEffect(() => {
-    const email = localStorage.getItem('userEmail');
+    const userId = localStorage.getItem('userId');
     const picture = localStorage.getItem('userPicture');
 
-    if (!email) {
+    if (!userId) {
       toast.error('User not logged in. Redirecting to login...');
       setTimeout(() => navigate('/login'), 2000);
       return;
     }
 
-    fetch(`${API_BASE_URL}/api/users/current`, {
-      headers: { 'X-User-Email': email }
-    })
-      .then(res => res.json())
+    fetch(`${API_BASE_URL}/api/users/id/${userId}`)
+      .then(async res => {
+        if (!res.ok) {
+          const errorMsg = await res.text();
+          throw new Error(errorMsg || 'Failed to fetch user');
+        }
+        return res.json();
+      })
       .then(data => {
         setProfile({ ...data, picture });
         setFormData({
@@ -43,7 +47,9 @@ const Settings = () => {
           username: data.username || ''
         });
       })
-      .catch(() => toast.error('Failed to load profile.'))
+      .catch(err => {
+        toast.error(`Failed to load profile: ${err.message}`);
+      })
       .finally(() => setLoading(false));
   }, [navigate]);
 
@@ -89,7 +95,6 @@ const Settings = () => {
         <div className="nav-wrapper">
           <ul className="nav-menu">
             <li><Link to="/dashboard">HOME</Link></li>
-
             <li className="dropdown-container">
               <span className="dropdown-toggle">OUR SERVICES ▾</span>
               <ul className="dropdown-menu">
@@ -99,7 +104,6 @@ const Settings = () => {
                 <li><Link to="/terms">Terms & Conditions</Link></li>
               </ul>
             </li>
-
             <li className="dropdown-container">
               <span className="dropdown-toggle">HISTORY ▾</span>
               <ul className="dropdown-menu">
@@ -107,29 +111,24 @@ const Settings = () => {
                 <li><Link to="/book-history">Book History</Link></li>
               </ul>
             </li>
-
             <li className="dropdown-container">
               <span className="dropdown-toggle">JOIN US ▾</span>
               <ul className="dropdown-menu">
                 <li><Link to="/be-a-driver">Be a Driver</Link></li>
               </ul>
             </li>
-
             <li className="dropdown-container">
               <span className="dropdown-toggle">CONTACT US ▾</span>
               <ul className="dropdown-menu">
                 <li><Link to="/contact-us">Passenger Appeal Form</Link></li>
               </ul>
             </li>
-
             <li><Link to="/settings" className="active">SETTINGS</Link></li>
-
             <li>
               <div className="search-bar">
                 <input type="text" placeholder="Search..." />
               </div>
             </li>
-
             <li>
               <button onClick={handleLogout} className="text-sm text-red-600">Logout</button>
             </li>

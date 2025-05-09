@@ -73,11 +73,6 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUserById(id));
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
         return ResponseEntity.ok(userService.updateUser(id, user));
@@ -89,19 +84,26 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/current")
-    public ResponseEntity<?> getCurrentUser(HttpServletRequest request) {
-        String email = request.getHeader("X-User-Email");
+@GetMapping("/current")
+public ResponseEntity<?> getCurrentUser(HttpServletRequest request) {
+    String email = request.getHeader("X-User-Email");
 
-        if (email == null || email.isEmpty()) {
-            return ResponseEntity.badRequest().body("Missing X-User-Email header");
-        }
+    if (email == null || email.isEmpty()) {
+        return ResponseEntity.badRequest().body("Missing X-User-Email header");
+    }
 
-        Optional<User> user = userService.findByEmail(email);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found for email: " + email);
-        }
+    Optional<User> user = userService.findByEmail(email);
+    if (user.isPresent()) {
+        return ResponseEntity.ok(user.get());
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found for email: " + email);
+    }
+}
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<User> getUserByIdForSettings(@PathVariable Long id) {
+        Optional<User> user = userService.getUserById(id);
+        return user.map(ResponseEntity::ok)
+                   .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 }
