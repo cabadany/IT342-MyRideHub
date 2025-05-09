@@ -5,17 +5,16 @@ import android.os.Bundle
 import android.view.Gravity
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 
 class AboutUsActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var menuButton: ImageButton
-    private lateinit var closeMenuButton: ImageButton
     private lateinit var profileImage: ImageView
+    private lateinit var navigationView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,48 +23,55 @@ class AboutUsActivity : AppCompatActivity() {
         // Initialize views
         drawerLayout = findViewById(R.id.drawerLayout)
         menuButton = findViewById(R.id.menuButton)
+        profileImage = findViewById(R.id.profileImage)
+        navigationView = findViewById(R.id.navigationView)
 
-        // Open navigation drawer
+        // Set placeholder profile image
+        profileImage.setImageResource(R.drawable.profile_placeholder)
+
+        // Open drawer
         menuButton.setOnClickListener {
-            drawerLayout.openDrawer(Gravity.RIGHT)
+            drawerLayout.openDrawer(Gravity.END)
         }
 
         setupNavigationItems()
     }
 
     private fun setupNavigationItems() {
-        // Dashboard
-        findViewById<LinearLayout>(R.id.dashboardItem)?.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-        }
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            drawerLayout.closeDrawer(Gravity.END)
 
-        // My Order
-        findViewById<LinearLayout>(R.id.myOrderItem)?.setOnClickListener {
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-        }
+            when (menuItem.itemId) {
+                R.id.nav_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+                R.id.nav_booking -> {
+                    startActivity(Intent(this, BookRideActivity::class.java))
+                }
+                R.id.nav_rent -> {
+                    startActivity(Intent(this, RentVehicleActivity::class.java))
+                }
+                R.id.nav_fare_calculator -> {
+                    startActivity(Intent(this, FareCalculatorActivity::class.java))
+                }
+                R.id.nav_terms -> {
+                    startActivity(Intent(this, TermsConditionsActivity::class.java))
+                }
+                R.id.nav_history -> {
+                    startActivity(Intent(this, MyOrderActivity::class.java))
+                }
+                R.id.nav_be_driver -> {
+                    startActivity(Intent(this, BeDriverActivity::class.java))
+                }
+                R.id.nav_appeal_form -> {
+                    startActivity(Intent(this, ContactUsActivity::class.java)) // Replace if you have a separate AppealActivity
+                }
+                R.id.nav_settings -> {
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                }
+            }
 
-        // My Profile
-        findViewById<LinearLayout>(R.id.myProfileItem)?.setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-        }
-
-        // About Us (Current Page)
-        findViewById<LinearLayout>(R.id.aboutUsItem)?.setOnClickListener {
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-        }
-
-        // Contact Us
-        findViewById<LinearLayout>(R.id.contactUsItem)?.setOnClickListener {
-            startActivity(Intent(this, ContactUsActivity::class.java))
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-        }
-
-        // Log Out
-        findViewById<LinearLayout>(R.id.logOutItem)?.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+            true
         }
     }
 }

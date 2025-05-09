@@ -21,7 +21,7 @@
 
         <!-- Main Entry Activity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,7 @@
 
         <activity android:name=".RentVehicleActivity" android:exported="false" />
         <activity android:name=".ContactUsActivity" android:exported="false" />
-        <activity android:name=".LoginActivity" android:exported="false" />
+        <activity android:name=".MainActivity" android:exported="false" />
         <activity android:name=".RegisterActivity" android:exported="false" />
         <activity android:name=".BookRideActivity" android:exported="false" />
 
@@ -54,5 +54,10 @@
 
         <activity android:name=".InquirySuccessActivity" android:exported="false" />
 
+        <activity android:name=".SettingsActivity" android:exported="false" />
+        <activity android:name=".FareCalculatorActivity" android:exported="false" />
+        <activity android:name=".TermsConditionsActivity" android:exported="false" />
+
+        <activity android:name=".BeDriverActivity" android:exported="false" />
     </application>
 </manifest>

@@ -5,14 +5,55 @@
     android:background="#100F0F"
     android:padding="24dp">
 
-    <TextView
-        android:id="@+id/bookingDetailsText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Booking Details Here"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:lineSpacingExtra="8dp" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ride_hub_logo_w"
+            android:contentDescription="Logo"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Header Text -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Booking Details"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Booking Details Summary -->
+        <TextView
+            android:id="@+id/bookingDetailsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Booking Details Here"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:lineSpacingExtra="8dp"
+            android:background="@drawable/card_background"
+            android:padding="16dp"
+            android:elevation="2dp"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Back Button -->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back to Home"
+            android:textAllCaps="false"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#100F0F"
+            android:onClick="onBackPressed" />
+
+    </LinearLayout>
 </ScrollView>

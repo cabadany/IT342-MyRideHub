@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Home -->
     <item
         android:id="@+id/nav_home"
         android:title="Home" />
 
+    <!-- Our Services (Dropdown) -->
     <item
         android:id="@+id/nav_services"
         android:title="Our Services">
@@ -16,32 +18,28 @@
         </menu>
     </item>
 
-    <item
-        android:id="@+id/nav_history"
-        android:title="History">
-        <menu>
-            <item android:id="@+id/nav_rent_history" android:title="Rent History" />
-            <item android:id="@+id/nav_book_history" android:title="Book History" />
-        </menu>
-    </item>
+    <!-- History (Flat Items) -->
+    <item android:id="@+id/nav_history" android:title="History" />
 
+    <!-- Join Us (Dropdown) -->
     <item
-        android:id="@+id/nav_join"
+        android:id="@+id/nav_join_us"
         android:title="Join Us">
         <menu>
             <item android:id="@+id/nav_be_driver" android:title="Be a Driver" />
         </menu>
     </item>
 
+    <!-- Contact Us (Dropdown) -->
     <item
-        android:id="@+id/nav_contact"
+        android:id="@+id/nav_contact_us"
         android:title="Contact Us">
         <menu>
             <item android:id="@+id/nav_appeal_form" android:title="Passenger Appeal Form" />
         </menu>
     </item>
 
-    <item
-        android:id="@+id/nav_settings"
-        android:title="Settings" />
+    <!-- Settings -->
+    <item android:id="@+id/nav_settings" android:title="Settings" />
+
 </menu>

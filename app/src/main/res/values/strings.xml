@@ -10,4 +10,13 @@
         <item>Booking History</item>
         <item>Renting History</item>
     </string-array>
+
+    <string-array name="appeal_reasons">
+        <item>-- Select a reason --</item>
+        <item>I may have cancelled too many bookings</item>
+        <item>I have more than one passenger account</item>
+        <item>I may have outstanding payment for previous ride</item>
+        <item>I am not sure why I am being suspended</item>
+        <item>Others</item>
+    </string-array>
 </resources>

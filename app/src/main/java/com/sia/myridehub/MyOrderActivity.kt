@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.FirebaseDatabase
 import com.sia.myridehub.adapter.HistoryAdapter
 import com.sia.myridehub.model.Booking
@@ -18,12 +19,12 @@ class MyOrderActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var menuButton: ImageButton
+    private lateinit var navigationView: NavigationView
     private lateinit var spinnerHistoryType: Spinner
     private lateinit var recyclerViewHistory: RecyclerView
     private lateinit var historyAdapter: HistoryAdapter
     private lateinit var emptyStateLayout: LinearLayout
 
-    // Track whether currently viewing Booking or Renting
     private var currentType: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,12 +33,18 @@ class MyOrderActivity : AppCompatActivity() {
 
         drawerLayout = findViewById(R.id.drawerLayout)
         menuButton = findViewById(R.id.menuButton)
+        navigationView = findViewById(R.id.navigationView)
         spinnerHistoryType = findViewById(R.id.spinnerHistoryType)
         recyclerViewHistory = findViewById(R.id.recyclerViewHistory)
         emptyStateLayout = findViewById(R.id.emptyStateLayout)
 
+        // Get profile image from nav header layout
+        val headerView = navigationView.getHeaderView(0)
+        val profileImage = headerView.findViewById<ImageView>(R.id.profileImage)
+        profileImage.setImageResource(R.drawable.profile_placeholder)
+
         menuButton.setOnClickListener {
-            drawerLayout.openDrawer(Gravity.RIGHT)
+            drawerLayout.openDrawer(Gravity.END)
         }
 
         setupSpinner()
@@ -61,9 +68,7 @@ class MyOrderActivity : AppCompatActivity() {
                 loadHistoryFromFirebase(position)
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Do nothing
-            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
 
@@ -75,48 +80,25 @@ class MyOrderActivity : AppCompatActivity() {
 
     private fun setupSwipeToDelete() {
         val swipeHandler = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean = false
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                historyAdapter.removeItem(position)
-
-                Toast.makeText(
-                    this@MyOrderActivity,
-                    "Deleted!",
-                    Toast.LENGTH_SHORT
-                ).show()
+            override fun onMove(rv: RecyclerView, vh: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = false
+            override fun onSwiped(vh: RecyclerView.ViewHolder, direction: Int) {
+                historyAdapter.removeItem(vh.adapterPosition)
+                Toast.makeText(this@MyOrderActivity, "Deleted!", Toast.LENGTH_SHORT).show()
             }
         }
-        val itemTouchHelper = ItemTouchHelper(swipeHandler)
-        itemTouchHelper.attachToRecyclerView(recyclerViewHistory)
+        ItemTouchHelper(swipeHandler).attachToRecyclerView(recyclerViewHistory)
     }
 
     private fun loadHistoryFromFirebase(type: Int) {
         val database = FirebaseDatabase.getInstance().reference
-
         database.child("bookings").get().addOnSuccessListener { snapshot ->
-            val bookingList = mutableListOf<Booking>()
-            snapshot.children.forEach { child ->
-                val booking = child.getValue(Booking::class.java)
-                booking?.let {
-                    if (type == 0 && it.type == "booking") {
-                        bookingList.add(it)
-                    } else if (type == 1 && it.type == "renting") {
-                        bookingList.add(it)
-                    }
-                }
-            }
+            val bookings = snapshot.children.mapNotNull { it.getValue(Booking::class.java) }
+                .filter { (type == 0 && it.type == "booking") || (type == 1 && it.type == "renting") }
+                .sortedByDescending { it.timestamp }
 
-            if (bookingList.isEmpty()) {
-                showEmptyState()
-            } else {
-                val sortedList = bookingList.sortedByDescending { it.timestamp }
-                historyAdapter.updateData(sortedList)
+            if (bookings.isEmpty()) showEmptyState()
+            else {
+                historyAdapter.updateData(bookings)
                 hideEmptyState()
             }
         }.addOnFailureListener {
@@ -126,33 +108,20 @@ class MyOrderActivity : AppCompatActivity() {
     }
 
     private fun setupNavigationItems() {
-        findViewById<LinearLayout>(R.id.dashboardItem)?.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-        }
-
-        findViewById<LinearLayout>(R.id.myOrderItem)?.setOnClickListener {
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-        }
-
-        findViewById<LinearLayout>(R.id.myProfileItem)?.setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-        }
-
-        findViewById<LinearLayout>(R.id.aboutUsItem)?.setOnClickListener {
-            startActivity(Intent(this, AboutUsActivity::class.java))
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-        }
-
-        findViewById<LinearLayout>(R.id.contactUsItem)?.setOnClickListener {
-            startActivity(Intent(this, ContactUsActivity::class.java))
-            drawerLayout.closeDrawer(Gravity.RIGHT)
-        }
-
-        findViewById<LinearLayout>(R.id.logOutItem)?.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            drawerLayout.closeDrawer(Gravity.END)
+            when (menuItem.itemId) {
+                R.id.nav_home -> startActivity(Intent(this, MainActivity::class.java))
+                R.id.nav_booking -> startActivity(Intent(this, BookRideActivity::class.java))
+                R.id.nav_rent -> startActivity(Intent(this, RentVehicleActivity::class.java))
+                R.id.nav_fare_calculator -> startActivity(Intent(this, FareCalculatorActivity::class.java))
+                R.id.nav_terms -> startActivity(Intent(this, TermsConditionsActivity::class.java))
+                R.id.nav_history -> startActivity(Intent(this, MyOrderActivity::class.java))
+                R.id.nav_be_driver -> startActivity(Intent(this, BeDriverActivity::class.java))
+                R.id.nav_appeal_form -> startActivity(Intent(this, ContactUsActivity::class.java))
+                R.id.nav_settings -> startActivity(Intent(this, SettingsActivity::class.java))
+            }
+            true
         }
     }
 

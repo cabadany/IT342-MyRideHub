@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#100F0F"
-    android:padding="24dp"
-    android:gravity="center_horizontal">
+    android:background="@drawable/bg_gradient"
+    android:padding="24dp">
 
+    <!-- Summary Text -->
     <TextView
         android:id="@+id/bookingSummaryText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
         android:text="Booking Summary will appear here"
-        android:layout_marginBottom="24dp"/>
+        android:textColor="#100F0F"
+        android:textSize="16sp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <!-- Proceed Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/proceedToPaymentButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Proceed to Payment"
         android:textAllCaps="false"
+        android:textColor="#ffffff"
         android:backgroundTint="#4CAF50"
-        android:textColor="#FFFFFF" />
+        app:cornerRadius="16dp"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/bookingSummaryText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

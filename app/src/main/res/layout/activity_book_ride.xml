@@ -1,114 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:layout_height="match_parent">
 
-    <!-- Main Content Layer -->
+    <!-- Main Content -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- App Bar Toolbar -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:background="#fff"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:elevation="4dp" />
-
-        <!-- Google Map View -->
+        <!-- Google MapView -->
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/toolbar" />
+            android:layout_height="match_parent" />
 
-        <!-- Floating Panel for Pickup/Dropoff -->
-        <LinearLayout
-            android:id="@+id/inputPanel"
+        <!-- Card Input Panel -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:elevation="8dp"
-            android:background="@android:color/white"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="72dp"
-            android:backgroundTint="#ffffff">
+            android:elevation="8dp"
+            app:cardCornerRadius="16dp"
+            android:backgroundTint="#FFFFFF">
 
-            <ImageView
-                android:id="@+id/logoImage"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ride_hub_logo_d"
-                android:contentDescription="Logo" />
-
-            <EditText
-                android:id="@+id/editTextPickup"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Pickup Location"
-                android:backgroundTint="#ccc"
-                android:padding="12dp"
-                android:layout_marginTop="12dp"
-                android:textColor="#000" />
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <EditText
-                android:id="@+id/editTextDropoff"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Drop-off Location"
-                android:backgroundTint="#ccc"
-                android:padding="12dp"
-                android:layout_marginTop="8dp"
-                android:textColor="#000" />
+                <ImageView
+                    android:id="@+id/logoImage"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ride_hub_logo_d"
+                    android:contentDescription="Ride Hub Logo" />
 
-            <RadioGroup
-                android:id="@+id/locationChoiceRadioGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp">
-
-                <RadioButton
-                    android:id="@+id/radio_type_location"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/editTextPickup"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Type Location"
+                    android:layout_marginTop="12dp"
+                    android:hint="Pickup Location"
+                    android:backgroundTint="#ccc"
+                    android:padding="12dp"
                     android:textColor="#000" />
 
-                <RadioButton
-                    android:id="@+id/radio_map_location"
+                <EditText
+                    android:id="@+id/editTextDropoff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Drop-off Location"
+                    android:backgroundTint="#ccc"
+                    android:padding="12dp"
+                    android:textColor="#000" />
+
+                <RadioGroup
+                    android:id="@+id/locationChoiceRadioGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Choose from Map"
-                    android:textColor="#000"
-                    android:layout_marginStart="24dp" />
-            </RadioGroup>
-        </LinearLayout>
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp">
 
-        <!-- Confirm Button at the Bottom -->
-        <Button
+                    <RadioButton
+                        android:id="@+id/radio_type_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Type Location"
+                        android:textColor="#000" />
+
+                    <RadioButton
+                        android:id="@+id/radio_map_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:text="Choose from Map"
+                        android:textColor="#000" />
+                </RadioGroup>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Floating Confirm Button -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/confirmButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Confirm Pickup and Drop-off"
-            android:textAllCaps="false"
-            android:backgroundTint="#100F0F"
-            android:textColor="#ffffff"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             android:layout_margin="24dp"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="12dp" />
+            android:contentDescription="Confirm Pickup and Drop-off"
+            app:srcCompat="@drawable/ic_check"
+            app:backgroundTint="#100F0F"
+            app:tint="@android:color/white" />
     </RelativeLayout>
 
     <!-- Navigation Drawer -->

@@ -8,63 +8,107 @@
     android:layout_height="match_parent"
     tools:context=".RentVehicleActivity">
 
-    <!-- Main Content Area -->
+    <!-- Main Content -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#100f0f">
+        android:background="#ffffff">
 
-        <!-- Top Bar -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/topBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
+        <!-- Logo and Menu Button -->
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ride_hub_logo_d"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/menuButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginStart="16dp"
+            android:contentDescription="Logo" />
+
+        <ImageButton
+            android:id="@+id/menuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_menu"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Menu"
+            app:tint="@android:color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Toggle Switch -->
+        <LinearLayout
+            android:id="@+id/categoryToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/logoImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/fourWheelsToggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:text="4 Wheels"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:textColor="#000"
+                android:background="@drawable/toggle_unselected"
+                android:layout_marginEnd="8dp" />
 
-                <ImageView
-                    android:id="@+id/logoImage"
-                    android:layout_width="40dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ride_hub_logo_w" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="RIDEHUB"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/menuButton"
+            <TextView
+                android:id="@+id/twoWheelsToggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Menu"
-                android:src="@drawable/ic_menu"
-                app:tint="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:text="2 Wheels"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:textColor="#000"
+                android:background="@drawable/toggle_selected" />
+        </LinearLayout>
 
-        <!-- ScrollView with Vehicle Info -->
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/topBar"
-            app:layout_constraintBottom_toBottomOf="parent">
+        <!-- ProgressBar -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/categoryToggle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Vehicle Image -->
+        <ImageView
+            android:id="@+id/vehicleImage"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_image"
+            app:layout_constraintTop_toBottomOf="@id/progressBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Vehicle Info Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/vehicleInfoCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:elevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintTop_toBottomOf="@id/vehicleImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,183 +116,137 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Progress Bar -->
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_gravity="center_horizontal"
-                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
-                    android:layout_marginTop="16dp"/>
-
-                <!-- Toggle -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="16dp">
-
-                    <TextView
-                        android:id="@+id/fourWheelsToggle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4 Wheels"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:layout_marginEnd="8dp"/>
-
-                    <TextView
-                        android:id="@+id/twoWheelsToggle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/toggle_selected"
-                        android:text="2 Wheels"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:padding="8dp"/>
-                </LinearLayout>
-
-                <!-- Book and Rent Buttons -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="24dp">
-
-                    <Button
-                        android:id="@+id/bookRideButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/white"
-                        android:text="Book a Ride"
-                        android:textColor="@color/black"
-                        android:layout_marginEnd="8dp"/>
-
-                    <Button
-                        android:id="@+id/rentVehicleButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/white"
-                        android:text="Rent a Vehicle"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="8dp"/>
-                </LinearLayout>
-
-                <!-- Vehicle Image -->
-                <ImageView
-                    android:id="@+id/vehicleImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    android:layout_marginTop="24dp"
-                    android:src="@drawable/placeholder_image"/>
-
-                <!-- Vehicle Details -->
                 <TextView
                     android:id="@+id/vehicleName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Vehicle Name"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="16dp"/>
+                    android:textSize="20sp"
+                    android:textColor="#000000" />
 
                 <TextView
                     android:id="@+id/rentPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="₱0/day"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:layout_marginTop="8dp"/>
+                    android:textColor="#444"
+                    android:layout_marginTop="4dp" />
 
                 <TextView
                     android:id="@+id/seats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Seats: 0"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="4dp"
+                    android:textColor="#444" />
 
                 <TextView
                     android:id="@+id/engine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Engine: ---"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="4dp"
+                    android:textColor="#444" />
 
                 <TextView
                     android:id="@+id/color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Color: ---"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="4dp"
+                    android:textColor="#444" />
 
                 <TextView
                     android:id="@+id/transmission"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Transmission: ---"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="4dp"
+                    android:textColor="#444" />
 
                 <TextView
                     android:id="@+id/fuel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fuel: ---"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="4dp"/>
-
-                <!-- Rent Now and Next Buttons -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="24dp">
-
-                    <Button
-                        android:id="@+id/rentNowButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/white"
-                        android:text="Rent Now"
-                        android:textColor="@color/black"
-                        android:layout_marginEnd="8dp"/>
-
-                    <Button
-                        android:id="@+id/nextVehicleButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/white"
-                        android:text="Next Vehicle"
-                        android:textColor="@color/black"/>
-                </LinearLayout>
-
+                    android:layout_marginTop="4dp"
+                    android:textColor="#444" />
             </LinearLayout>
-        </ScrollView>
+        </androidx.cardview.widget.CardView>
 
+        <!-- Button Row -->
+        <LinearLayout
+            android:id="@+id/buttonRow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/vehicleInfoCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <Button
+                android:id="@+id/rentNowButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Rent Now"
+                android:textColor="#ffffff"
+                android:backgroundTint="#100F0F"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/nextVehicleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Next"
+                android:textColor="#ffffff"
+                android:backgroundTint="#6c757d" />
+        </LinearLayout>
+
+        <!-- Book & Rent Tab Bar -->
+        <LinearLayout
+            android:id="@+id/bottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <Button
+                android:id="@+id/bookRideButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Book Ride"
+                android:textColor="#100F0F"
+                android:backgroundTint="#E0E0E0"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/rentVehicleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Rent Vehicle"
+                android:textColor="#ffffff"
+                android:backgroundTint="#100F0F" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Navigation Sidebar -->
+    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="@color/white"
-        android:fitsSystemWindows="true" />
-
+        android:background="@android:color/white"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

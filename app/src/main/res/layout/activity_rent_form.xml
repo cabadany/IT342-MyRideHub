@@ -11,12 +11,24 @@
         android:padding="24dp"
         android:gravity="center_horizontal">
 
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ride_hub_logo_w"
+            android:contentDescription="Logo"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp" />
+
         <!-- Pick-up and Return Details -->
         <Button
             android:id="@+id/pickUpDateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select Pick-up Date"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#100F0F"
             android:layout_marginBottom="12dp" />
 
         <Button
@@ -24,6 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select Return Date"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#100F0F"
             android:layout_marginBottom="12dp" />
 
         <Button
@@ -31,6 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select Pick-up Time"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#100F0F"
             android:layout_marginBottom="12dp" />
 
         <Button
@@ -38,6 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select Drop-off Time"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#100F0F"
             android:layout_marginBottom="24dp" />
 
         <!-- Driver Options -->
@@ -54,14 +72,16 @@
                 android:layout_height="wrap_content"
                 android:text="With Driver"
                 android:textColor="#FFFFFF"
-                android:layout_marginEnd="16dp"/>
+                android:buttonTint="#FFFFFF"
+                android:layout_marginEnd="16dp" />
 
             <RadioButton
                 android:id="@+id/noDriverOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Self Drive"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:buttonTint="#FFFFFF" />
         </RadioGroup>
 
         <!-- Confirm Button -->
@@ -70,6 +90,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Confirm Booking"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#100F0F"
             android:layout_marginBottom="24dp" />
 
         <!-- Booking Summary -->

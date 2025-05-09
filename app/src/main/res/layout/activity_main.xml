@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerLayout"
@@ -11,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="@color/white">
 
         <!-- Top Logo -->
         <ImageView
@@ -25,30 +26,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:contentDescription="Ride Hub Logo"
-            android:scaleType="fitCenter" />
+            android:scaleType="centerInside" />
 
-        <!-- Nav Bar Divider -->
-        <View
-            android:id="@+id/navDivider"
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:background="#ced4da"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/logoImage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Hamburger Icon to open Drawer -->
+        <!-- Right-Aligned Hamburger Icon -->
         <ImageButton
             android:id="@+id/menuButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu"
-            android:background="@android:color/transparent"
-            android:layout_margin="16dp"
-            app:tint="#100F0F"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Menu Button"
-            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#100F0F"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@id/logoImage"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Hero Section -->
@@ -59,7 +49,7 @@
             android:layout_marginTop="20dp"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
-            app:layout_constraintTop_toBottomOf="@id/navDivider"
+            app:layout_constraintTop_toBottomOf="@id/menuButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -90,25 +80,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/learnMoreButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/button_outline"
-                android:paddingStart="24dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="24dp"
-                android:paddingBottom="8dp"
                 android:text="Learn More"
                 android:textAllCaps="false"
-                android:textColor="#100F0F"
+                app:cornerRadius="24dp"
+                app:iconPadding="8dp"
                 app:layout_constraintTop_toBottomOf="@id/descriptionText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Article Section -->
+        <!-- Article Section with Card-style layout -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/articleSection"
             android:layout_width="match_parent"
@@ -128,7 +114,7 @@
                 android:textColor="#000"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="10dp"
+                android:drawablePadding="8dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -151,6 +137,7 @@
                 android:textColor="#000"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:drawablePadding="8dp"
                 android:layout_marginTop="32dp"
                 app:layout_constraintTop_toBottomOf="@id/bookRideDescription"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -173,7 +160,7 @@
         android:id="@+id/navigationView"
         android:layout_width="280dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="end"
         android:background="@android:color/white"
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu" />
