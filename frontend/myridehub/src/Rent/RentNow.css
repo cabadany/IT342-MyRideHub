@@ -1,7 +1,7 @@
 /* Global Page Style */
 .rent-now-page {
-  background-color: #111; /* Dark background */
-  color: #fff;
+  background-color: #fff;
+  color: #111;
   font-family: 'Arial', sans-serif;
   min-height: 100vh;
   display: flex;
@@ -12,10 +12,6 @@
 
 /* Main Container */
 .rent-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   max-width: 1200px;
   text-align: center;
@@ -26,14 +22,14 @@
   font-size: 2.2rem;
   font-weight: bold;
   margin-bottom: 2rem;
-  color: #fff;
+  color: #000;
 }
 
 /* Back Button */
 .back-button {
   background: none;
   border: none;
-  color: #ccc;
+  color: #000;
   font-weight: bold;
   cursor: pointer;
   font-size: 1rem;
@@ -41,7 +37,7 @@
 }
 
 .back-button:hover {
-  color: #fff;
+  color: #555;
 }
 
 /* Wrapper */
@@ -49,9 +45,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 2rem;
-  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -74,14 +68,13 @@
 
 /* Form Container */
 .form-container {
-  background-color: #2b2b2b; /* Slightly lighter than full black */
+  background-color: #f9f9f9;
   padding: 2rem;
   border-radius: 12px;
   width: 100%;
   max-width: 500px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   text-align: left;
-  color: #fff;
 }
 
 /* Driver Selection */
@@ -99,7 +92,6 @@
   color: #111;
   cursor: pointer;
   transition: 0.3s;
-  background-color: transparent;
 }
 
 .driver-radio.active {
@@ -116,16 +108,16 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
-  color: #ccc;
+  color: #333;
 }
 
 .input-field {
   width: 100%;
   padding: 0.7rem;
   border-radius: 6px;
-  background-color: #2c2c2c;
-  color: #fff;
-  border: 1px solid #444;
+  background-color: #fff;
+  color: #111;
+  border: 1px solid #ccc;
   margin-bottom: 1rem;
   font-size: 14px;
 }
@@ -148,13 +140,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #2a2a2a;
+  background-color: #f0f0f0;
   padding: 1rem;
   border-radius: 8px;
   margin-top: 1rem;
   font-weight: bold;
   font-size: 1.1rem;
-  color: #fff;
+  color: #111;
 }
 
 /* Button Styles */
