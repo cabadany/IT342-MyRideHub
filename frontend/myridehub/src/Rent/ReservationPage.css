@@ -3,15 +3,28 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: "Segoe UI", sans-serif;
-  background-color: #ffffff;
+  background-color: #999; /* Gray background */
   color: #1a1a1a;
 }
 
+/* Outer container: centers everything */
 .reservation-container {
   min-height: 100vh;
-  padding: 2rem 5%;
+  padding: 2rem 1rem;
   box-sizing: border-box;
-  background-color: #9f9f9f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Inner white card */
+.reservation-card {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Back button */
@@ -22,60 +35,59 @@ body, html {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   transition: color 0.2s ease;
+  text-align: left;
 }
 
 .back-button:hover {
   color: #555;
 }
 
-/* Layout */
+/* Title */
+.reservation-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+/* Layout sections */
 .reservation-main {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-/* Section containers */
+/* Section cards */
 .left-section,
 .center-section,
 .right-section {
-  flex: 1 1 30%;
-  min-width: 280px;
+  flex: 1 1 280px;
   background-color: #f9f9f9;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
 }
 
-/* Box content */
-.box {
-  margin-bottom: 1.5rem;
-}
-
-.box h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 2px solid #e0e0e0;
-  padding-bottom: 6px;
-}
-
-/* Image center */
+/* Center image box */
 .center-section {
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .center-section img {
   width: 100%;
   max-width: 300px;
   border-radius: 12px;
-  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Inputs */
+/* Form inputs */
 .right-section input[type="text"],
 .right-section input[type="email"] {
   width: 100%;
@@ -133,7 +145,7 @@ body, html {
   background-color: #333;
 }
 
-/* Responsive Design */
+/* Responsive: stack vertically */
 @media (max-width: 1024px) {
   .reservation-main {
     flex-direction: column;
