@@ -1,6 +1,6 @@
 /* Global Page Style */
 .rent-now-page {
-  background-color: #aaa; /* or any gray */
+  background-color: hwb(0 81% 19%); /* or any gray */
   min-height: 100vh;
   width: 100vw; /* ✅ ensure full width */
   display: flex;
