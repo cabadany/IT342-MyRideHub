@@ -53,7 +53,7 @@ html, body {
   border: 1px solid #aaa;
   border-radius: 4px;
   background-color: #1a1a1a;
-  color: white;
+  color: rgb(8, 8, 8);
 }
 
 .login-form input::placeholder {
