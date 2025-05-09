@@ -25,6 +25,16 @@
   color: #000;
 }
 
+.rent-box {
+  background-color: #f9f9f9;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 /* Back Button */
 .back-button {
   background: none;
