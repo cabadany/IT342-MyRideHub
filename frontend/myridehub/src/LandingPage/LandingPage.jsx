@@ -7,10 +7,10 @@ export default function LandingPage() {
   const [feedbackList, setFeedbackList] = useState([]);
   const navigate = useNavigate();
   
-  // State for controlling feedback dropdown visibility
+  
   const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
   
-  // State for controlling history dropdown visibility
+  
   const [isHistoryDropdownOpen, setIsHistoryDropdownOpen] = useState(false);
 
   const toggleFeedback = () => {
@@ -21,18 +21,18 @@ export default function LandingPage() {
     setIsHistoryDropdownOpen(!isHistoryDropdownOpen);
   };
 
-  // Function to handle "Learn More" button click to navigate to Testimonials
+  
   const handleLearnMoreClick = () => {
-    navigate('/testimonials'); // Navigate to testimonials page
+    navigate('/testimonials'); 
   };
 
   const handleFeedbackSubmit = (feedback) => {
     setFeedbackList([...feedbackList, feedback]);
   };
 
-  // Function to handle feedback button click and navigate to Feedback Form page
+  
   const handleFeedbackClick = () => {
-    navigate('/feedback');  // Navigate to the Feedback Form page
+    navigate('/feedback');  
   };
 
 

@@ -125,7 +125,7 @@ export default function DashboardPage() {
 
       <section className="dashboard-articles">
         <div className="article">
-        <img src="/article1.png" />
+        <img src="/article-1.png" />
           <div className="article-text">
             <h3>Wide Vehicle Options</h3>
             <p>
@@ -135,7 +135,7 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="article">
-          <img src="/article 2.png" alt="24/7 Customer Support" />
+          <img src="/article-2.jpg"/>
           <div className="article-text">
             <h3>24/7 Customer Support</h3>
             <p>

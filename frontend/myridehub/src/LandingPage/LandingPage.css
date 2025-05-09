@@ -149,25 +149,25 @@
     color: #ccc;
   }
   
-  /* Send Feedback Button - Positioned at the bottom-right */
+  
   .send-feedback-btn {
-    position: fixed; /* Fixes the button at the bottom right */
-    bottom: 30px; /* Distance from the bottom */
-    right: 30px; /* Distance from the right */
-    background-color: #9a9a9a; /* Lighter green background color */
-    color: rgb(255, 255, 255); /* White text */
-    padding: 15px 30px; /* Padding around the button text */
-    font-size: 1.2rem; /* Font size */
-    font-weight: bold; /* Make text bold */
-    border-radius: 8px; /* Rounded corners */
-    cursor: pointer; /* Change cursor to pointer */
-    border: none; /* Remove border */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Slight shadow for the button */
-    transition: background-color 0.3s ease; /* Smooth color transition */
+    position: fixed; 
+    bottom: 30px; 
+    right: 30px; 
+    background-color: #9a9a9a; 
+    color: rgb(255, 255, 255); 
+    padding: 15px 30px; 
+    font-size: 1.2rem; 
+    font-weight: bold; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    border: none;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s ease; 
   }
   
   .send-feedback-btn:hover {
-    background-color: #000000; /* Darker shade of green on hover */
+    background-color: #000000; 
   }
   
   
