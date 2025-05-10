@@ -43,10 +43,10 @@
    - Assign Drivers to Bookings
    - View Driver Profiles
 
-5. **Real-Time Tracking**
-   - Track Ride Status in Real-Time
-   - Get Estimated Time of Arrival (ETA)
-   - Receive Live Updates and Notifications
+5. **Fare Calculator**  
+   - Automatically calculates estimated fare  
+   - Based on **distance (in kilometers)** and **duration (in minutes)**  
+   - Displays total before confirming ride
 
 6. **Payment Integration**
    - Secure Online Payments
